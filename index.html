@@ -1386,7 +1386,7 @@ h1, h2, h3, h4, h5, h6 {
         <p>📞 (805) 709-4686</p>
         <p>📱 Facebook &amp; Instagram @yellowfarmhousegirl</p>
         <p style="margin-top: 12px; font-style: italic;">Please feel free to call, text or message specific details.</p>
-        <p style="margin-top: 8px;"><strong>Open 7 Days a Week, 11am–Sunset</strong></p>
+        <p style="margin-top: 8px;"><strong>Closed Sundays</strong></p>
         <div class="footer-disclaimer">
             <p>This form allows online ordering. A 50% deposit is required to confirm your order. Final payment due at pickup.</p>
         </div>
@@ -1404,7 +1404,7 @@ h1, h2, h3, h4, h5, h6 {
     3. Click "New Form" and create a new form
     4. Copy the Form ID (it looks like: mblrwxyz)
     5. In this HTML file, find the line that says:
-       <form id="formspree-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="display: none;">
+       <form id="formspree-form" action="https://formspree.io/f/mblpnapy" method="POST" style="display: none;">
     6. Replace YOUR_FORM_ID with your actual form ID
     7. Save the file
     8. Test by submitting an order - you should receive an email!
@@ -1574,7 +1574,7 @@ h1, h2, h3, h4, h5, h6 {
                     {
                         name: 'Cookies - Complex',
                         description: '',
-                        flavors: ["S'more", 'Monster', 'Peanut Butter Cup Stuffed', 'Caramel Apple Pie'],
+                        flavors: ["S'more", 'Monster', 'Peanut Butter Cup Stuffed'],
                         pricing: [
                             { label: 'Single', price: 5 },
                             { label: 'Half Dozen', price: 25 },
@@ -1802,14 +1802,7 @@ h1, h2, h3, h4, h5, h6 {
             const quantityInput = document.getElementById(`${productId}-quantity`);
             const quantity = parseInt(quantityInput.value) || 1;
 
-            
-    // Enforce dietary minimum
-    const dietarySelect = document.getElementById(`${productId}-dietary`);
-    if (dietarySelect && dietarySelect.value && dietarySelect.value !== 'regular' && quantity < 6) {
-        alert('Custom dietary orders require at least 6 of the same item!');
-        return;
-    }
-let selectedFlavor = '';
+            let selectedFlavor = '';
             const flavorSelect = document.getElementById(`${productId}-flavor`);
             if (flavorSelect) {
                 selectedFlavor = flavorSelect.value;
@@ -2898,7 +2891,5 @@ ${currentOrderData.email ? 'Email: ' + currentOrderData.email : ''}
         // Initialize
         renderProducts();
     </script>
-
-<!-- Pretzel Combo Builder Modal here (to be expanded by dev) -->
 </body>
 </html>
