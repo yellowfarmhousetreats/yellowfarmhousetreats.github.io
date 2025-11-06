@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1802,22 +1803,6 @@ h1, h2, h3, h4, h5, h6 {
             const quantityInput = document.getElementById(`${productId}-quantity`);
             const quantity = parseInt(quantityInput.value) || 1;
 
-            // 🔴 READ DIETARY OPTION FIRST
-            let selectedDietary = '';
-            const dietarySelect = document.getElementById(`${productId}-dietary`);
-            if (dietarySelect) {
-                selectedDietary = dietarySelect.value;
-            }
-
-            // 🔴 STRICT BLOCK: If ANY dietary option selected, quantity MUST be >= 6
-            if (selectedDietary && selectedDietary !== '' && selectedDietary !== 'regular') {
-                if (quantity < 6) {
-                    alert('❌ DIETARY CUSTOM ORDERS - MINIMUM 6 REQUIRED\n\nCustom dietary orders (Gluten-Free, Sugar-Free, or both) require a MINIMUM of 6 items.\n\nPlease select:\n• Half Dozen (6) or\n• Dozen (12)\n\nThank you!');
-                    return; // STOP HERE - DO NOT ADD TO CART
-                }
-            }
-
-            // Continue with rest of addToCart logic...
             let selectedFlavor = '';
             const flavorSelect = document.getElementById(`${productId}-flavor`);
             if (flavorSelect) {
@@ -1842,7 +1827,7 @@ h1, h2, h3, h4, h5, h6 {
             if (sizeSelect) {
                 selectedSize = sizeSelect.value;
                 const priceOption = item.pricing.find(p => p.label === selectedSize);
-                selectedPrice = priceOption ? priceOption.price : item.pricing[0].price;
+                selectedPrice = priceOption.price;
             }
 
             let hasJar = false;
@@ -1854,26 +1839,35 @@ h1, h2, h3, h4, h5, h6 {
                 }
             }
 
-            // Build cart item
             const cartItem = {
-                id: Math.random().toString(36).substr(2, 9),
+                id: Date.now(),
                 name: item.name,
-                quantity: quantity,
                 size: selectedSize,
-                price: selectedPrice,
                 flavor: selectedFlavor,
                 dip: selectedDip,
                 topping: selectedTopping,
-                dietary: selectedDietary,
-                jar: hasJar
+                quantity: quantity,
+                price: selectedPrice,
+                hasPieDeposit: item.hasPieDeposit || false,
+                hasJar: hasJar,
+                dietaryOption: ''
             };
 
-            orderItems.push(cartItem);
-            updateOrderSummary();
-            quantityInput.value = 1;
-            alert('✅ Added to order!');
-        }
+            // Check if this item or flavor needs dietary options
+            const itemKey = selectedFlavor || item.name;
+            const needsDietarySelection = dietaryOptionsMap[itemKey] !== undefined;
 
+            if (needsDietarySelection) {
+                // Show modal for dietary selection
+                pendingCartItem = cartItem;
+                showDietaryModal(itemKey);
+            } else {
+                // Add directly to cart
+                cart.push(cartItem);
+                updateCart();
+                quantityInput.value = 1;
+            }
+        }
         
         function showDietaryModal(itemKey) {
             const modal = document.getElementById('dietary-modal');
