@@ -1,0 +1,2870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yellow Farmhouse Stand - Order Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+:root {
+  /* Primitive Color Tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --color-select-caret: rgba(var(--color-slate-900-rgb), 0.8);
+
+  --focus-ring: 0 0 0 3px var(--color-focus-ring);
+  --focus-outline: 2px solid var(--color-primary);
+  --status-bg-opacity: 0.15;
+  --status-border-opacity: 0.25;
+  --select-caret-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23134252' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  --select-caret-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+
+  --color-success-rgb: 33, 128, 141;
+  --color-error-rgb: 192, 21, 47;
+  --color-warning-rgb: 168, 75, 47;
+  --color-info-rgb: 98, 108, 113;
+
+  --font-family-base: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading: "Quicksand", sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --letter-spacing-tight: -0.01em;
+
+  --space-0: 0;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-inset-sm: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Custom farmhouse colors */
+  --farmhouse-yellow: #F4C430;
+  --farmhouse-brown: #8B6F47;
+  --farmhouse-dark: #3E2723;
+  --farmhouse-cream: #FAF8F5;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--farmhouse-cream);
+  color: var(--farmhouse-dark);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+}
+
+.header {
+  background: linear-gradient(135deg, var(--farmhouse-yellow) 0%, #f5d84f 100%);
+  padding: var(--space-32) var(--space-16);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border-bottom: 3px solid var(--farmhouse-brown);
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: var(--farmhouse-dark);
+  margin-bottom: var(--space-8);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.header .tagline {
+  font-size: var(--font-size-lg);
+  color: var(--farmhouse-dark);
+  margin-bottom: var(--space-16);
+}
+
+.header .contact-info {
+  font-size: var(--font-size-base);
+  color: var(--farmhouse-dark);
+  margin-top: var(--space-12);
+}
+
+.header .contact-info p {
+  margin: var(--space-4) 0;
+}
+
+/* Facebook Feed Section */
+.facebook-feed-section {
+  margin: var(--space-32) auto var(--space-24);
+  max-width: 800px;
+  text-align: center;
+}
+
+.feed-section-title {
+  font-size: var(--font-size-3xl);
+  color: var(--farmhouse-brown);
+  margin-bottom: var(--space-24);
+  text-align: center;
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-bold);
+}
+
+.facebook-feed-container {
+  background: var(--color-white);
+  border: 3px solid var(--farmhouse-yellow);
+  border-radius: var(--radius-lg);
+  padding: var(--space-16);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.facebook-feed-container .fb-page {
+  display: block;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .facebook-feed-section {
+    margin: var(--space-20) auto;
+  }
+  
+  .feed-section-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .facebook-feed-container {
+    padding: var(--space-12);
+    border-width: 2px;
+  }
+}
+
+.notice-banner {
+  background-color: rgba(var(--color-orange-500-rgb), 0.15);
+  border: 2px solid var(--farmhouse-brown);
+  border-radius: var(--radius-base);
+  padding: var(--space-12);
+  margin: var(--space-16) auto;
+  max-width: 800px;
+  text-align: center;
+  font-weight: var(--font-weight-medium);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--space-24) var(--space-16);
+}
+
+.main-content {
+  display: flex;
+  gap: var(--space-24);
+  margin-top: var(--space-24);
+}
+
+.products-section {
+  flex: 1;
+}
+
+.dietary-note {
+  background-color: rgba(var(--color-gray-400-rgb), 0.08);
+  border: 1px solid rgba(var(--color-brown-600-rgb), 0.15);
+  border-radius: var(--radius-sm);
+  padding: var(--space-8) var(--space-12);
+  margin-bottom: var(--space-16);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.dietary-note strong {
+  display: inline;
+  margin-bottom: 0;
+  color: var(--farmhouse-brown);
+  font-size: var(--font-size-xs);
+}
+
+.product-category {
+  margin-bottom: var(--space-32);
+}
+
+.category-title {
+  font-size: var(--font-size-2xl);
+  color: var(--farmhouse-brown);
+  margin-bottom: var(--space-16);
+  padding-bottom: var(--space-8);
+  border-bottom: 3px solid var(--farmhouse-yellow);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-20);
+}
+
+.product-card {
+  background: var(--color-white);
+  border: 2px solid var(--farmhouse-yellow);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--farmhouse-brown);
+}
+
+.product-name {
+  font-size: var(--font-size-xl);
+  color: var(--farmhouse-dark);
+  margin-bottom: var(--space-8);
+}
+
+.dietary-icons {
+  display: inline;
+  font-weight: var(--font-weight-bold);
+  color: var(--farmhouse-brown);
+  margin-left: var(--space-4);
+}
+
+.product-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-12);
+}
+
+.product-flavors {
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--space-12);
+}
+
+.product-flavors strong {
+  display: block;
+  margin-bottom: var(--space-4);
+}
+
+.flavors-list {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.product-pricing {
+  margin: var(--space-16) 0;
+  padding: var(--space-12);
+  background-color: var(--farmhouse-cream);
+  border-radius: var(--radius-base);
+}
+
+.price-option {
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-6) 0;
+  font-size: var(--font-size-base);
+}
+
+.price-option .label {
+  font-weight: var(--font-weight-medium);
+}
+
+.price-option .price {
+  font-weight: var(--font-weight-bold);
+  color: var(--farmhouse-brown);
+}
+
+.product-options {
+  margin: var(--space-16) 0;
+}
+
+.product-options label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-6);
+}
+
+.product-options select,
+.product-options input[type="number"] {
+  width: 100%;
+  padding: var(--space-8);
+  border: 1px solid var(--farmhouse-brown);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  margin-bottom: var(--space-12);
+}
+
+.add-to-order-btn {
+  width: 100%;
+  padding: var(--space-12);
+  background-color: var(--farmhouse-yellow);
+  color: var(--farmhouse-dark);
+  border: 2px solid var(--farmhouse-brown);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  font-family: var(--font-family-heading);
+}
+
+.add-to-order-btn:hover {
+  background-color: var(--farmhouse-brown);
+  color: var(--color-white);
+  transform: scale(1.02);
+}
+
+.add-to-order-btn:active {
+  transform: scale(0.98);
+}
+
+.order-sidebar {
+  width: 350px;
+  position: sticky;
+  top: var(--space-20);
+  height: fit-content;
+}
+
+.order-summary {
+  background: var(--color-white);
+  border: 3px solid var(--farmhouse-yellow);
+  border-radius: var(--radius-lg);
+  padding: var(--space-20);
+  box-shadow: var(--shadow-md);
+}
+
+.order-summary h2 {
+  font-size: var(--font-size-2xl);
+  color: var(--farmhouse-brown);
+  margin-bottom: var(--space-16);
+  padding-bottom: var(--space-8);
+  border-bottom: 2px solid var(--farmhouse-yellow);
+}
+
+.order-items {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: var(--space-16);
+}
+
+.order-item {
+  padding: var(--space-12);
+  margin-bottom: var(--space-12);
+  background-color: var(--farmhouse-cream);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border);
+}
+
+.order-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: var(--space-6);
+}
+
+.order-item-name {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-base);
+  flex: 1;
+}
+
+.delete-item-btn {
+  background: none;
+  border: none;
+  color: var(--color-error);
+  cursor: pointer;
+  font-size: var(--font-size-lg);
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-item-btn:hover {
+  color: var(--farmhouse-dark);
+}
+
+.order-item-details {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.order-item-price {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-6);
+}
+
+.order-totals {
+  border-top: 2px solid var(--farmhouse-brown);
+  padding-top: var(--space-16);
+  margin-top: var(--space-16);
+}
+
+.total-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-base);
+}
+
+.total-row.grand-total {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--farmhouse-brown);
+  margin-top: var(--space-12);
+  padding-top: var(--space-12);
+  border-top: 2px solid var(--farmhouse-yellow);
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: var(--space-16);
+  background-color: var(--farmhouse-brown);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  font-family: var(--font-family-heading);
+  margin-top: var(--space-16);
+}
+
+.checkout-btn:hover {
+  background-color: var(--farmhouse-dark);
+  transform: scale(1.02);
+}
+
+.checkout-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.continue-shopping-btn {
+  padding: var(--space-12) var(--space-24);
+  background-color: var(--color-white);
+  color: var(--farmhouse-brown);
+  border: 2px solid var(--farmhouse-brown);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  font-family: var(--font-family-heading);
+}
+
+.continue-shopping-btn:hover {
+  background-color: var(--farmhouse-yellow);
+  border-color: var(--farmhouse-brown);
+  transform: scale(1.02);
+}
+
+.continue-shopping-btn:active {
+  transform: scale(0.98);
+}
+
+.empty-cart {
+  text-align: center;
+  padding: var(--space-32);
+  color: var(--color-text-secondary);
+}
+
+.checkout-section {
+  display: none;
+  max-width: 800px;
+  margin: var(--space-32) auto;
+  background: var(--color-white);
+  border: 3px solid var(--farmhouse-yellow);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  box-shadow: var(--shadow-lg);
+}
+
+.checkout-section.active {
+  display: block;
+}
+
+.checkout-section h2 {
+  font-size: var(--font-size-3xl);
+  color: var(--farmhouse-brown);
+  margin-bottom: var(--space-24);
+  text-align: center;
+}
+
+.form-section {
+  margin-bottom: var(--space-32);
+}
+
+.form-section h3 {
+  font-size: var(--font-size-xl);
+  color: var(--farmhouse-dark);
+  margin-bottom: var(--space-16);
+  padding-bottom: var(--space-8);
+  border-bottom: 2px solid var(--farmhouse-yellow);
+}
+
+.form-group {
+  margin-bottom: var(--space-16);
+}
+
+.form-group label {
+  display: block;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-6);
+  color: var(--farmhouse-dark);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: var(--space-12);
+  border: 2px solid var(--farmhouse-brown);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-base);
+  transition: border-color var(--duration-fast);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--farmhouse-yellow);
+  box-shadow: 0 0 0 3px rgba(244, 196, 48, 0.2);
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.required {
+  color: var(--color-error);
+  margin-left: var(--space-4);
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-4);
+  display: none;
+}
+
+.error-message.visible {
+  display: block;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.payment-option input[type="checkbox"] {
+  width: auto;
+}
+
+.payment-option label {
+  margin: 0;
+  font-weight: var(--font-weight-normal);
+}
+
+.order-review {
+  background-color: var(--farmhouse-cream);
+  padding: var(--space-20);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-24);
+}
+
+.order-review h4 {
+  margin-bottom: var(--space-12);
+  color: var(--farmhouse-brown);
+}
+
+.review-items {
+  margin-bottom: var(--space-16);
+}
+
+.review-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-8) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.policies-section {
+  background-color: var(--color-bg-2);
+  padding: var(--space-16);
+  border-radius: var(--radius-base);
+  margin-bottom: var(--space-24);
+  font-size: var(--font-size-sm);
+}
+
+.policies-section ul {
+  margin-left: var(--space-20);
+  margin-top: var(--space-8);
+}
+
+.policies-section li {
+  margin-bottom: var(--space-6);
+}
+
+.submit-order-btn {
+  width: 100%;
+  padding: var(--space-16);
+  background-color: var(--farmhouse-brown);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  font-family: var(--font-family-heading);
+}
+
+.submit-order-btn:hover {
+  background-color: var(--farmhouse-dark);
+  transform: scale(1.02);
+}
+
+.success-section {
+  display: none;
+  max-width: 700px;
+  margin: var(--space-32) auto;
+  background: var(--color-white);
+  border: 3px solid var(--farmhouse-yellow);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.success-section.active {
+  display: block;
+}
+
+.success-icon {
+  font-size: 4rem;
+  color: var(--color-success);
+  margin-bottom: var(--space-16);
+}
+
+.success-section h2 {
+  font-size: var(--font-size-3xl);
+  color: var(--farmhouse-brown);
+  margin-bottom: var(--space-16);
+}
+
+.order-confirmation {
+  background-color: var(--farmhouse-cream);
+  padding: var(--space-24);
+  border-radius: var(--radius-base);
+  margin: var(--space-24) 0;
+  text-align: left;
+}
+
+.confirmation-number {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--farmhouse-brown);
+  margin: var(--space-16) 0;
+  text-align: center;
+}
+
+.footer {
+  background-color: var(--farmhouse-brown);
+  color: var(--color-white);
+  padding: var(--space-32) var(--space-16);
+  margin-top: var(--space-32);
+  text-align: center;
+}
+
+.footer h3 {
+  color: var(--farmhouse-yellow);
+  margin-bottom: var(--space-12);
+}
+
+.footer p {
+  margin: var(--space-6) 0;
+  font-size: var(--font-size-sm);
+}
+
+.footer-disclaimer {
+  margin-top: var(--space-20);
+  padding-top: var(--space-20);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: var(--font-size-xs);
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .order-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    order: -1;
+  }
+  
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkout-section,
+  .success-section {
+    padding: var(--space-20);
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--color-white);
+  border: 3px solid var(--farmhouse-yellow);
+  border-radius: var(--radius-lg);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-20);
+  border-bottom: 2px solid var(--farmhouse-yellow);
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--farmhouse-brown);
+  font-size: var(--font-size-xl);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--farmhouse-brown);
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-fast);
+}
+
+.modal-close:hover {
+  color: var(--farmhouse-dark);
+}
+
+.modal-body {
+  padding: var(--space-24);
+}
+
+.dietary-options-radio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.dietary-option-item {
+  display: flex;
+  align-items: center;
+  padding: var(--space-12);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-base);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.dietary-option-item:hover {
+  border-color: var(--farmhouse-yellow);
+  background-color: var(--farmhouse-cream);
+}
+
+.dietary-option-item input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: var(--space-12);
+  cursor: pointer;
+}
+
+.dietary-option-item label {
+  flex: 1;
+  cursor: pointer;
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.dietary-option-item input[type="radio"]:checked + label {
+  color: var(--farmhouse-brown);
+  font-weight: var(--font-weight-bold);
+}
+
+.modal-footer {
+  display: flex;
+  gap: var(--space-12);
+  padding: var(--space-20);
+  border-top: 2px solid var(--farmhouse-yellow);
+}
+
+.btn-cancel,
+.btn-confirm {
+  flex: 1;
+  padding: var(--space-12);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  font-family: var(--font-family-heading);
+  border: 2px solid var(--farmhouse-brown);
+}
+
+.btn-cancel {
+  background-color: var(--color-white);
+  color: var(--farmhouse-brown);
+}
+
+.btn-cancel:hover {
+  background-color: var(--farmhouse-cream);
+}
+
+.btn-confirm {
+  background-color: var(--farmhouse-yellow);
+  color: var(--farmhouse-dark);
+}
+
+.btn-confirm:hover {
+  background-color: var(--farmhouse-brown);
+  color: var(--color-white);
+  transform: scale(1.02);
+}
+
+.btn-confirm:active {
+  transform: scale(0.98);
+}
+    </style>
+    <!-- Facebook SDK for Page Plugin -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v18.0"></script>
+</head>
+<body>
+    <header class="header">
+        <h1>🌻 Yellow Farmhouse Stand 🌻</h1>
+        <p class="tagline">Fresh Homemade Baked Goods</p>
+        <div class="contact-info">
+            <p><strong>📍 22659 Farmway Road; Caldwell, ID</strong></p>
+            <p><strong>📞 (805) 709-4686</strong></p>
+            <p><strong>📱 Facebook &amp; Instagram @yellowfarmhousegirl</strong></p>
+            <p style="margin-top: 12px; font-style: italic;">Please feel free to call, text or message specific details.</p>
+        </div>
+        <div class="notice-banner">
+            <strong>⏰ Please allow up to 48 hours for items to be prepared.</strong>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Facebook Feed Section -->
+        <section class="facebook-feed-section">
+            <h2 class="feed-section-title">Follow Our Latest Updates</h2>
+            <div class="facebook-feed-container">
+                <div class="fb-page" 
+                     data-href="https://www.facebook.com/YellowFarmhouseGirl/" 
+                     data-tabs="timeline" 
+                     data-width="" 
+                     data-height="550" 
+                     data-small-header="true" 
+                     data-adapt-container-width="true" 
+                     data-hide-cover="false" 
+                     data-show-facepile="false">
+                    <blockquote cite="https://www.facebook.com/YellowFarmhouseGirl/" class="fb-xfbml-parse-ignore">
+                        <a href="https://www.facebook.com/YellowFarmhouseGirl/">Yellow Farmhouse Girl on Facebook</a>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <div id="shopping-view">
+            <div class="dietary-note">
+                <strong>*</strong> = Gluten Free option &nbsp;&nbsp;&nbsp; <strong>^</strong> = Sugar Free option
+            </div>
+
+            <div class="main-content">
+                <section class="products-section" id="products">
+                    <!-- Products will be dynamically generated -->
+                </section>
+
+                <aside class="order-sidebar">
+                    <div class="order-summary">
+                        <h2>Your Order</h2>
+                        <div id="order-items" class="order-items">
+                            <div class="empty-cart">
+                                <p>Your cart is empty</p>
+                                <p style="font-size: 12px; margin-top: 8px;">Add items to get started!</p>
+                            </div>
+                        </div>
+                        <div id="order-totals" class="order-totals" style="display: none;">
+                            <div class="total-row">
+                                <span>Subtotal:</span>
+                                <span id="subtotal-amount">$0.00</span>
+                            </div>
+                            <div class="total-row" id="shipping-cost-row" style="display: none;">
+                                <span>Shipping:</span>
+                                <span id="shipping-amount">$0.00</span>
+                            </div>
+                            <div class="total-row" id="pie-deposit-row" style="display: none;">
+                                <span>Pie Pan Deposits:</span>
+                                <span id="pie-deposit-amount">$0.00</span>
+                            </div>
+                            <div class="total-row grand-total">
+                                <span>Total:</span>
+                                <span id="total-amount">$0.00</span>
+                            </div>
+                        </div>
+                        <button class="checkout-btn" id="checkout-btn" disabled>Proceed to Checkout</button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+
+        <section class="checkout-section" id="checkout-section">
+            <div style="margin-bottom: 24px; text-align: center;">
+                <button type="button" class="continue-shopping-btn" id="continue-shopping-btn">← Continue Shopping</button>
+            </div>
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <div class="form-section">
+                    <h3>Customer Information</h3>
+                    <div class="form-group">
+                        <label for="customer-name">Name <span class="required">*</span></label>
+                        <input type="text" id="customer-name" name="customer-name" required>
+                        <span class="error-message" id="name-error">Please enter your name</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-phone">Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="customer-phone" name="customer-phone" placeholder="(123) 456-7890" required>
+                        <span class="error-message" id="phone-error">Please enter a valid phone number</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="customer-email">Email Address</label>
+                        <input type="email" id="customer-email" name="customer-email" placeholder="optional">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Order Details</h3>
+                    <div class="form-group">
+                        <label for="special-instructions">Special Order Instructions</label>
+                        <textarea id="special-instructions" name="special-instructions" placeholder="Enter any special requests, customizations, dietary notes (gluten-free/sugar-free preferences), flavor preferences, or other details..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section" id="fulfillment-section">
+                    <h3>Fulfillment Method</h3>
+                    <div id="fulfillment-options">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="form-section" id="pickup-section" style="display: none;">
+                    <h3>Pickup Information</h3>
+                    <div style="padding: 12px; background-color: var(--color-bg-2); border-radius: var(--radius-base); margin-bottom: 16px;">
+                        <strong>Pickup Location:</strong> Yellow Farmhouse Stand<br>
+                        22659 Farmway Road; Caldwell, ID
+                    </div>
+                    <div class="form-group">
+                        <label for="pickup-date">Desired Pickup Date <span class="required">*</span></label>
+                        <input type="date" id="pickup-date" name="pickup-date">
+                        <span class="error-message" id="date-error">Please select a date at least 48 hours from now</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="pickup-time">Preferred Pickup Time <span class="required">*</span></label>
+                        <select id="pickup-time" name="pickup-time">
+                            <option value="">Select a time...</option>
+                            <option value="Morning (9AM - 12PM)">Morning (9AM - 12PM)</option>
+                            <option value="Afternoon (12PM - 3PM)">Afternoon (12PM - 3PM)</option>
+                            <option value="Evening (3PM - 6PM)">Evening (3PM - 6PM)</option>
+                        </select>
+                        <span class="error-message" id="time-error">Please select a pickup time</span>
+                    </div>
+                    <p style="font-size: 12px; color: #8B6F47; margin-top: 8px;"><strong>Note:</strong> Please allow up to 48 hours for items to be prepared.</p>
+                </div>
+
+                <div class="form-section" id="shipping-section" style="display: none;">
+                    <h3>Shipping Information</h3>
+                    <div style="padding: 12px; background-color: rgba(33, 128, 141, 0.1); border: 2px solid #21808D; border-radius: var(--radius-base); margin-bottom: 16px;">
+                        <strong>📦 USPS Priority Mail</strong><br>
+                        <span style="font-size: 12px;">Ships to Continental US only • 1-3 business days</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-street">Street Address <span class="required">*</span></label>
+                        <input type="text" id="shipping-street" name="shipping-street" placeholder="123 Main Street">
+                        <span class="error-message" id="street-error">Please enter a street address</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-city">City <span class="required">*</span></label>
+                        <input type="text" id="shipping-city" name="shipping-city" placeholder="City">
+                        <span class="error-message" id="city-error">Please enter a city</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-state">State <span class="required">*</span></label>
+                        <select id="shipping-state" name="shipping-state">
+                            <option value="">Select state...</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                            <option value="DC">Washington DC</option>
+                        </select>
+                        <span class="error-message" id="state-error">Please select a state</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="shipping-zip">ZIP Code <span class="required">*</span></label>
+                        <input type="text" id="shipping-zip" name="shipping-zip" placeholder="12345" maxlength="5">
+                        <span class="error-message" id="zip-error">Please enter a valid 5-digit ZIP code</span>
+                    </div>
+                    <div id="shipping-cost-display" style="padding: 16px; background-color: var(--farmhouse-yellow); border: 2px solid var(--farmhouse-brown); border-radius: var(--radius-base); margin-top: 16px; display: none;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 600; font-size: 16px;">Shipping Cost:</span>
+                            <span id="shipping-cost-amount" style="font-weight: bold; font-size: 20px; color: var(--farmhouse-brown);">$0.00</span>
+                        </div>
+                        <p style="font-size: 12px; margin-top: 8px; margin-bottom: 0;">USPS Priority Mail (1-3 business days)</p>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Order Summary</h3>
+                    <div class="order-review" id="checkout-order-summary">
+                        <!-- Order items will be displayed here -->
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Payment Method</h3>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="payment-cash" name="payment-method" value="Cash">
+                            <label for="payment-cash">Cash (at pickup/delivery)</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="payment-venmo" name="payment-method" value="Venmo">
+                            <label for="payment-venmo">Venmo (@BlueMoonHaven)</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="payment-paypal" name="payment-method" value="PayPal">
+                            <label for="payment-paypal">PayPal (@BlueMoonHaven)</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="payment-cashapp" name="payment-method" value="Cash App">
+                            <label for="payment-cashapp">Cash App ($DanaBlueMoonHaven)</label>
+                        </div>
+                        <div class="payment-option">
+                            <input type="radio" id="payment-zelle" name="payment-method" value="Zelle">
+                            <label for="payment-zelle">Zelle (805-709-4686)</label>
+                        </div>
+                    </div>
+                    <span class="error-message" id="payment-error">Please select a payment method</span>
+                </div>
+
+                <div class="policies-section">
+                    <h4>Important Notes &amp; Policies</h4>
+                    <ul>
+                        <li><strong>50% deposit due before bake day</strong></li>
+                        <li>Pie pan deposit of $5 is refundable upon return of pie pan</li>
+                        <li>Please allow up to 48 hours for items to be prepared</li>
+                        <li>Final payment due at pickup</li>
+                    </ul>
+                </div>
+
+                <button type="submit" class="submit-order-btn">Continue to Payment</button>
+            </form>
+        </section>
+
+        <!-- Payment Selection Screen -->
+        <section class="checkout-section" id="payment-selection-section">
+            <h2>Payment Options</h2>
+            <div class="order-review" style="margin-bottom: 24px;">
+                <h4>Order Total</h4>
+                <div style="font-size: 24px; color: #8B6F47; font-weight: bold; margin: 16px 0;" id="payment-total-display"></div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Choose Payment Amount</h3>
+                <p style="margin-bottom: 16px; color: #626C71;">Select how much you'd like to pay now. The balance will be due at pickup/delivery.</p>
+                
+                <div class="payment-methods">
+                    <div class="payment-option" style="padding: 16px; border: 2px solid #8B6F47; border-radius: 8px; margin-bottom: 12px;">
+                        <input type="radio" id="payment-deposit" name="payment-amount" value="deposit" checked>
+                        <label for="payment-deposit" style="font-size: 16px; font-weight: 600;">
+                            Pay 50% Deposit Now: <span id="deposit-amount-display" style="color: #8B6F47;"></span>
+                        </label>
+                        <p style="margin: 8px 0 0 28px; font-size: 12px; color: #626C71;">Remaining balance due at pickup</p>
+                    </div>
+                    <div class="payment-option" style="padding: 16px; border: 2px solid #8B6F47; border-radius: 8px;">
+                        <input type="radio" id="payment-full" name="payment-amount" value="full">
+                        <label for="payment-full" style="font-size: 16px; font-weight: 600;">
+                            Pay Full Amount Now: <span id="full-amount-display" style="color: #8B6F47;"></span>
+                        </label>
+                        <p style="margin: 8px 0 0 28px; font-size: 12px; color: #626C71;">No payment due at pickup</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="payment-instructions" style="margin-top: 24px; padding: 20px; background-color: rgba(244, 196, 48, 0.15); border: 2px solid #F4C430; border-radius: 12px; display: none;">
+                <!-- Payment instructions will be dynamically inserted here -->
+            </div>
+
+            <div style="display: flex; gap: 12px; margin-top: 24px;">
+                <button type="button" class="continue-shopping-btn" onclick="backToCheckout()" style="flex: 1;">← Back to Order Details</button>
+                <button type="button" class="submit-order-btn" onclick="proceedToPayment()" style="flex: 2;">Show Payment Instructions</button>
+            </div>
+        </section>
+
+        <section class="success-section" id="success-section">
+            <div class="success-icon">✓</div>
+            <h2>Thank You for Your Order!</h2>
+            <div class="order-confirmation">
+                <p><strong>Your order has been received!</strong></p>
+                <div class="confirmation-number" id="confirmation-number"></div>
+                <div id="success-order-details"></div>
+                <p style="margin-top: 20px;"><strong>Pickup Details:</strong></p>
+                <p id="success-pickup-info"></p>
+                <div id="payment-confirmation-message" style="margin-top: 20px; padding: 16px; background-color: rgba(33, 128, 141, 0.1); border: 2px solid #21808D; border-radius: 8px;">
+                    <!-- Payment-specific message will be inserted here -->
+                </div>
+                <p style="margin-top: 16px; font-style: italic;" id="success-closing-message">
+                    We look forward to freshly baking your treats!
+                </p>
+                <p style="margin-top: 16px;">
+                    <strong>Questions?</strong><br>
+                    Contact us: (805) 709-4686<br>
+                    or message us on Facebook/Instagram @Yellow Farmhouse Stand
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Dietary Options Modal -->
+    <div id="dietary-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-product-name">Select Option</h3>
+                <button class="modal-close" onclick="closeDietaryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 16px; color: #626C71;">Please choose your preferred option:</p>
+                <div id="dietary-options-container" class="dietary-options-radio">
+                    <!-- Radio buttons will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeDietaryModal()">Cancel</button>
+                <button class="btn-confirm" onclick="confirmDietarySelection()">Add to Order</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <h3>Yellow Farmhouse Stand</h3>
+        <p>22659 Farmway Road; Caldwell, ID</p>
+        <p>📞 (805) 709-4686</p>
+        <p>📱 Facebook &amp; Instagram @yellowfarmhousegirl</p>
+        <p style="margin-top: 12px; font-style: italic;">Please feel free to call, text or message specific details.</p>
+        <p style="margin-top: 8px;"><strong>Closed Sundays</strong></p>
+        <div class="footer-disclaimer">
+            <p>This form allows online ordering. A 50% deposit is required to confirm your order. Final payment due at pickup.</p>
+        </div>
+    </footer>
+
+    <!-- 
+    ============================================
+    FORMSPREE SETUP INSTRUCTIONS
+    ============================================
+    
+    To enable email submissions to yellowfarmhousetreats@gmail.com:
+    
+    1. Go to https://formspree.io
+    2. Sign up with yellowfarmhousetreats@gmail.com (or any email)
+    3. Click "New Form" and create a new form
+    4. Copy the Form ID (it looks like: mblrwxyz)
+    5. In this HTML file, find the line that says:
+       <form id="formspree-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="display: none;">
+    6. Replace YOUR_FORM_ID with your actual form ID
+    7. Save the file
+    8. Test by submitting an order - you should receive an email!
+    
+    The form will automatically include:
+    - Order confirmation number
+    - Customer information
+    - All order items with details
+    - Pickup date and time
+    - Payment method and amount
+    - Special instructions
+    
+    ============================================
+    -->
+
+    <!-- Hidden Formspree Form -->
+    <form id="formspree-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="display: none;">
+        <input type="hidden" name="_subject" id="formspree-subject">
+        <input type="hidden" name="order_number" id="formspree-order-number">
+        <input type="hidden" name="customer_name" id="formspree-customer-name">
+        <input type="hidden" name="customer_phone" id="formspree-customer-phone">
+        <input type="hidden" name="customer_email" id="formspree-customer-email">
+        <input type="hidden" name="pickup_date" id="formspree-pickup-date">
+        <input type="hidden" name="pickup_time" id="formspree-pickup-time">
+        <input type="hidden" name="special_instructions" id="formspree-special-instructions">
+        <input type="hidden" name="payment_method" id="formspree-payment-method">
+        <input type="hidden" name="payment_amount" id="formspree-payment-amount">
+        <input type="hidden" name="order_items" id="formspree-order-items">
+        <input type="hidden" name="subtotal" id="formspree-subtotal">
+        <input type="hidden" name="pie_deposits" id="formspree-pie-deposits">
+        <input type="hidden" name="total_amount" id="formspree-total-amount">
+        <input type="hidden" name="deposit_amount" id="formspree-deposit-amount">
+        <input type="hidden" name="balance_due" id="formspree-balance-due">
+        <textarea name="order_details" id="formspree-order-details" style="display: none;"></textarea>
+    </form>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                category: 'Breads',
+                items: [
+                    {
+                        name: 'Milk Bread',
+                        description: 'Loaf',
+                        pricing: [{ label: 'Loaf', price: 12 }],
+                        dietaryIcons: ''
+                    },
+                    {
+                        name: 'Pumpkin Bread',
+                        description: 'Loaf',
+                        pricing: [{ label: 'Loaf', price: 12 }],
+                        dietaryIcons: ''
+                    }
+                ]
+            },
+            {
+                category: 'Mini Cakes',
+                items: [
+                    {
+                        name: 'Mini Cakes',
+                        description: 'Cream Cheese Frosting',
+                        pricing: [
+                            { label: 'Single', price: 6 },
+                            { label: 'Half Dozen', price: 30 },
+                            { label: 'Dozen', price: 50 }
+                        ],
+                        dietaryIcons: ''
+                    }
+                ]
+            },
+            {
+                category: 'Cinnamon Rolls',
+                items: [
+                    {
+                        name: 'Cinnamon Rolls',
+                        description: '',
+                        pricing: [
+                            { label: 'Single', price: 3 },
+                            { label: 'Half Dozen', price: 15 },
+                            { label: 'Dozen', price: 28 }
+                        ],
+                        dietaryIcons: ''
+                    }
+                ]
+            },
+            {
+                category: 'Fruit Pies / Crisps',
+                items: [
+                    {
+                        name: 'Fruit Pies / Crisps',
+                        description: 'Streusel Topping',
+                        flavors: ['Apple', 'Pumpkin', 'Peach', 'Lemon Meringue', 'Apple Crisp*^', 'Pumpkin Crisp*^', 'Peach Cobbler'],
+                        pricing: [{ label: 'Each', price: 25 }],
+                        hasPieDeposit: true,
+                        dietaryIcons: '*^'
+                    }
+                ]
+            },
+            {
+                category: 'Muffins',
+                items: [
+                    {
+                        name: 'Muffins',
+                        description: '',
+                        flavors: ['Pumpkin', 'Oatmeal*'],
+                        pricing: [
+                            { label: 'Single', price: 3 },
+                            { label: 'Half Dozen', price: 15 },
+                            { label: 'Dozen', price: 28 }
+                        ],
+                        dietaryIcons: '*'
+                    }
+                ]
+            },
+            {
+                category: 'Cupcakes',
+                items: [
+                    {
+                        name: 'Cupcakes',
+                        description: '',
+                        flavors: ['Chocolate Lava*^', 'Ding Dongs', 'Holiday Specials'],
+                        pricing: [
+                            { label: 'Single', price: 3 },
+                            { label: 'Half Dozen', price: 15 },
+                            { label: 'Dozen', price: 28 }
+                        ],
+                        dietaryIcons: '*^'
+                    }
+                ]
+            },
+            {
+                category: 'Cookies - Simple',
+                items: [
+                    {
+                        name: 'Cookies - Simple',
+                        description: '',
+                        flavors: ['Peanut Butter', 'Chocolate', 'Chocolate Chip', 'Oatmeal*', 'Snickerdoodle'],
+                        pricing: [
+                            { label: 'Single', price: 2.50 },
+                            { label: 'Half Dozen', price: 12 },
+                            { label: 'Dozen', price: 20 }
+                        ],
+                        dietaryIcons: '*'
+                    }
+                ]
+            },
+            {
+                category: 'Cookies - Fancy',
+                items: [
+                    {
+                        name: 'Cookies - Fancy',
+                        description: '',
+                        flavors: ['Biscoff', 'Chocolate', 'Oreo', 'Twix', 'Red Velvet', 'Chocolate Chip', 'Espresso', 'Cinnamon Roll', 'Pumpkin', 'Holiday Specials'],
+                        pricing: [
+                            { label: 'Single', price: 4 },
+                            { label: 'Half Dozen', price: 20 },
+                            { label: 'Dozen', price: 32 }
+                        ],
+                        dietaryIcons: ''
+                    }
+                ]
+            },
+            {
+                category: 'Cookies - Complex',
+                items: [
+                    {
+                        name: 'Cookies - Complex',
+                        description: '',
+                        flavors: ["S'more", 'Monster', 'Peanut Butter Cup Stuffed'],
+                        pricing: [
+                            { label: 'Single', price: 5 },
+                            { label: 'Half Dozen', price: 25 },
+                            { label: 'Dozen', price: 45 }
+                        ],
+                        dietaryIcons: ''
+                    }
+                ]
+            },
+            {
+                category: 'Dipped Pretzel Rods',
+                items: [
+                    {
+                        name: 'Dipped Pretzel Rods',
+                        description: '',
+                        dips: ['Chocolate', 'Vanilla', 'Candy'],
+                        toppings: ['M&M', 'Oreo', 'Caramel', 'Sprinkles'],
+                        pricing: [
+                            { label: 'Single', price: 2 },
+                            { label: 'Half Dozen', price: 10 },
+                            { label: 'Dozen', price: 18 }
+                        ],
+                        dietaryIcons: ''
+                    }
+                ]
+            },
+            {
+                category: 'Brownies - Large',
+                items: [
+                    {
+                        name: 'Brownies - Large',
+                        description: 'Normally baked with gluten',
+                        pricing: [
+                            { label: 'Single', price: 5 },
+                            { label: '4-Pack', price: 18 }
+                        ],
+                        dietaryIcons: '*'
+                    }
+                ]
+            },
+            {
+                category: 'Pecan English Toffee',
+                items: [
+                    {
+                        name: 'Pecan English Toffee',
+                        description: '1 pound',
+                        pricing: [{ label: '1 pound', price: 30 }],
+                        hasJarOption: true,
+                        dietaryIcons: '',
+                        shippable: true
+                    }
+                ]
+            }
+        ];
+
+        // Cart state
+        let cart = [];
+        let orderNumber = '';
+        let currentOrderData = {};
+        let shippingCost = 0;
+        let fulfillmentMethod = 'pickup'; // 'pickup' or 'ship'
+        
+        // Modal state
+        let pendingCartItem = null;
+        
+        // Dietary options mapping
+        const dietaryOptionsMap = {
+            'Apple Crisp*^': ['regular', 'gluten_free', 'sugar_free', 'both'],
+            'Pumpkin Crisp*^': ['regular', 'gluten_free', 'sugar_free', 'both'],
+            'Chocolate Lava*^': ['regular', 'gluten_free', 'sugar_free', 'both'],
+            'Oatmeal*': ['regular', 'gluten_free'],
+            'Brownies - Large': ['regular', 'gluten_free']
+        };
+
+        // Generate products
+        function renderProducts() {
+            const productsSection = document.getElementById('products');
+            productsSection.innerHTML = '';
+
+            products.forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'product-category';
+                categoryDiv.innerHTML = `<h2 class="category-title">${category.category}</h2>`;
+
+                const gridDiv = document.createElement('div');
+                gridDiv.className = 'product-grid';
+
+                category.items.forEach((item, index) => {
+                    const productCard = createProductCard(item, category.category, index);
+                    gridDiv.appendChild(productCard);
+                });
+
+                categoryDiv.appendChild(gridDiv);
+                productsSection.appendChild(categoryDiv);
+            });
+        }
+
+        function createProductCard(item, categoryName, index) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            let html = `
+                <h3 class="product-name">
+                    ${item.name}
+                    ${item.dietaryIcons ? `<span class="dietary-icons">${item.dietaryIcons}</span>` : ''}
+                    ${item.shippable ? '<span style="display: inline-block; margin-left: 8px; padding: 4px 8px; background-color: #21808D; color: white; font-size: 11px; border-radius: 4px; font-weight: 600;">✓ SHIPPING AVAILABLE</span>' : '<span style="display: inline-block; margin-left: 8px; padding: 4px 8px; background-color: #8B6F47; color: white; font-size: 11px; border-radius: 4px; font-weight: 600;">PICKUP ONLY</span>'}
+                </h3>
+            `;
+
+            if (item.description) {
+                html += `<p class="product-description">${item.description}</p>`;
+            }
+
+            if (item.dietaryIcons) {
+                html += `<p class="product-description" style="font-size: 12px; color: #8B6F47; font-style: italic;">Normally baked with gluten/sugar. Can be made with dietary options (see footnotes).</p>`;
+            }
+
+            if (item.flavors) {
+                html += `
+                    <div class="product-flavors">
+                        <strong>Flavors:</strong>
+                        <div class="flavors-list">${item.flavors.join(', ')}</div>
+                    </div>
+                `;
+            }
+
+            if (item.dips) {
+                html += `
+                    <div class="product-flavors">
+                        <strong>Dip Options:</strong>
+                        <div class="flavors-list">${item.dips.join(', ')}</div>
+                    </div>
+                `;
+            }
+
+            if (item.toppings) {
+                html += `
+                    <div class="product-flavors">
+                        <strong>Toppings:</strong>
+                        <div class="flavors-list">${item.toppings.join(', ')}</div>
+                    </div>
+                `;
+            }
+
+            html += '<div class="product-pricing">';
+            item.pricing.forEach(price => {
+                html += `
+                    <div class="price-option">
+                        <span class="label">${price.label}:</span>
+                        <span class="price">$${price.price.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
+
+            if (item.hasPieDeposit) {
+                html += '<p style="font-size: 12px; color: #8B6F47; margin-top: 8px;">+ $5 refundable pie pan deposit</p>';
+            }
+
+            if (item.hasJarOption) {
+                html += '<p style="font-size: 12px; color: #8B6F47; margin-top: 8px;">Add Mason Jar gift decorated +$5</p>';
+            }
+
+            const productId = `${categoryName}-${index}`;
+
+            html += '<div class="product-options">';
+
+            if (item.flavors && item.flavors.length > 0) {
+                html += `
+                    <label for="${productId}-flavor">Select Flavor:</label>
+                    <select id="${productId}-flavor">
+                        ${item.flavors.map(flavor => `<option value="${flavor}">${flavor}</option>`).join('')}
+                    </select>
+                `;
+            }
+
+            if (item.dips && item.dips.length > 0) {
+                html += `
+                    <label for="${productId}-dip">Select Dip:</label>
+                    <select id="${productId}-dip">
+                        ${item.dips.map(dip => `<option value="${dip}">${dip}</option>`).join('')}
+                    </select>
+                `;
+            }
+
+            if (item.toppings && item.toppings.length > 0) {
+                html += `
+                    <label for="${productId}-topping">Select Topping:</label>
+                    <select id="${productId}-topping">
+                        ${item.toppings.map(topping => `<option value="${topping}">${topping}</option>`).join('')}
+                    </select>
+                `;
+            }
+
+            if (item.pricing.length > 1) {
+                html += `
+                    <label for="${productId}-size">Select Size:</label>
+                    <select id="${productId}-size">
+                        ${item.pricing.map(price => `<option value="${price.label}">${price.label} - $${price.price.toFixed(2)}</option>`).join('')}
+                    </select>
+                `;
+            }
+
+            if (item.hasJarOption) {
+                html += `
+                    <label for="${productId}-jar">
+                        <input type="checkbox" id="${productId}-jar" style="width: auto; display: inline-block; margin-right: 8px;">
+                        Add Mason Jar gift (+$5)
+                    </label>
+                `;
+            }
+
+            html += `
+                <label for="${productId}-quantity">Quantity:</label>
+                <input type="number" id="${productId}-quantity" min="1" value="1">
+            </div>
+            <button class="add-to-order-btn" onclick="addToCart('${productId}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">Add to Order</button>
+            `;
+
+            card.innerHTML = html;
+            return card;
+        }
+
+        function addToCart(productId, item) {
+            const quantityInput = document.getElementById(`${productId}-quantity`);
+            const quantity = parseInt(quantityInput.value) || 1;
+
+            let selectedFlavor = '';
+            const flavorSelect = document.getElementById(`${productId}-flavor`);
+            if (flavorSelect) {
+                selectedFlavor = flavorSelect.value;
+            }
+
+            let selectedDip = '';
+            const dipSelect = document.getElementById(`${productId}-dip`);
+            if (dipSelect) {
+                selectedDip = dipSelect.value;
+            }
+
+            let selectedTopping = '';
+            const toppingSelect = document.getElementById(`${productId}-topping`);
+            if (toppingSelect) {
+                selectedTopping = toppingSelect.value;
+            }
+
+            let selectedSize = item.pricing[0].label;
+            let selectedPrice = item.pricing[0].price;
+            const sizeSelect = document.getElementById(`${productId}-size`);
+            if (sizeSelect) {
+                selectedSize = sizeSelect.value;
+                const priceOption = item.pricing.find(p => p.label === selectedSize);
+                selectedPrice = priceOption.price;
+            }
+
+            let hasJar = false;
+            const jarCheckbox = document.getElementById(`${productId}-jar`);
+            if (jarCheckbox) {
+                hasJar = jarCheckbox.checked;
+                if (hasJar) {
+                    selectedPrice += 5;
+                }
+            }
+
+            const cartItem = {
+                id: Date.now(),
+                name: item.name,
+                size: selectedSize,
+                flavor: selectedFlavor,
+                dip: selectedDip,
+                topping: selectedTopping,
+                quantity: quantity,
+                price: selectedPrice,
+                hasPieDeposit: item.hasPieDeposit || false,
+                hasJar: hasJar,
+                dietaryOption: ''
+            };
+
+            // Check if this item or flavor needs dietary options
+            const itemKey = selectedFlavor || item.name;
+            const needsDietarySelection = dietaryOptionsMap[itemKey] !== undefined;
+
+            if (needsDietarySelection) {
+                // Show modal for dietary selection
+                pendingCartItem = cartItem;
+                showDietaryModal(itemKey);
+            } else {
+                // Add directly to cart
+                cart.push(cartItem);
+                updateCart();
+                quantityInput.value = 1;
+            }
+        }
+        
+        function showDietaryModal(itemKey) {
+            const modal = document.getElementById('dietary-modal');
+            const productNameEl = document.getElementById('modal-product-name');
+            const optionsContainer = document.getElementById('dietary-options-container');
+            
+            // Set product name
+            const cleanName = itemKey.replace(/[*^]/g, '');
+            productNameEl.textContent = cleanName;
+            
+            // Get dietary options for this item
+            const options = dietaryOptionsMap[itemKey];
+            
+            // Build radio button options
+            let optionsHtml = '';
+            const optionLabels = {
+                'regular': 'Regular (with gluten and sugar)',
+                'gluten_free': 'Gluten Free',
+                'sugar_free': 'Sugar Free',
+                'both': 'Both Gluten Free & Sugar Free'
+            };
+            
+            options.forEach((option, index) => {
+                const checked = index === 0 ? 'checked' : '';
+                optionsHtml += `
+                    <div class="dietary-option-item">
+                        <input type="radio" id="diet-${option}" name="dietary-choice" value="${option}" ${checked}>
+                        <label for="diet-${option}">${optionLabels[option]}</label>
+                    </div>
+                `;
+            });
+            
+            optionsContainer.innerHTML = optionsHtml;
+            modal.style.display = 'flex';
+        }
+        
+        function closeDietaryModal() {
+            const modal = document.getElementById('dietary-modal');
+            modal.style.display = 'none';
+            pendingCartItem = null;
+        }
+        
+        function confirmDietarySelection() {
+            if (!pendingCartItem) return;
+            
+            const selectedOption = document.querySelector('input[name="dietary-choice"]:checked');
+            if (!selectedOption) return;
+            
+            const dietaryLabels = {
+                'regular': 'Regular',
+                'gluten_free': 'Gluten Free',
+                'sugar_free': 'Sugar Free',
+                'both': 'Both Gluten Free & Sugar Free'
+            };
+            
+            pendingCartItem.dietaryOption = dietaryLabels[selectedOption.value];
+            
+            cart.push(pendingCartItem);
+            updateCart();
+            
+            // Reset quantity input for the product
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                const quantityInput = card.querySelector('input[type="number"]');
+                if (quantityInput) {
+                    quantityInput.value = 1;
+                }
+            });
+            
+            closeDietaryModal();
+        }
+
+        function updateCart() {
+            const orderItemsDiv = document.getElementById('order-items');
+            const orderTotalsDiv = document.getElementById('order-totals');
+            const checkoutBtn = document.getElementById('checkout-btn');
+
+            if (cart.length === 0) {
+                orderItemsDiv.innerHTML = `
+                    <div class="empty-cart">
+                        <p>Your cart is empty</p>
+                        <p style="font-size: 12px; margin-top: 8px;">Add items to get started!</p>
+                    </div>
+                `;
+                orderTotalsDiv.style.display = 'none';
+                checkoutBtn.disabled = true;
+                shippingCost = 0;
+                return;
+            }
+
+            orderItemsDiv.innerHTML = '';
+            let subtotal = 0;
+            let pieDeposits = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+
+                if (item.hasPieDeposit) {
+                    pieDeposits += 5 * item.quantity;
+                }
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'order-item';
+
+                let details = `${item.size}`;
+                if (item.flavor) details += ` - ${item.flavor}`;
+                if (item.dip) details += ` - ${item.dip} Dip`;
+                if (item.topping) details += ` - ${item.topping}`;
+                if (item.hasJar) details += ' - w/ Mason Jar';
+                if (item.dietaryOption && item.dietaryOption !== 'Regular') {
+                    details += ` - ${item.dietaryOption}`;
+                }
+
+                itemDiv.innerHTML = `
+                    <div class="order-item-header">
+                        <div class="order-item-name">${item.name}</div>
+                        <button class="delete-item-btn" onclick="removeFromCart(${item.id})" title="Remove item">✕</button>
+                    </div>
+                    <div class="order-item-details">${details}</div>
+                    <div class="order-item-price">
+                        <span>Qty: ${item.quantity} × $${item.price.toFixed(2)}</span>
+                        <strong>$${itemTotal.toFixed(2)}</strong>
+                    </div>
+                `;
+
+                orderItemsDiv.appendChild(itemDiv);
+            });
+
+            const total = subtotal + pieDeposits + shippingCost;
+
+            document.getElementById('subtotal-amount').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('total-amount').textContent = `$${total.toFixed(2)}`;
+
+            const pieDepositRow = document.getElementById('pie-deposit-row');
+            if (pieDeposits > 0) {
+                pieDepositRow.style.display = 'flex';
+                document.getElementById('pie-deposit-amount').textContent = `$${pieDeposits.toFixed(2)}`;
+            } else {
+                pieDepositRow.style.display = 'none';
+            }
+
+            const shippingRow = document.getElementById('shipping-cost-row');
+            if (shippingCost > 0) {
+                shippingRow.style.display = 'flex';
+                document.getElementById('shipping-amount').textContent = `$${shippingCost.toFixed(2)}`;
+            } else {
+                shippingRow.style.display = 'none';
+            }
+
+            orderTotalsDiv.style.display = 'block';
+            checkoutBtn.disabled = false;
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            updateCart();
+            // Reset fulfillment if cart changes
+            updateFulfillmentOptions();
+        }
+
+        // Checkout flow
+        document.getElementById('checkout-btn').addEventListener('click', function() {
+            document.getElementById('shopping-view').style.display = 'none';
+            document.getElementById('checkout-section').classList.add('active');
+            renderCheckoutSummary();
+            setMinPickupDate();
+            updateFulfillmentOptions();
+            window.scrollTo(0, 0);
+        });
+
+        // Continue Shopping button
+        document.getElementById('continue-shopping-btn').addEventListener('click', function() {
+            document.getElementById('checkout-section').classList.remove('active');
+            document.getElementById('shopping-view').style.display = 'block';
+            // Reset shipping if going back
+            shippingCost = 0;
+            updateCart();
+            window.scrollTo(0, 0);
+        });
+
+        // Fulfillment options logic
+        function updateFulfillmentOptions() {
+            const fulfillmentDiv = document.getElementById('fulfillment-options');
+            const hasToffee = cart.some(item => item.name === 'Pecan English Toffee');
+            const hasOtherItems = cart.some(item => item.name !== 'Pecan English Toffee');
+            const onlyToffee = hasToffee && !hasOtherItems;
+
+            let html = '';
+
+            if (onlyToffee) {
+                // Show both pickup and ship options
+                html = `
+                    <div style="margin-bottom: 16px;">
+                        <label style="display: block; padding: 12px; border: 2px solid var(--color-border); border-radius: var(--radius-base); margin-bottom: 12px; cursor: pointer; transition: all 0.2s;">
+                            <input type="radio" name="fulfillment" value="pickup" checked style="margin-right: 8px;">
+                            <strong>Pickup at Yellow Farmhouse Stand</strong><br>
+                            <span style="font-size: 12px; color: var(--color-text-secondary); margin-left: 24px;">22659 Farmway Road; Caldwell, ID</span>
+                        </label>
+                        <label style="display: block; padding: 12px; border: 2px solid var(--color-border); border-radius: var(--radius-base); cursor: pointer; transition: all 0.2s;">
+                            <input type="radio" name="fulfillment" value="ship" style="margin-right: 8px;">
+                            <strong>Ship via USPS Priority Mail</strong><br>
+                            <span style="font-size: 12px; color: var(--color-text-secondary); margin-left: 24px;">Continental US only • Shipping cost calculated at checkout</span>
+                        </label>
+                    </div>
+                `;
+            } else if (hasToffee && hasOtherItems) {
+                // Mixed cart - pickup only
+                html = `
+                    <div style="padding: 16px; background-color: rgba(168, 75, 47, 0.1); border: 2px solid var(--farmhouse-brown); border-radius: var(--radius-base); margin-bottom: 16px;">
+                        <strong>📦 Pickup Required</strong><br>
+                        <p style="font-size: 14px; margin: 8px 0;">Your order contains items that are pickup only. All items must be picked up at Yellow Farmhouse Stand.</p>
+                        <p style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 0;"><em>Tip: Order toffee separately for shipping, or pick up everything together!</em></p>
+                    </div>
+                    <label style="display: block; padding: 12px; border: 2px solid var(--farmhouse-yellow); background-color: var(--farmhouse-cream); border-radius: var(--radius-base); cursor: default;">
+                        <input type="radio" name="fulfillment" value="pickup" checked disabled style="margin-right: 8px;">
+                        <strong>Pickup at Yellow Farmhouse Stand</strong><br>
+                        <span style="font-size: 12px; color: var(--color-text-secondary); margin-left: 24px;">22659 Farmway Road; Caldwell, ID</span>
+                    </label>
+                `;
+            } else {
+                // No toffee - pickup only
+                html = `
+                    <div style="padding: 16px; background-color: var(--color-bg-2); border-radius: var(--radius-base); margin-bottom: 16px;">
+                        <p style="font-size: 14px; margin-bottom: 0;"><strong>Note:</strong> Most items are pickup only. Pecan English Toffee is our only shippable item.</p>
+                    </div>
+                    <label style="display: block; padding: 12px; border: 2px solid var(--farmhouse-yellow); background-color: var(--farmhouse-cream); border-radius: var(--radius-base); cursor: default;">
+                        <input type="radio" name="fulfillment" value="pickup" checked disabled style="margin-right: 8px;">
+                        <strong>Pickup at Yellow Farmhouse Stand</strong><br>
+                        <span style="font-size: 12px; color: var(--color-text-secondary); margin-left: 24px;">22659 Farmway Road; Caldwell, ID</span>
+                    </label>
+                `;
+            }
+
+            fulfillmentDiv.innerHTML = html;
+
+            // Add event listeners for fulfillment radio buttons
+            const radioButtons = document.querySelectorAll('input[name="fulfillment"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', handleFulfillmentChange);
+            });
+
+            // Show pickup by default
+            handleFulfillmentChange();
+        }
+
+        function handleFulfillmentChange() {
+            const fulfillmentMethod = document.querySelector('input[name="fulfillment"]:checked')?.value || 'pickup';
+            const pickupSection = document.getElementById('pickup-section');
+            const shippingSection = document.getElementById('shipping-section');
+
+            if (fulfillmentMethod === 'ship') {
+                pickupSection.style.display = 'none';
+                shippingSection.style.display = 'block';
+                // Make pickup fields not required
+                document.getElementById('pickup-date').removeAttribute('required');
+                document.getElementById('pickup-time').removeAttribute('required');
+                // Make shipping fields required
+                document.getElementById('shipping-street').setAttribute('required', 'required');
+                document.getElementById('shipping-city').setAttribute('required', 'required');
+                document.getElementById('shipping-state').setAttribute('required', 'required');
+                document.getElementById('shipping-zip').setAttribute('required', 'required');
+                
+                // Add zip code event listener
+                const zipInput = document.getElementById('shipping-zip');
+                zipInput.addEventListener('blur', calculateShipping);
+            } else {
+                pickupSection.style.display = 'block';
+                shippingSection.style.display = 'none';
+                // Make pickup fields required
+                document.getElementById('pickup-date').setAttribute('required', 'required');
+                document.getElementById('pickup-time').setAttribute('required', 'required');
+                // Make shipping fields not required
+                document.getElementById('shipping-street').removeAttribute('required');
+                document.getElementById('shipping-city').removeAttribute('required');
+                document.getElementById('shipping-state').removeAttribute('required');
+                document.getElementById('shipping-zip').removeAttribute('required');
+                
+                // Reset shipping cost
+                shippingCost = 0;
+                updateCart();
+                renderCheckoutSummary();
+            }
+        }
+
+        function calculateShipping() {
+            const zipInput = document.getElementById('shipping-zip');
+            const zipCode = zipInput.value.trim();
+            const zipError = document.getElementById('zip-error');
+            const costDisplay = document.getElementById('shipping-cost-display');
+            const costAmount = document.getElementById('shipping-cost-amount');
+
+            // Validate zip code format
+            if (!/^\d{5}$/.test(zipCode)) {
+                zipError.textContent = 'Please enter a valid 5-digit ZIP code';
+                zipError.classList.add('visible');
+                costDisplay.style.display = 'none';
+                shippingCost = 0;
+                updateCart();
+                renderCheckoutSummary();
+                return;
+            }
+
+            zipError.classList.remove('visible');
+
+            // Calculate shipping based on ZIP code zone
+            const zip = parseInt(zipCode);
+            let cost = 0;
+
+            // USPS Priority Mail zone rates (simplified by ZIP ranges)
+            // Zone 1-2 (Idaho and nearby): 83000-83999, 97000-99999
+            if ((zip >= 83000 && zip <= 83999) || (zip >= 97000 && zip <= 99999)) {
+                cost = 9.50;
+            }
+            // Zone 3-4 (Mountain West): 80000-82999, 84000-89999
+            else if ((zip >= 80000 && zip <= 82999) || (zip >= 84000 && zip <= 89999)) {
+                cost = 10.75;
+            }
+            // Zone 5 (Midwest): 50000-56999, 58000-68999
+            else if ((zip >= 50000 && zip <= 56999) || (zip >= 58000 && zip <= 68999)) {
+                cost = 12.25;
+            }
+            // Zone 6 (South/Southeast): 30000-39999, 70000-79999
+            else if ((zip >= 30000 && zip <= 39999) || (zip >= 70000 && zip <= 79999)) {
+                cost = 14.50;
+            }
+            // Zone 7 (Northeast/North): 01000-05999, 10000-14999, 40000-49999, 57000-57999
+            else if ((zip >= 1000 && zip <= 5999) || (zip >= 10000 && zip <= 14999) || (zip >= 40000 && zip <= 49999) || (zip >= 57000 && zip <= 57999)) {
+                cost = 16.00;
+            }
+            // Zone 8 (Far East Coast): 06000-09999, 15000-19999, 20000-29999
+            else if ((zip >= 6000 && zip <= 9999) || (zip >= 15000 && zip <= 19999) || (zip >= 20000 && zip <= 29999)) {
+                cost = 18.00;
+            }
+            // Default to zone 8 for other CONUS
+            else {
+                cost = 18.00;
+            }
+
+            shippingCost = cost;
+            costAmount.textContent = `$${cost.toFixed(2)}`;
+            costDisplay.style.display = 'block';
+            
+            updateCart();
+            renderCheckoutSummary();
+        }
+
+        function setMinPickupDate() {
+            const dateInput = document.getElementById('pickup-date');
+            const today = new Date();
+            today.setHours(today.getHours() + 48);
+            const minDate = today.toISOString().split('T')[0];
+            dateInput.min = minDate;
+        }
+
+        function renderCheckoutSummary() {
+            const summaryDiv = document.getElementById('checkout-order-summary');
+            let html = '<h4>Items in Your Order</h4><div class="review-items">';
+
+            let subtotal = 0;
+            let pieDeposits = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+
+                if (item.hasPieDeposit) {
+                    pieDeposits += 5 * item.quantity;
+                }
+
+                let details = `${item.size}`;
+                if (item.flavor) details += ` - ${item.flavor}`;
+                if (item.dip) details += ` - ${item.dip} Dip`;
+                if (item.topping) details += ` - ${item.topping}`;
+                if (item.hasJar) details += ' - w/ Mason Jar';
+                if (item.dietaryOption && item.dietaryOption !== 'Regular') {
+                    details += ` - ${item.dietaryOption}`;
+                }
+
+                html += `
+                    <div class="review-item">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <span style="font-size: 12px; color: #626C71;">${details}</span><br>
+                            <span style="font-size: 12px;">Qty: ${item.quantity} × $${item.price.toFixed(2)}</span>
+                        </div>
+                        <div><strong>$${itemTotal.toFixed(2)}</strong></div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            const total = subtotal + pieDeposits + shippingCost;
+            const deposit = total * 0.5;
+
+            html += `
+                <div style="margin-top: 16px; padding-top: 16px; border-top: 2px solid #8B6F47;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span>Subtotal:</span>
+                        <strong>$${subtotal.toFixed(2)}</strong>
+                    </div>
+            `;
+
+            if (shippingCost > 0) {
+                html += `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span>Shipping (USPS Priority):</span>
+                        <strong>$${shippingCost.toFixed(2)}</strong>
+                    </div>
+                `;
+            }
+
+            if (pieDeposits > 0) {
+                html += `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 12px;">
+                        <span>Pie Pan Deposits (refundable):</span>
+                        <strong>$${pieDeposits.toFixed(2)}</strong>
+                    </div>
+                `;
+            }
+
+            html += `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 18px; color: #8B6F47;">
+                        <span><strong>Total:</strong></span>
+                        <strong>$${total.toFixed(2)}</strong>
+                    </div>
+                    <div style="padding: 12px; background-color: rgba(244, 196, 48, 0.2); border-radius: 6px; font-size: 14px;">
+                        <strong>50% Deposit Required:</strong> $${deposit.toFixed(2)}<br>
+                        <span style="font-size: 12px;">Due before bake day. Remaining balance due at pickup${shippingCost > 0 ? '/delivery' : ''}.</span>
+                    </div>
+                </div>
+            `;
+
+            summaryDiv.innerHTML = html;
+        }
+
+        // Form validation and submission
+        document.getElementById('checkout-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('visible'));
+
+            let isValid = true;
+
+            // Validate name
+            const name = document.getElementById('customer-name').value.trim();
+            if (!name) {
+                document.getElementById('name-error').classList.add('visible');
+                isValid = false;
+            }
+
+            // Validate phone
+            const phone = document.getElementById('customer-phone').value.trim();
+            const phoneRegex = /^[\d\s\(\)\-\.]+$/;
+            if (!phone || !phoneRegex.test(phone) || phone.replace(/\D/g, '').length < 10) {
+                document.getElementById('phone-error').classList.add('visible');
+                isValid = false;
+            }
+
+            // Check fulfillment method
+            const fulfillmentMethodSelected = document.querySelector('input[name="fulfillment"]:checked')?.value || 'pickup';
+
+            if (fulfillmentMethodSelected === 'ship') {
+                // Validate shipping fields
+                const street = document.getElementById('shipping-street').value.trim();
+                if (!street) {
+                    document.getElementById('street-error').classList.add('visible');
+                    isValid = false;
+                }
+
+                const city = document.getElementById('shipping-city').value.trim();
+                if (!city) {
+                    document.getElementById('city-error').classList.add('visible');
+                    isValid = false;
+                }
+
+                const state = document.getElementById('shipping-state').value;
+                if (!state) {
+                    document.getElementById('state-error').classList.add('visible');
+                    isValid = false;
+                }
+
+                const zip = document.getElementById('shipping-zip').value.trim();
+                if (!/^\d{5}$/.test(zip)) {
+                    document.getElementById('zip-error').textContent = 'Please enter a valid 5-digit ZIP code';
+                    document.getElementById('zip-error').classList.add('visible');
+                    isValid = false;
+                }
+
+                if (shippingCost === 0) {
+                    document.getElementById('zip-error').textContent = 'Please enter ZIP code to calculate shipping';
+                    document.getElementById('zip-error').classList.add('visible');
+                    isValid = false;
+                }
+
+                // Store shipping info
+                if (isValid) {
+                    currentOrderData = {
+                        name: name,
+                        phone: phone,
+                        email: document.getElementById('customer-email').value.trim(),
+                        instructions: document.getElementById('special-instructions').value.trim(),
+                        fulfillmentMethod: 'ship',
+                        shippingStreet: street,
+                        shippingCity: city,
+                        shippingState: state,
+                        shippingZip: zip,
+                        shippingCost: shippingCost,
+                        paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value
+                    };
+                }
+            } else {
+                // Validate pickup date
+                const pickupDate = document.getElementById('pickup-date').value;
+                if (!pickupDate) {
+                    document.getElementById('date-error').classList.add('visible');
+                    isValid = false;
+                } else {
+                    const selectedDate = new Date(pickupDate);
+                    const minDate = new Date();
+                    minDate.setHours(minDate.getHours() + 48);
+                    if (selectedDate < minDate) {
+                        document.getElementById('date-error').classList.add('visible');
+                        isValid = false;
+                    }
+                }
+
+                // Validate pickup time
+                const pickupTime = document.getElementById('pickup-time').value;
+                if (!pickupTime) {
+                    document.getElementById('time-error').classList.add('visible');
+                    isValid = false;
+                }
+
+                // Store pickup info
+                if (isValid) {
+                    currentOrderData = {
+                        name: name,
+                        phone: phone,
+                        email: document.getElementById('customer-email').value.trim(),
+                        instructions: document.getElementById('special-instructions').value.trim(),
+                        fulfillmentMethod: 'pickup',
+                        pickupDate: pickupDate,
+                        pickupTime: pickupTime,
+                        paymentMethod: document.querySelector('input[name="payment-method"]:checked')?.value
+                    };
+                }
+            }
+
+            // Validate payment method
+            const paymentMethod = document.querySelector('input[name="payment-method"]:checked');
+            if (!paymentMethod) {
+                document.getElementById('payment-error').classList.add('visible');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                window.scrollTo(0, 0);
+                return;
+            }
+
+            // Generate order number
+            orderNumber = generateOrderNumber();
+
+            // If cash selected, go directly to success
+            if (paymentMethod.value === 'Cash') {
+                showSuccessPage('Cash', 'N/A - Cash at pickup/delivery');
+            } else {
+                // Show payment selection screen
+                showPaymentSelection();
+            }
+        });
+
+        function generateOrderNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            return `${year}${month}${day}${hours}${minutes}${seconds}`;
+        }
+
+        function showPaymentSelection() {
+            document.getElementById('checkout-section').classList.remove('active');
+            document.getElementById('payment-selection-section').classList.add('active');
+            
+            // Calculate totals
+            let subtotal = 0;
+            let pieDeposits = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                if (item.hasPieDeposit) {
+                    pieDeposits += 5 * item.quantity;
+                }
+            });
+            const total = subtotal + pieDeposits + shippingCost;
+            const depositAmount = total * 0.5;
+            
+            document.getElementById('payment-total-display').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('deposit-amount-display').textContent = `$${depositAmount.toFixed(2)}`;
+            document.getElementById('full-amount-display').textContent = `$${total.toFixed(2)}`;
+            
+            window.scrollTo(0, 0);
+        }
+
+        function backToCheckout() {
+            document.getElementById('payment-selection-section').classList.remove('active');
+            document.getElementById('checkout-section').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function proceedToPayment() {
+            const paymentAmountChoice = document.querySelector('input[name="payment-amount"]:checked').value;
+            
+            // Calculate amount
+            let subtotal = 0;
+            let pieDeposits = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                if (item.hasPieDeposit) {
+                    pieDeposits += 5 * item.quantity;
+                }
+            });
+            const total = subtotal + pieDeposits;
+            const amount = paymentAmountChoice === 'deposit' ? (total * 0.5) : total;
+            const amountLabel = paymentAmountChoice === 'deposit' ? 'Deposit' : 'Full Payment';
+            
+            // Generate payment instructions
+            const paymentMethod = currentOrderData.paymentMethod;
+            const instructionsDiv = document.getElementById('payment-instructions');
+            
+            let instructionsHtml = `<h3 style="margin-bottom: 16px; color: #8B6F47;">Payment Instructions</h3>`;
+            instructionsHtml += `<p style="margin-bottom: 12px;"><strong>Order #${orderNumber}</strong></p>`;
+            instructionsHtml += `<p style="margin-bottom: 16px;"><strong>Amount to Pay:</strong> <span style="font-size: 24px; color: #8B6F47;">$${amount.toFixed(2)}</span> (${amountLabel})</p>`;
+            
+            if (paymentMethod === 'Venmo') {
+                const venmoNote = encodeURIComponent(`YFS Order #${orderNumber} - ${amountLabel}`);
+                const venmoLink = `venmo://paycharge?txn=pay&recipients=BlueMoonHaven&amount=${amount.toFixed(2)}&note=${venmoNote}`;
+                const venmoWebLink = `https://venmo.com/BlueMoonHaven?txn=pay&amount=${amount.toFixed(2)}&note=${venmoNote}`;
+                
+                instructionsHtml += `
+                    <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <p style="font-weight: 600; margin-bottom: 12px;">Option 1: Open Venmo App</p>
+                        <a href="${venmoLink}" class="btn-confirm" style="display: inline-block; text-decoration: none; padding: 12px 24px;">Open in Venmo App</a>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 8px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">Option 2: Pay Manually</p>
+                        <p style="margin-bottom: 4px;"><strong>Venmo Username:</strong> @BlueMoonHaven</p>
+                        <p style="margin-bottom: 4px;"><strong>Amount:</strong> $${amount.toFixed(2)}</p>
+                        <p><strong>Note:</strong> YFS Order #${orderNumber} - ${amountLabel}</p>
+                    </div>
+                `;
+            } else if (paymentMethod === 'PayPal') {
+                const paypalNote = encodeURIComponent(`YFS Order #${orderNumber} - ${amountLabel}`);
+                const paypalLink = `https://paypal.me/BlueMoonHaven/${amount.toFixed(2)}`;
+                
+                instructionsHtml += `
+                    <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <p style="font-weight: 600; margin-bottom: 12px;">Click to open PayPal:</p>
+                        <a href="${paypalLink}" target="_blank" class="btn-confirm" style="display: inline-block; text-decoration: none; padding: 12px 24px;">Pay with PayPal</a>
+                        <p style="margin-top: 8px; font-size: 12px; color: #626C71;">Please add note: YFS Order #${orderNumber} - ${amountLabel}</p>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 8px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">Or pay manually:</p>
+                        <p style="margin-bottom: 4px;"><strong>PayPal:</strong> @BlueMoonHaven</p>
+                        <p style="margin-bottom: 4px;"><strong>Amount:</strong> $${amount.toFixed(2)}</p>
+                        <p><strong>Note:</strong> YFS Order #${orderNumber} - ${amountLabel}</p>
+                    </div>
+                `;
+            } else if (paymentMethod === 'Cash App') {
+                const cashappNote = encodeURIComponent(`YFS Order #${orderNumber} - ${amountLabel}`);
+                const cashappLink = `https://cash.app/$DanaBlueMoonHaven/${amount.toFixed(2)}`;
+                
+                instructionsHtml += `
+                    <div style="background: white; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+                        <p style="font-weight: 600; margin-bottom: 12px;">Click to open Cash App:</p>
+                        <a href="${cashappLink}" target="_blank" class="btn-confirm" style="display: inline-block; text-decoration: none; padding: 12px 24px;">Pay with Cash App</a>
+                        <p style="margin-top: 8px; font-size: 12px; color: #626C71;">Please add note: YFS Order #${orderNumber} - ${amountLabel}</p>
+                    </div>
+                    <div style="background: white; padding: 16px; border-radius: 8px;">
+                        <p style="font-weight: 600; margin-bottom: 8px;">Or pay manually:</p>
+                        <p style="margin-bottom: 4px;"><strong>Cash App:</strong> $DanaBlueMoonHaven</p>
+                        <p style="margin-bottom: 4px;"><strong>Amount:</strong> $${amount.toFixed(2)}</p>
+                        <p><strong>Note:</strong> YFS Order #${orderNumber} - ${amountLabel}</p>
+                    </div>
+                `;
+            } else if (paymentMethod === 'Zelle') {
+                instructionsHtml += `
+                    <div style="background: white; padding: 16px; border-radius: 8px;">
+                        <p style="font-weight: 600; margin-bottom: 12px;">Send payment via Zelle:</p>
+                        <p style="margin-bottom: 4px; font-size: 18px;"><strong>Phone:</strong> 805-709-4686</p>
+                        <p style="margin-bottom: 4px; font-size: 18px;"><strong>Amount:</strong> $${amount.toFixed(2)}</p>
+                        <p style="font-size: 14px;"><strong>Note:</strong> YFS Order #${orderNumber} - ${amountLabel}</p>
+                        <p style="margin-top: 12px; font-size: 12px; color: #626C71;">Open your banking app and send via Zelle to the phone number above.</p>
+                    </div>
+                `;
+            }
+            
+            instructionsHtml += `
+                <div style="margin-top: 20px; padding: 12px; background-color: rgba(33, 128, 141, 0.1); border-radius: 8px;">
+                    <p style="font-size: 14px; font-weight: 500;">After completing payment, click below to finish your order.</p>
+                </div>
+            `;
+            
+            instructionsDiv.innerHTML = instructionsHtml;
+            instructionsDiv.style.display = 'block';
+            
+            // Change button to complete order
+            const submitBtn = document.querySelector('#payment-selection-section .submit-order-btn');
+            submitBtn.textContent = 'Complete Order';
+            submitBtn.onclick = function() {
+                showSuccessPage(paymentMethod, `$${amount.toFixed(2)} ${amountLabel}`);
+            };
+        }
+
+        function showSuccessPage(paymentMethod, paymentAmount) {
+            // Submit order to Formspree
+            submitToFormspree(paymentMethod, paymentAmount);
+            
+            document.getElementById('confirmation-number').textContent = `Order #${orderNumber}`;
+
+            // Display order details
+            let orderDetailsHtml = '<div style="text-align: left; margin-top: 16px;">';
+            cart.forEach(item => {
+                let details = `${item.size}`;
+                if (item.flavor) details += ` - ${item.flavor}`;
+                if (item.dip) details += ` - ${item.dip} Dip`;
+                if (item.topping) details += ` - ${item.topping}`;
+                if (item.hasJar) details += ' - w/ Mason Jar';
+                if (item.dietaryOption && item.dietaryOption !== 'Regular') {
+                    details += ` - ${item.dietaryOption}`;
+                }
+
+                orderDetailsHtml += `<p style="margin: 8px 0;">• ${item.quantity}x ${item.name} (${details})</p>`;
+            });
+            orderDetailsHtml += '</div>';
+            
+            orderDetailsHtml += `
+                <div style="margin-top: 20px; padding: 16px; background-color: rgba(244, 196, 48, 0.15); border-radius: 8px;">
+                    <p style="margin-bottom: 8px;"><strong>Payment Method:</strong> ${paymentMethod}</p>
+                    <p><strong>Payment Amount:</strong> ${paymentAmount}</p>
+                </div>
+            `;
+            
+            // Calculate if balance is due
+            let subtotal = 0;
+            let pieDeposits = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                if (item.hasPieDeposit) {
+                    pieDeposits += 5 * item.quantity;
+                }
+            });
+            const total = subtotal + pieDeposits;
+            const paidAmount = parseFloat(paymentAmount.replace(/[^0-9.]/g, ''));
+            const balanceDue = total - (isNaN(paidAmount) ? 0 : paidAmount);
+            
+            // Set payment confirmation message
+            let confirmationMsg = '';
+            if (paymentMethod === 'Cash') {
+                confirmationMsg = `
+                    <p style="font-weight: 600; margin-bottom: 8px;">💵 Cash Payment</p>
+                    <p>Please bring <strong>$${total.toFixed(2)}</strong> cash at pickup.</p>
+                `;
+            } else if (balanceDue > 1) {
+                confirmationMsg = `
+                    <p style="font-weight: 600; margin-bottom: 8px;">✓ Payment Instructions Provided</p>
+                    <p style="margin-bottom: 8px;">Your payment link/instructions have been provided above. Please complete your payment at your earliest convenience.</p>
+                    <p style="font-weight: 600; color: #8B6F47;">Remaining Balance: $${balanceDue.toFixed(2)}</p>
+                    <p style="font-size: 12px; margin-top: 4px;">Please bring the remaining balance at pickup.</p>
+                `;
+            } else {
+                confirmationMsg = `
+                    <p style="font-weight: 600; margin-bottom: 8px;">✓ Payment Instructions Provided</p>
+                    <p>Your payment link/instructions have been provided above. Please complete your payment at your earliest convenience.</p>
+                    <p style="margin-top: 8px; font-weight: 600; color: #21808D;">No additional payment needed at pickup!</p>
+                `;
+            }
+            
+            setTimeout(() => {
+                document.getElementById('payment-confirmation-message').innerHTML = confirmationMsg;
+            }, 100);
+            
+            document.getElementById('success-order-details').innerHTML = orderDetailsHtml;
+
+            // Update closing message based on fulfillment
+            if (currentOrderData.fulfillmentMethod === 'ship') {
+                document.getElementById('success-closing-message').textContent = 'We look forward to freshly baking and shipping your treats!';
+            }
+
+            // Display fulfillment info
+            if (currentOrderData.fulfillmentMethod === 'ship') {
+                document.getElementById('success-pickup-info').innerHTML = `
+                    <strong>Shipping To:</strong><br>
+                    ${currentOrderData.shippingStreet}<br>
+                    ${currentOrderData.shippingCity}, ${currentOrderData.shippingState} ${currentOrderData.shippingZip}<br>
+                    <strong>Shipping Method:</strong> USPS Priority Mail (1-3 business days)<br>
+                    <strong>Shipping Cost:</strong> $${currentOrderData.shippingCost.toFixed(2)}
+                `;
+            } else {
+                const pickupDate = currentOrderData.pickupDate;
+                const pickupTime = currentOrderData.pickupTime;
+                document.getElementById('success-pickup-info').innerHTML = `
+                    <strong>Date:</strong> ${new Date(pickupDate + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}<br>
+                    <strong>Time:</strong> ${pickupTime}<br>
+                    <strong>Location:</strong> Yellow Farmhouse Stand, 22659 Farmway Road; Caldwell, ID
+                `;
+            }
+
+            document.getElementById('payment-selection-section').classList.remove('active');
+            document.getElementById('checkout-section').classList.remove('active');
+            document.getElementById('success-section').classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Radio button behavior for payment options
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentOptions = document.querySelectorAll('input[name="payment-amount"]');
+            paymentOptions.forEach(option => {
+                option.addEventListener('change', function() {
+                    // Hide payment instructions when selection changes
+                    document.getElementById('payment-instructions').style.display = 'none';
+                    const submitBtn = document.querySelector('#payment-selection-section .submit-order-btn');
+                    submitBtn.textContent = 'Show Payment Instructions';
+                    submitBtn.onclick = proceedToPayment;
+                });
+            });
+        });
+
+        // Formspree submission function
+        function submitToFormspree(paymentMethod, paymentAmount) {
+            // Calculate totals
+            let subtotal = 0;
+            let pieDeposits = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                if (item.hasPieDeposit) {
+                    pieDeposits += 5 * item.quantity;
+                }
+            });
+            const total = subtotal + pieDeposits + (currentOrderData.shippingCost || 0);
+            const paidAmount = parseFloat(paymentAmount.replace(/[^0-9.]/g, ''));
+            const balanceDue = total - (isNaN(paidAmount) ? 0 : paidAmount);
+            const depositAmount = total * 0.5;
+            
+            // Build order items text
+            let orderItemsText = '';
+            cart.forEach(item => {
+                let details = `${item.size}`;
+                if (item.flavor) details += ` - ${item.flavor}`;
+                if (item.dip) details += ` - ${item.dip} Dip`;
+                if (item.topping) details += ` - ${item.topping}`;
+                if (item.hasJar) details += ' - w/ Mason Jar';
+                if (item.dietaryOption && item.dietaryOption !== 'Regular') {
+                    details += ` - ${item.dietaryOption}`;
+                }
+                const itemTotal = item.price * item.quantity;
+                orderItemsText += `${item.quantity}x ${item.name} (${details}) - $${itemTotal.toFixed(2)}\n`;
+            });
+            
+            // Build complete order details for email body
+            const orderDate = new Date().toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const pickupDateFormatted = new Date(currentOrderData.pickupDate + 'T00:00:00').toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            let orderDetailsText = `
+═══════════════════════════════════════════════════════
+YELLOW FARMHOUSE STAND - NEW ORDER
+═══════════════════════════════════════════════════════
+
+ORDER CONFIRMATION NUMBER: ${orderNumber}
+Order Placed: ${orderDate}
+
+-----------------------------------------------------------
+CUSTOMER INFORMATION
+-----------------------------------------------------------
+Name: ${currentOrderData.name}
+Phone: ${currentOrderData.phone}
+Email: ${currentOrderData.email || 'Not provided'}
+
+-----------------------------------------------------------
+PICKUP INFORMATION
+-----------------------------------------------------------
+Date: ${pickupDateFormatted}
+Time: ${currentOrderData.pickupTime}
+Location: 22659 Farmway Road; Caldwell, ID
+
+-----------------------------------------------------------
+ORDER ITEMS
+-----------------------------------------------------------
+${orderItemsText}
+-----------------------------------------------------------
+Subtotal: $${subtotal.toFixed(2)}`;
+
+            if (currentOrderData.shippingCost && currentOrderData.shippingCost > 0) {
+                orderDetailsText += `\nShipping (USPS Priority): $${currentOrderData.shippingCost.toFixed(2)}`;
+            }
+
+            if (pieDeposits > 0) {
+                orderDetailsText += `\nPie Pan Deposits (Refundable): $${pieDeposits.toFixed(2)}`;
+            }
+            
+            orderDetailsText += `\n-----------------------------------------------------------
+GRAND TOTAL: $${total.toFixed(2)}
+-----------------------------------------------------------
+
+50% Deposit Amount: $${depositAmount.toFixed(2)}`;
+            
+            if (currentOrderData.fulfillmentMethod === 'ship') {
+                orderDetailsText += `\n\n-----------------------------------------------------------
+SHIPPING INFORMATION
+-----------------------------------------------------------
+Ship To:
+${currentOrderData.shippingStreet}
+${currentOrderData.shippingCity}, ${currentOrderData.shippingState} ${currentOrderData.shippingZip}
+
+Shipping Method: USPS Priority Mail
+Shipping Cost: $${currentOrderData.shippingCost.toFixed(2)}
+Estimated Delivery: 1-3 business days after shipment`;
+            } else {
+                orderDetailsText += `\n\n-----------------------------------------------------------
+PICKUP INFORMATION
+-----------------------------------------------------------
+Date: ${new Date(currentOrderData.pickupDate + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+Time: ${currentOrderData.pickupTime}
+Location: Yellow Farmhouse Stand, 22659 Farmway Road; Caldwell, ID`;
+            }
+            
+            if (currentOrderData.instructions) {
+                orderDetailsText += `\n\n-----------------------------------------------------------
+SPECIAL INSTRUCTIONS
+-----------------------------------------------------------
+${currentOrderData.instructions}`;
+            }
+            
+            orderDetailsText += `\n\n-----------------------------------------------------------
+PAYMENT INFORMATION
+-----------------------------------------------------------
+Payment Method: ${paymentMethod}
+Amount Paid Now: ${paymentAmount}`;
+            
+            if (balanceDue > 1) {
+                orderDetailsText += `\nBalance Due at Pickup: $${balanceDue.toFixed(2)}`;
+            } else {
+                orderDetailsText += `\nBalance Due at Pickup: $0.00 (PAID IN FULL)`;
+            }
+            
+            orderDetailsText += `\n\n═══════════════════════════════════════════════════════
+
+This order requires confirmation. Please contact the customer
+to confirm the order and finalize details.
+
+Customer Contact: ${currentOrderData.phone}
+${currentOrderData.email ? 'Email: ' + currentOrderData.email : ''}
+
+═══════════════════════════════════════════════════════`;
+            
+            // Populate hidden form fields
+            document.getElementById('formspree-subject').value = `New Order #${orderNumber} - ${currentOrderData.name}`;
+            document.getElementById('formspree-order-number').value = orderNumber;
+            document.getElementById('formspree-customer-name').value = currentOrderData.name;
+            document.getElementById('formspree-customer-phone').value = currentOrderData.phone;
+            document.getElementById('formspree-customer-email').value = currentOrderData.email || 'Not provided';
+            
+            if (currentOrderData.fulfillmentMethod === 'ship') {
+                document.getElementById('formspree-pickup-date').value = 'SHIPPING - No pickup date';
+                document.getElementById('formspree-pickup-time').value = `Shipping to: ${currentOrderData.shippingCity}, ${currentOrderData.shippingState} ${currentOrderData.shippingZip}`;
+            } else {
+                document.getElementById('formspree-pickup-date').value = pickupDateFormatted;
+                document.getElementById('formspree-pickup-time').value = currentOrderData.pickupTime;
+            }
+            document.getElementById('formspree-special-instructions').value = currentOrderData.instructions || 'None';
+            document.getElementById('formspree-payment-method').value = paymentMethod;
+            document.getElementById('formspree-payment-amount').value = paymentAmount;
+            document.getElementById('formspree-order-items').value = orderItemsText.trim();
+            document.getElementById('formspree-subtotal').value = `$${subtotal.toFixed(2)}`;
+            document.getElementById('formspree-pie-deposits').value = `$${pieDeposits.toFixed(2)}`;
+            document.getElementById('formspree-total-amount').value = `$${total.toFixed(2)}`;
+            document.getElementById('formspree-deposit-amount').value = `$${depositAmount.toFixed(2)}`;
+            document.getElementById('formspree-balance-due').value = `$${balanceDue.toFixed(2)}`;
+            document.getElementById('formspree-order-details').value = orderDetailsText;
+            
+            // Submit the form
+            const formspreeForm = document.getElementById('formspree-form');
+            
+            // Use fetch to submit without page reload
+            const formData = new FormData(formspreeForm);
+            
+            fetch(formspreeForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Order email sent successfully to yellowfarmhousetreats@gmail.com');
+                } else {
+                    console.warn('Formspree submission returned non-OK status:', response.status);
+                }
+            }).catch(error => {
+                console.error('Error sending order email:', error);
+            });
+        }
+
+        // Initialize
+        renderProducts();
+    </script>
+</body>
+</html>
