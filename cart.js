@@ -1,6 +1,17 @@
 // ========== CART MANAGEMENT ==========
 let cart = [];
 
+function saveCart() {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function loadCart() {
+  const saved = localStorage.getItem('cart');
+  if (saved) {
+    cart = JSON.parse(saved);
+  }
+}
+
 function addToCart(index) {
   const item = menuItems[index];
   const size = document.getElementById(`size-${index}`).value;
@@ -28,6 +39,7 @@ function addToCart(index) {
 
   cart.push(cartItem);
   updateCart();
+  saveCart();
   showSuccess(`Added ${qty}x ${item.name} to order!`);
   
   document.getElementById(`qty-${index}`).value = 1;
@@ -62,6 +74,7 @@ function updateCart() {
 
   checkShippingAvailability();
   calculateTotals();
+  saveCart();
 
   // Handle deposit info for items requiring deposit
   const depositInfo = document.getElementById("depositPickupInfo");
@@ -269,7 +282,7 @@ function buildOrderSummary() {
   const name = document.getElementById('customerName').value.trim();
   const email = document.getElementById('customerEmail').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
-  const notes = document.getElementById('customerNotes').value.trim();
+  const notes = document.getElementById('specialInstructions').value.trim();
   const fulfillment = document.querySelector('input[name="fulfillment_method"]:checked').value;
   const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
 
@@ -359,8 +372,20 @@ function showSuccess(message) {
   setTimeout(() => alert.classList.remove('visible'), 3000);
 }
 
+function proceedToCart() {
+  if (cart.length === 0) {
+    document.getElementById('emptyCartAlert').classList.remove('hidden');
+    document.getElementById('readyToProceedAlert').classList.add('hidden');
+  } else {
+    document.getElementById('emptyCartAlert').classList.add('hidden');
+    document.getElementById('readyToProceedAlert').classList.add('hidden');
+    window.location.href = 'cart.html';
+  }
+}
+
 // ========== INITIALIZE ==========
 document.addEventListener('DOMContentLoaded', function() {
+  loadCart();
   checkShippingAvailability();
   calculateTotals();
 
