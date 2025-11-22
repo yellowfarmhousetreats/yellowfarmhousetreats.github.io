@@ -463,10 +463,11 @@
   },
   {
     "name": "Pecan English Toffee",
-    "sizes": ["1 Pound (Regular Box)", "1 Pound (Mason Jar - Gift)"],
-    "sizePrice": { "1_Pound_(Regular_Box)": 30, "1_Pound_(Mason_Jar_-_Gift)": 35 },
+    "sizes": ["1 Pound"],
+    "sizePrice": { "1_Pound": 30 },
     "canGlutenfree": false,
     "canSugarfree": false,
+    "giftWrapPrice": 5,
     "category": "Candy",
     "canShip": true,
     "weight": 1.0,

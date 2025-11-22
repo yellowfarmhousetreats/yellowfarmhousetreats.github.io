@@ -12,10 +12,11 @@ for (const file of htmlFiles) {
   if (!fs.existsSync(p)) continue;
   let content = fs.readFileSync(p, "utf8");
   // Replace existing query params for product_loader / cart / styles
+  // Only match in src= or href= attributes
   content = content
-    .replace(/product_loader(?:\.min)?\.js(\?v=[^"']+)?/g, `product_loader.min.js?v=${token}`)
-    .replace(/cart(?:\.min)?\.js(\?v=[^"']+)?/g, `cart.min.js?v=${token}`)
-    .replace(/styles(?:\.min)?\.css(\?v=[^"']+)?/g, `styles.min.css?v=${token}`);
+    .replace(/(src=["'])product_loader(?:\.min)?\.js(?:\?v=[^"']+)?/g, `$1product_loader.min.js?v=${token}`)
+    .replace(/(src=["'])cart(?:\.min)?\.js(?:\?v=[^"']+)?/g, `$1cart.min.js?v=${token}`)
+    .replace(/(href=["'])styles(?:\.min)?\.css(?:\?v=[^"']+)?/g, `$1styles.min.css?v=${token}`);
   fs.writeFileSync(p, content, "utf8");
   console.log(`Cache bust updated in ${file}`);
 }

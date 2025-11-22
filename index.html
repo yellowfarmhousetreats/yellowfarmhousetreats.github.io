@@ -28,7 +28,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1763842406" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.401881" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -193,8 +193,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1763841609"></script>
-    <script src="cart.min.js?v=1763841609"></script>
+    <script src="product_loader.min.js?v=1.0.0.401881"></script>
+    <script src="cart.min.js?v=1.0.0.401881"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -248,27 +248,16 @@
       function toggleFilters() {
         const panel = document.getElementById("headerFilters");
         const toggle = document.querySelector(".filters-toggle");
-        if (panel.classList.contains("open")) {
-          panel.classList.remove("open");
-          toggle.setAttribute("aria-expanded", "false");
-        } else {
-          panel.classList.add("open");
-          toggle.setAttribute("aria-expanded", "true");
+        if (panel && toggle) {
+          if (panel.classList.contains("open")) {
+            panel.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+          } else {
+            panel.classList.add("open");
+            toggle.setAttribute("aria-expanded", "true");
+          }
         }
       }
-
-      // Close filters when clicking outside
-      document.addEventListener("click", function(event) {
-        const panel = document.getElementById("headerFilters");
-        const toggle = document.querySelector(".filters-toggle");
-        const container = document.querySelector(".header-filters-container");
-        
-        if (panel && panel.classList.contains("open") && 
-            !container.contains(event.target)) {
-          panel.classList.remove("open");
-          toggle.setAttribute("aria-expanded", "false");
-        }
-      });
 
       // Select category from header filters
       function selectHeaderCategory(category) {
@@ -283,7 +272,21 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        initializeProducts();
+        // initializeProducts() is called from product_loader.js
+        
+        // Close filters when clicking outside
+        document.addEventListener("click", function(event) {
+          const panel = document.getElementById("headerFilters");
+          const toggle = document.querySelector(".filters-toggle");
+          const container = document.querySelector(".header-filters-container");
+          
+          if (panel && panel.classList.contains("open") && 
+              container && !container.contains(event.target)) {
+            panel.classList.remove("open");
+            if (toggle) toggle.setAttribute("aria-expanded", "false");
+          }
+        });
+        
         console.log("Page loaded, cart and filters available");
       });
     </script>

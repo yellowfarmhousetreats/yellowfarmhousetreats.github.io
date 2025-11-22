@@ -34,7 +34,7 @@ function addToCart(index) {
   }
 
   const item = menuItems[index];
-  let size, flavor, qty, glutenFree, sugarFree;
+  let size, flavor, qty, glutenFree, sugarFree, giftWrap;
 
   const modal = document.getElementById("productModal");
   const modalOpen = modal?.open;
@@ -45,15 +45,23 @@ function addToCart(index) {
     qty = Number.parseInt(document.getElementById("modal-qty").value) || 1;
     glutenFree = document.getElementById("modal-gf")?.checked || false;
     sugarFree = document.getElementById("modal-sf")?.checked || false;
+    giftWrap = document.getElementById("modal-giftwrap")?.checked || false;
   } else {
     size = document.getElementById(`size-${index}`).value;
     flavor = document.getElementById(`flavor-${index}`)?.value || "Standard";
     qty = Number.parseInt(document.getElementById(`qty-${index}`).value) || 1;
     glutenFree = document.getElementById(`gf-${index}`)?.checked || false;
     sugarFree = document.getElementById(`sf-${index}`)?.checked || false;
+    giftWrap = document.getElementById(`giftwrap-${index}`)?.checked || false;
   }
 
   let price = item.sizePrice[size.replaceAll(" ", "_")];
+  
+  // Add gift wrap price if selected
+  if (giftWrap && item.giftWrapPrice) {
+    price += item.giftWrapPrice;
+  }
+  
   let totalPrice = price * qty;
 
   const cartItem = {
@@ -64,6 +72,7 @@ function addToCart(index) {
     price: totalPrice,
     glutenFree: glutenFree,
     sugarFree: sugarFree,
+    giftWrap: giftWrap,
     canShip: item.canShip || false,
     weight: item.weight || 0,
     hasDeposit: item.hasDeposit || false,
@@ -126,6 +135,7 @@ function updateCart() {
 
   saveCart();
   checkShippingAvailability();
+  updateShippingAvailability();
   calculateTotals();
 
   // Handle deposit info for items requiring deposit
@@ -225,8 +235,42 @@ function handleFulfillmentChange() {
 
     document.getElementById("summaryShippingRow").style.display = "flex";
     depositInfo.style.display = "none";
+    
+    // Calculate shipping when switching to shipping
+    calculateShipping();
   }
   calculateTotals();
+}
+
+// Check if shipping is available based on cart contents
+function updateShippingAvailability() {
+  const shippingRadio = document.querySelector('input[name="fulfillment_method"][value="Shipping"]');
+  const shippingLabel = document.querySelector('label[for="fulfillmentShipping"]');
+  
+  if (!shippingRadio || !shippingLabel) return;
+  
+  // Check if all items in cart can be shipped
+  const allItemsCanShip = cart.every(item => item.canShip);
+  const hasItems = cart.length > 0;
+  
+  if (hasItems && allItemsCanShip) {
+    shippingRadio.disabled = false;
+    shippingLabel.style.opacity = "1";
+    shippingLabel.style.cursor = "pointer";
+  } else {
+    shippingRadio.disabled = true;
+    shippingLabel.style.opacity = "0.5";
+    shippingLabel.style.cursor = "not-allowed";
+    
+    // If shipping was selected but now disabled, switch to pickup
+    if (shippingRadio.checked) {
+      const pickupRadio = document.querySelector('input[name="fulfillment_method"][value="Pickup"]');
+      if (pickupRadio) {
+        pickupRadio.checked = true;
+        handleFulfillmentChange();
+      }
+    }
+  }
 }
 
 // ========== SHIPPING CALCULATION ==========
@@ -385,6 +429,7 @@ function buildOrderSummary() {
     if (item.flavor && item.flavor !== "Standard") summary += ` - ${item.flavor}`;
     if (item.glutenFree) summary += " [GF]";
     if (item.sugarFree) summary += " [SF]";
+    if (item.giftWrap) summary += " [Gift Wrapped]";
     summary += `: $${item.price.toFixed(2)}\n`;
   }
   summary += `\n`;

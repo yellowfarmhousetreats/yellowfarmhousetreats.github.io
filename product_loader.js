@@ -49,14 +49,37 @@ function setActiveTab(event) {
 
 function getCurrentCategory() {
   const activeBtn = document.querySelector(".filter-cat-btn.active");
-  return activeBtn ? activeBtn.dataset.filterCategory : "all";
+  return activeBtn && activeBtn.dataset ? activeBtn.dataset.filterCategory : "all";
 }
 
-function displayProducts(products) {
-  console.log("Displaying products:", products.length);
+function displayProducts(products, skipCategoryHeaders = false) {
+  console.log("Displaying products:", products ? products.length : 0);
   const grid = document.getElementById("productsGrid");
   console.log("Grid found:", !!grid);
+  if (!grid) {
+    console.error("Products grid not found");
+    return;
+  }
+  if (!products || products.length === 0) {
+    grid.innerHTML = '<div class="empty-items">No products found</div>';
+    return;
+  }
   grid.innerHTML = "";
+
+  if (skipCategoryHeaders) {
+    // Just display all products in a flat grid without category sections
+    const flatGrid = document.createElement("div");
+    flatGrid.className = "products-grid product-grid";
+    
+    for (let i = 0; i < products.length; i++) {
+      const card = createProductCard(products[i], i);
+      flatGrid.appendChild(card);
+    }
+    
+    grid.appendChild(flatGrid);
+    console.log("Products displayed (flat)");
+    return;
+  }
 
   // Group by category
   const productsByCategory = {};
@@ -234,29 +257,34 @@ function updatePrice(index) {
 function filterAndDisplay() {
   if (!menuItems || menuItems.length === 0) {
     console.log("No products loaded yet");
+    displayProducts([]);
     return;
   }
 
   let filtered = menuItems.slice();
-
-  // Category filter
-  const category = getCurrentCategory();
-  if (category !== "all") {
-    filtered = filtered.filter((item) => item.category === category);
-  }
+  let skipHeaders = false;
 
   // Dietary filters
   const gfFilter = document.getElementById("header-filter-gf")?.checked;
   const sfFilter = document.getElementById("header-filter-sf")?.checked;
+  
   if (gfFilter || sfFilter) {
+    // When dietary filters are active, show ALL matching items (ignore category)
     filtered = filtered.filter((item) => {
       if (gfFilter && item.canGlutenfree) return true;
       if (sfFilter && item.canSugarfree) return true;
       return false;
     });
+    skipHeaders = true; // Don't show category headers
+  } else {
+    // Only apply category filter when dietary filters are OFF
+    const category = getCurrentCategory();
+    if (category !== "all") {
+      filtered = filtered.filter((item) => item.category === category);
+    }
   }
 
-  displayProducts(filtered);
+  displayProducts(filtered, skipHeaders);
 }
 
 // ========== DIETARY FILTERING ==========
@@ -402,8 +430,8 @@ function createModalContent(item, index) {
   html += '<input type="number" id="modal-qty" class="quantity-input" min="1" value="1">';
   html += "</div>";
 
-  // Dietary options
-  if (item.canGlutenfree || item.canSugarfree) {
+  // Dietary options and Gift Wrap
+  if (item.canGlutenfree || item.canSugarfree || item.giftWrapPrice) {
     html += '<div class="form-group dietary-options">';
     html += "<label>Special Options:</label>";
     if (item.canGlutenfree) {
@@ -413,6 +441,10 @@ function createModalContent(item, index) {
     if (item.canSugarfree) {
       html +=
         '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+    }
+    if (item.giftWrapPrice) {
+      html +=
+        `<label class="checkbox-label"><input type="checkbox" id="modal-giftwrap" class="dietary-checkbox" onchange="updatePriceInModal()"> Gift Wrap (+$${item.giftWrapPrice.toFixed(2)})</label>`;
     }
     html += "</div>";
   }
@@ -428,11 +460,18 @@ function createModalContent(item, index) {
 function updatePriceInModal() {
   const sizeSelect = document.getElementById("modal-size");
   const priceDisplay = document.querySelector("#modalContent .product-price");
+  const giftWrapCheckbox = document.getElementById("modal-giftwrap");
   if (!sizeSelect || !priceDisplay) return;
 
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  const price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  
+  // Add gift wrap if checked
+  if (giftWrapCheckbox && giftWrapCheckbox.checked && currentItem.giftWrapPrice) {
+    price += currentItem.giftWrapPrice;
+  }
+  
   priceDisplay.textContent = `$${price.toFixed(2)}`;
 }
 
@@ -445,6 +484,7 @@ globalThis.openProductModal = openProductModal;
 globalThis.closeProductModal = closeProductModal;
 globalThis.updatePriceInModal = updatePriceInModal;
 globalThis.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
+globalThis.filterAndDisplay = filterAndDisplay;
 
 // ========== INITIALIZE ON PAGE LOAD ==========
 document.addEventListener("DOMContentLoaded", initializeProducts);
