@@ -4,9 +4,15 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "scripts": {
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html,json}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,html,json}\"",
+    "build:js": "npx terser product_loader.js -o product_loader.min.js && npx terser cart.js -o cart.min.js",
+    "build:css": "npx csso styles.css --output styles.min.css",
+    "build": "npm run build:js && npm run build:css",
+    "postbuild": "node scripts/cacheBust.js && node scripts/update-sitemap.js"
   },
   "devDependencies": {
-    "prettier": "^3.2.5"
+    "prettier": "^3.2.5",
+    "terser": "^5.27.0",
+    "csso": "^5.0.5"
   }
 }
