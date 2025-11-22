@@ -17,21 +17,24 @@ async function loadProducts() {
 
 // ========== INITIALIZE PRODUCTS ==========
 async function initializeProducts() {
+  console.log("Initializing products...");
   const spinner = document.getElementById("loadingSpinner");
   spinner.classList.remove("hidden");
 
-  await loadProducts();
+  const products = await loadProducts();
+  console.log("Loaded products:", products.length);
 
   spinner.classList.add("hidden");
 
   generateCategoryTabs();
-  displayProducts(menuItems);
+  displayProducts(products);
 
   // Add event listeners
   document.getElementById("productSearch").addEventListener("input", filterAndDisplay);
   document.getElementById("productSort").addEventListener("change", filterAndDisplay);
   document.getElementById("filter-gf").addEventListener("change", filterAndDisplay);
   document.getElementById("filter-sf").addEventListener("change", filterAndDisplay);
+  console.log("Products initialized");
 }
 
 function generateCategoryTabs() {
