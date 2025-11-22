@@ -232,6 +232,11 @@ function updatePrice(index) {
 }
 
 function filterAndDisplay() {
+  if (!menuItems || menuItems.length === 0) {
+    console.log("No products loaded yet");
+    return;
+  }
+
   let filtered = menuItems.slice();
 
   // Category filter
