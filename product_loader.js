@@ -378,7 +378,7 @@ function updatePrice(index) {
   const sizeSelect = card.querySelector(".size-select");
   const priceDisplay = card.querySelector(".product-price");
 
-  const selectedSize = sizeSelect.value;
+  const selectedSize = sizeSelect.value.replaceAll(' ', '_');
   const price = item.sizePrice[selectedSize] || item.basePrice;
   priceDisplay.textContent = `from $${price.toFixed(2)}`;
 }

@@ -26,7 +26,7 @@
   {
     "name": "Mini Cakes (Cream Cheese Frosting)",
     "sizes": ["Single", "Half Dozen", "Dozen"],
-    "sizePrice": { "Single": 6, "Half Dozen": 30, "Dozen": 50 },
+    "sizePrice": { "Single": 6, "Half_Dozen": 30, "Dozen": 50 },
     "flavors": ["Standard"],
     "canGlutenfree": false,
     "canSugarfree": false,
@@ -38,7 +38,7 @@
   {
     "name": "Cinnamon Rolls",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "sizePrice": { "Half_Dozen": 15, "Dozen": 28 },
     "flavors": ["Standard"],
     "canGlutenfree": false,
     "canSugarfree": false,
@@ -148,7 +148,7 @@
   {
     "name": "Muffins",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "sizePrice": { "Half_Dozen": 15, "Dozen": 28 },
     "flavors": ["Pumpkin", "Oatmeal"],
     "canGlutenfree": false,
     "canSugarfree": false,
@@ -160,7 +160,7 @@
   {
     "name": "Chocolate Lava Cupcakes",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "sizePrice": { "Half_Dozen": 15, "Dozen": 28 },
     "flavors": ["Standard"],
     "canGlutenfree": true,
     "canSugarfree": true,
@@ -172,7 +172,7 @@
   {
     "name": "Ding Dongs Cupcakes",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "sizePrice": { "Half_Dozen": 15, "Dozen": 28 },
     "flavors": ["Standard"],
     "canGlutenfree": false,
     "canSugarfree": false,
@@ -184,7 +184,7 @@
   {
     "name": "Holiday Specials Cupcakes",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "sizePrice": { "Half_Dozen": 15, "Dozen": 28 },
     "flavors": ["Standard"],
     "canGlutenfree": false,
     "canSugarfree": false,
@@ -196,7 +196,7 @@
   {
     "name": "Peanut Butter Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 12, "Dozen": 20 },
+    "sizePrice": { "Half_Dozen": 12, "Dozen": 20 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -208,7 +208,7 @@
   {
     "name": "Chocolate Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 12, "Dozen": 20 },
+    "sizePrice": { "Half_Dozen": 12, "Dozen": 20 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -220,7 +220,7 @@
   {
     "name": "Chocolate Chip Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 12, "Dozen": 20 },
+    "sizePrice": { "Half_Dozen": 12, "Dozen": 20 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -232,7 +232,7 @@
   {
     "name": "Oatmeal Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 12, "Dozen": 20 },
+    "sizePrice": { "Half_Dozen": 12, "Dozen": 20 },
     "canGlutenfree": true,
     "canSugarfree": false,
     "category": "Cookie",
@@ -244,7 +244,7 @@
   {
     "name": "Snickerdoodle Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 12, "Dozen": 20 },
+    "sizePrice": { "Half_Dozen": 12, "Dozen": 20 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -256,7 +256,7 @@
   {
     "name": "Biscoff Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -268,7 +268,7 @@
   {
     "name": "Chocolate Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -280,7 +280,7 @@
   {
     "name": "Oreo Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -292,7 +292,7 @@
   {
     "name": "Twix Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -304,7 +304,7 @@
   {
     "name": "Red Velvet Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -316,7 +316,7 @@
   {
     "name": "Chocolate Chip Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -328,7 +328,7 @@
   {
     "name": "Espresso Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -340,7 +340,7 @@
   {
     "name": "Cinnamon Roll Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -352,7 +352,7 @@
   {
     "name": "Pumpkin Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -364,7 +364,7 @@
   {
     "name": "Holiday Special Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "sizePrice": { "Half_Dozen": 20, "Dozen": 32 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -376,7 +376,7 @@
   {
     "name": "S'more Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 25, "Dozen": 45 },
+    "sizePrice": { "Half_Dozen": 25, "Dozen": 45 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -388,7 +388,7 @@
   {
     "name": "Monster Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 25, "Dozen": 45 },
+    "sizePrice": { "Half_Dozen": 25, "Dozen": 45 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -400,7 +400,7 @@
   {
     "name": "Peanut Butter Cup Stuffed Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 25, "Dozen": 45 },
+    "sizePrice": { "Half_Dozen": 25, "Dozen": 45 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -412,7 +412,7 @@
   {
     "name": "Caramel Apple Pie Cookies",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 25, "Dozen": 45 },
+    "sizePrice": { "Half_Dozen": 25, "Dozen": 45 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Cookie",
@@ -424,7 +424,7 @@
   {
     "name": "Chocolate Dipped Pretzel Rods",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 10, "Dozen": 18 },
+    "sizePrice": { "Half_Dozen": 10, "Dozen": 18 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Candy",
@@ -435,7 +435,7 @@
   {
     "name": "Vanilla Dipped Pretzel Rods",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 10, "Dozen": 18 },
+    "sizePrice": { "Half_Dozen": 10, "Dozen": 18 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Candy",
@@ -446,7 +446,7 @@
   {
     "name": "Chocolate Dipped Pretzel Rods with Candy",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 10, "Dozen": 18 },
+    "sizePrice": { "Half_Dozen": 10, "Dozen": 18 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Candy",
@@ -457,7 +457,7 @@
   {
     "name": "Vanilla Dipped Pretzel Rods with Candy",
     "sizes": ["Half Dozen", "Dozen"],
-    "sizePrice": { "Half Dozen": 10, "Dozen": 18 },
+    "sizePrice": { "Half_Dozen": 10, "Dozen": 18 },
     "canGlutenfree": false,
     "canSugarfree": false,
     "category": "Candy",
@@ -480,7 +480,7 @@
   {
     "name": "Pecan English Toffee",
     "sizes": ["1 Pound (Regular Box)", "1 Pound (Mason Jar - Gift)"],
-    "sizePrice": { "1 Pound (Regular Box)": 30, "1 Pound (Mason Jar - Gift)": 35 },
+    "sizePrice": { "1_Pound_(Regular_Box)": 30, "1_Pound_(Mason_Jar_-_Gift)": 35 },
     "flavors": ["Standard"],
     "canGlutenfree": false,
     "canSugarfree": false,
