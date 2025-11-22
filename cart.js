@@ -53,6 +53,11 @@ function updateCart() {
         </div>
       </div>
     `).join('');
+
+  // Update navigation cart badge
+  if (typeof updateCartBadge === 'function') {
+    updateCartBadge();
+  }
   }
 
   checkShippingAvailability();

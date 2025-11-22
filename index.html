@@ -14,11 +14,21 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🌾 Yellow Farmhouse Treats</h1>
-            <p>Fresh Baked Goods Order Form</p>
+    <!-- Sticky Navigation Header -->
+    <header class="sticky-header">
+      <div class="nav-container">
+        <a href="tel:+18057094686" class="phone-btn" aria-label="Call us">
+          📞 <span class="phone-text">Call</span>
+        </a>
+        <a href="#top" class="brand-name" onclick="scrollToTop(event)">
+          🌾 Yellow Farmhouse Treats
+        </a>
+        <div class="cart-icon" onclick="scrollToCart()" role="button" aria-label="View cart">
+          🛒 <span class="cart-badge" id="cartBadge">0</span>
         </div>
-
+      </div>
+      <div class="header-subtitle">Fresh Baked Goods Order Form</div>
+    </header>
         <!-- ========== INSTAGRAM FEED - SHOWCASED UNDER HEADER ========== -->
         <div class="instagram-showcase">
             <div class="instagram-showcase-title">📸 Check Out Our Latest Creations!</div>
@@ -27,7 +37,7 @@
                 <iframe src="https://snapwidget.com/embed/1112051" class="snapwidget-widget" title="Posts from Instagram"></iframe>
             </div>
             <div class="instagram-follow">
-                <p>Follow <a href="https://instagram.com/yellowfarmhousestand" target="_blank" rel="noopener">@yellowfarmhousestand</a> for daily updates and behind-the-scenes content! 🌻</p>
+                <p>Follow <a href="https://instagram.com/yellow17stand" target="_blank" rel="noopener">@yellowfarmhousestand</a> for daily updates and behind-the-scenes content! 🌻</p>
             </div>
         </div>
 
@@ -310,5 +320,37 @@
 
     <script src="product_loader.js"></script>
     <script src="cart.js"></script>
+
+    <!-- Navigation JavaScript -->
+    <script>
+      // Scroll to top smoothly
+      function scrollToTop(event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Scroll to cart section
+      function scrollToCart() {
+        const cartSection = document.getElementById('cartItems');
+        if (cartSection) {
+          cartSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // Update cart badge count (call this from cart.js)
+      function updateCartBadge() {
+        const badge = document.getElementById('cartBadge');
+        const cart = window.cart || [];
+        if (badge) {
+          badge.textContent = cart.length;
+          badge.style.display = cart.length > 0 ? 'flex' : 'none';
+        }
+      }
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        updateCartBadge();
+      });
+    </script>
 </body>
 </html>
