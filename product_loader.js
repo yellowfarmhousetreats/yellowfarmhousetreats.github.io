@@ -25,14 +25,77 @@ async function initializeProducts() {
   console.log("Loaded products:", products.length);
 
   spinner.style.display = "none";
+  generateCategoryTabs();
   displayProducts(products);
 
-  // Add event listeners - header controls will call filterAndDisplay
+  // Add event listeners
+  document.getElementById("productSearch").addEventListener("input", filterAndDisplay);
+  document.getElementById("productSort").addEventListener("change", filterAndDisplay);
+  document.getElementById("filter-gf").addEventListener("change", filterAndDisplay);
+  document.getElementById("filter-sf").addEventListener("change", filterAndDisplay);
   console.log("Products initialized");
 }
 
 function generateCategoryTabs() {
-  // Category tabs removed - using header dropdown only
+  const tabContainer = document.getElementById("categoryTabs");
+  tabContainer.innerHTML = "";
+
+  // Create select for mobile
+  const select = document.createElement("select");
+  select.id = "categorySelect";
+  select.className = "category-select";
+
+  // All option
+  const allOption = document.createElement("option");
+  allOption.value = "all";
+  allOption.textContent = "All";
+  select.appendChild(allOption);
+
+  // Get unique categories in desired order
+  const categoryOrder = ["Cookie", "Brownie", "Cake", "Pastry", "Pie", "Bread", "Muffin", "Candy"];
+  const allCategories = new Set(menuItems.map((item) => item.category));
+  const categories = categoryOrder.filter((cat) => allCategories.has(cat));
+
+  for (const cat of categories) {
+    const option = document.createElement("option");
+    option.value = cat;
+    option.textContent = cat;
+    select.appendChild(option);
+  }
+
+  tabContainer.appendChild(select);
+
+  // All tab
+  const allTab = document.createElement("button");
+  allTab.className = "tab-button active";
+  allTab.textContent = "All";
+  allTab.dataset.category = "all";
+  allTab.addEventListener("click", setActiveTab);
+  tabContainer.appendChild(allTab);
+
+  // Tabs for categories
+  for (const cat of categories) {
+    const tab = document.createElement("button");
+    tab.className = "tab-button";
+    tab.textContent = cat;
+    tab.dataset.category = cat;
+    tab.addEventListener("click", setActiveTab);
+    tabContainer.appendChild(tab);
+  }
+
+  // Add event listener to select
+  select.addEventListener("change", () => {
+    // Set active tab to match select
+    const selectedCategory = select.value;
+    for (const btn of document.querySelectorAll(".tab-button")) {
+      if (btn.dataset.category === selectedCategory) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    }
+    filterAndDisplay();
+  });
 }
 
 function setActiveTab(event) {
@@ -48,38 +111,15 @@ function setActiveTab(event) {
 }
 
 function getCurrentCategory() {
-  const activeBtn = document.querySelector(".filter-cat-btn.active");
-  return activeBtn && activeBtn.dataset ? activeBtn.dataset.filterCategory : "all";
+  const activeTab = document.querySelector(".tab-button.active");
+  return activeTab ? activeTab.dataset.category : "all";
 }
 
-function displayProducts(products, skipCategoryHeaders = false) {
-  console.log("Displaying products:", products ? products.length : 0);
+function displayProducts(products) {
+  console.log("Displaying products:", products.length);
   const grid = document.getElementById("productsGrid");
   console.log("Grid found:", !!grid);
-  if (!grid) {
-    console.error("Products grid not found");
-    return;
-  }
-  if (!products || products.length === 0) {
-    grid.innerHTML = '<div class="empty-items">No products found</div>';
-    return;
-  }
   grid.innerHTML = "";
-
-  if (skipCategoryHeaders) {
-    // Just display all products in a flat grid without category sections
-    const flatGrid = document.createElement("div");
-    flatGrid.className = "products-grid product-grid";
-    
-    for (let i = 0; i < products.length; i++) {
-      const card = createProductCard(products[i], i);
-      flatGrid.appendChild(card);
-    }
-    
-    grid.appendChild(flatGrid);
-    console.log("Products displayed (flat)");
-    return;
-  }
 
   // Group by category
   const productsByCategory = {};
@@ -216,15 +256,13 @@ function createProductCard(item, index) {
   if (item.canGlutenfree) {
     const gfBadge = document.createElement("span");
     gfBadge.className = "badge gluten-free";
-    gfBadge.textContent = "🚫🌾";
-    gfBadge.title = "Gluten-Free option available";
+    gfBadge.textContent = "🌾 CAN BE GF";
     badges.appendChild(gfBadge);
   }
   if (item.canSugarfree) {
     const sfBadge = document.createElement("span");
     sfBadge.className = "badge sugar-free";
-    sfBadge.textContent = "🚫🧊";
-    sfBadge.title = "Sugar-Free option available";
+    sfBadge.textContent = "🍬 CAN BE SF";
     badges.appendChild(sfBadge);
   }
   info.appendChild(badges);
@@ -255,36 +293,43 @@ function updatePrice(index) {
 }
 
 function filterAndDisplay() {
-  if (!menuItems || menuItems.length === 0) {
-    console.log("No products loaded yet");
-    displayProducts([]);
-    return;
+  let filtered = menuItems.slice(); // copy
+
+  // Category filter
+  const category = getCurrentCategory();
+  if (category !== "all") {
+    filtered = filtered.filter((item) => item.category === category);
   }
 
-  let filtered = menuItems.slice();
-  let skipHeaders = false;
+  // Search filter
+  const searchQuery = document.getElementById("productSearch").value.toLowerCase();
+  if (searchQuery) {
+    filtered = filtered.filter((item) => item.name.toLowerCase().includes(searchQuery));
+  }
 
-  // Dietary filters
-  const gfFilter = document.getElementById("header-filter-gf")?.checked;
-  const sfFilter = document.getElementById("header-filter-sf")?.checked;
-  
+  // Dietary filters (use checkbox states directly)
+  const gfFilter = document.getElementById("filter-gf")?.checked;
+  const sfFilter = document.getElementById("filter-sf")?.checked;
   if (gfFilter || sfFilter) {
-    // When dietary filters are active, show ALL matching items (ignore category)
     filtered = filtered.filter((item) => {
       if (gfFilter && item.canGlutenfree) return true;
       if (sfFilter && item.canSugarfree) return true;
-      return false;
+      return false; // Only include if at least one filter matches
     });
-    skipHeaders = true; // Don't show category headers
-  } else {
-    // Only apply category filter when dietary filters are OFF
-    const category = getCurrentCategory();
-    if (category !== "all") {
-      filtered = filtered.filter((item) => item.category === category);
-    }
   }
 
-  displayProducts(filtered, skipHeaders);
+  // Sort
+  const sortBy = document.getElementById("productSort").value;
+  filtered.sort((a, b) => {
+    if (sortBy === "name") return a.name.localeCompare(b.name);
+    const priceA = getDefaultPrice(a);
+    const priceB = getDefaultPrice(b);
+    if (sortBy === "price-low") return priceA - priceB;
+    if (sortBy === "price-high") return priceB - priceA;
+    return 0;
+  });
+
+  displayProducts(filtered);
 }
 
 // ========== DIETARY FILTERING ==========
@@ -430,8 +475,8 @@ function createModalContent(item, index) {
   html += '<input type="number" id="modal-qty" class="quantity-input" min="1" value="1">';
   html += "</div>";
 
-  // Dietary options and Gift Wrap
-  if (item.canGlutenfree || item.canSugarfree || item.giftWrapPrice) {
+  // Dietary options
+  if (item.canGlutenfree || item.canSugarfree) {
     html += '<div class="form-group dietary-options">';
     html += "<label>Special Options:</label>";
     if (item.canGlutenfree) {
@@ -441,10 +486,6 @@ function createModalContent(item, index) {
     if (item.canSugarfree) {
       html +=
         '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
-    }
-    if (item.giftWrapPrice) {
-      html +=
-        `<label class="checkbox-label"><input type="checkbox" id="modal-giftwrap" class="dietary-checkbox" onchange="updatePriceInModal()"> Gift Wrap (+$${item.giftWrapPrice.toFixed(2)})</label>`;
     }
     html += "</div>";
   }
@@ -460,18 +501,11 @@ function createModalContent(item, index) {
 function updatePriceInModal() {
   const sizeSelect = document.getElementById("modal-size");
   const priceDisplay = document.querySelector("#modalContent .product-price");
-  const giftWrapCheckbox = document.getElementById("modal-giftwrap");
   if (!sizeSelect || !priceDisplay) return;
 
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
-  
-  // Add gift wrap if checked
-  if (giftWrapCheckbox && giftWrapCheckbox.checked && currentItem.giftWrapPrice) {
-    price += currentItem.giftWrapPrice;
-  }
-  
+  const price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
   priceDisplay.textContent = `$${price.toFixed(2)}`;
 }
 
@@ -484,7 +518,6 @@ globalThis.openProductModal = openProductModal;
 globalThis.closeProductModal = closeProductModal;
 globalThis.updatePriceInModal = updatePriceInModal;
 globalThis.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
-globalThis.filterAndDisplay = filterAndDisplay;
 
 // ========== INITIALIZE ON PAGE LOAD ==========
 document.addEventListener("DOMContentLoaded", initializeProducts);
