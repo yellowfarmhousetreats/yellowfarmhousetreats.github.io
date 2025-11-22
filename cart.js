@@ -400,6 +400,12 @@ function proceedToCart() {
 }
 
 // ========== INITIALIZE ==========
+// Expose cart functions to global scope for inline event handlers
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.clearCart = clearCart;
+window.proceedToCart = proceedToCart;
+
 document.addEventListener('DOMContentLoaded', function() {
   loadCart();
   checkShippingAvailability();
