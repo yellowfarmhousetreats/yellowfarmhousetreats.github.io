@@ -1,0 +1,120 @@
+[
+  {
+    "name": "Milk Bread",
+    "emoji": "🍞",
+    "sizes": ["Loaf"],
+    "basePrice": 12,
+    "flavors": ["Standard"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Pumpkin Bread",
+    "emoji": "🎃",
+    "sizes": ["Loaf"],
+    "basePrice": 12,
+    "flavors": ["Standard"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Mini Cakes (Cream Cheese Frosting)",
+    "emoji": "🧁",
+    "sizes": ["Single", "Half Dozen", "Dozen"],
+    "sizePrice": { "Single": 6, "Half Dozen": 30, "Dozen": 50 },
+    "flavors": ["Standard"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Cinnamon Rolls",
+    "emoji": "🌀",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "flavors": ["Standard"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Fruit Pies/Crisps",
+    "emoji": "🥧",
+    "sizes": ["Per Pie/Crisp"],
+    "basePrice": 25,
+    "flavors": ["Apple", "Pumpkin", "Peach", "Lemon Meringue", "Apple Crisp", "Pumpkin Crisp", "Peach Cobbler"],
+    "flavorNotes": {
+      "Apple Crisp": { "glutenFree": true, "sugarFree": true },
+      "Pumpkin Crisp": { "glutenFree": true, "sugarFree": true }
+    },
+    "flavorPrices": { "Peach Cobbler": 5 },
+    "hasDeposit": true,
+    "depositAmount": 5,
+    "canShip": false
+  },
+  {
+    "name": "Muffins",
+    "emoji": "🧁",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "flavors": ["Pumpkin", "Oatmeal"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Cupcakes",
+    "emoji": "🧁",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 15, "Dozen": 28 },
+    "flavors": ["Chocolate Lava", "Ding Dongs", "Holiday Specials"],
+    "flavorNotes": {
+      "Chocolate Lava": { "glutenFree": true, "sugarFree": true }
+    }
+  },
+  {
+    "name": "Cookies~Simple",
+    "emoji": "🍪",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 12, "Dozen": 20 },
+    "flavors": ["Peanut Butter", "Chocolate", "Chocolate Chip", "Oatmeal", "Snickerdoodle"],
+    "flavorNotes": {
+      "Oatmeal": { "glutenFree": true, "sugarFree": false }
+    }
+  },
+  {
+    "name": "Cookies~Fancy",
+    "emoji": "🍪",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 20, "Dozen": 32 },
+    "flavors": ["Biscoff", "Chocolate", "Oreo", "Twix", "Red Velvet", "Chocolate Chip", "Espresso", "Cinnamon Roll", "Pumpkin", "Holiday Specials"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Cookies~Complex",
+    "emoji": "🍪",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 25, "Dozen": 45 },
+    "flavors": ["S'more", "Monster", "Peanut Butter Cup Stuffed", "Caramel Apple Pie"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Dipped Pretzel Rods",
+    "emoji": "🥨",
+    "sizes": ["Half Dozen", "Dozen"],
+    "sizePrice": { "Half Dozen": 10, "Dozen": 18 },
+    "flavors": ["Chocolate", "Vanilla", "Candy"],
+    "flavorNotes": {}
+  },
+  {
+    "name": "Brownies - Large",
+    "emoji": "🍫",
+    "sizes": ["4-Pack"],
+    "basePrice": 18,
+    "flavors": ["Standard"],
+    "flavorNotes": {
+      "Standard": { "glutenFree": true, "sugarFree": false }
+    }
+  },
+  {
+    "name": "Pecan English Toffee",
+    "emoji": "🎁",
+    "sizes": ["1 Pound (Regular Box)", "1 Pound (Mason Jar - Gift)"],
+    "sizePrice": { "1 Pound (Regular Box)": 30, "1 Pound (Mason Jar - Gift)": 35 },
+    "flavors": ["Standard"],
+    "flavorNotes": {},
+    "canShip": true
+  }
+]
