@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1763842406" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.126494" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -226,8 +226,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1763841609"></script>
-    <script src="cart.min.js?v=1763841609"></script>
+    <script src="product_loader.min.js?v=1.0.0.126494"></script>
+    <script src="cart.min.js?v=1.0.0.126494"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -245,9 +245,7 @@
         }
       }
 
-      // Update cart badge count (call this from cart.js)
-      function updateCartBadge() {
-        const badge = document.getElementById("cartBadge");
+      // Update cart badge count (call this from cart.min.js?v=1.0.0.126494"cartBadge");
         const cart = globalThis.cart || [];
         if (badge) {
           const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
