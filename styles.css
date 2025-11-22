@@ -61,7 +61,7 @@
 
         /* ==================== STICKY NAVIGATION HEADER ==================== */
 .sticky-header {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
   background: linear-gradient(135deg, ▓#d4af37 0%, ▓#b8722 100%);
