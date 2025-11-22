@@ -20,6 +20,12 @@ function loadCart() {
 }
 
 function addToCart(index) {
+  // Ensure menuItems exists (loaded from product_loader.js)
+  if (typeof menuItems === 'undefined' || !menuItems || !menuItems[index]) {
+    showError('Product information not available. Please refresh the page.');
+    return;
+  }
+  
   const item = menuItems[index];
   let size, flavor, qty, glutenFree, sugarFree;
 
@@ -89,11 +95,11 @@ function updateCart() {
         </div>
       </div>
     `).join('');
+  }
 
   // Update navigation cart badge
   if (typeof updateCartBadge === 'function') {
     updateCartBadge();
-  }
   }
 
   checkShippingAvailability();

@@ -898,27 +898,37 @@
         }
 
         .alert-success {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
             background: #d4edda;
             color: #155724;
             border-left: 4px solid #28a745;
             padding: 15px 20px;
-            margin: 20px auto;
             max-width: 600px;
             border-radius: 4px;
             display: flex;
             align-items: center;
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .alert-error {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
             background: #f8d7da;
             color: #721c24;
             border-left: 4px solid #dc3545;
             padding: 15px 20px;
-            margin: 20px auto;
             max-width: 600px;
             border-radius: 4px;
             display: flex;
             align-items: center;
+            z-index: 1001;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .proceed-container {
