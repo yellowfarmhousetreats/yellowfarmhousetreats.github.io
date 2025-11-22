@@ -70,7 +70,9 @@ function setActiveTab(event) {
 }
 
 function displayProducts(products) {
+  console.log("Displaying products:", products.length);
   const grid = document.getElementById("productsGrid");
+  console.log("Grid found:", !!grid);
   grid.innerHTML = "";
 
   // Group by category
@@ -88,6 +90,7 @@ function displayProducts(products) {
     grid.appendChild(sectionResult.node);
     globalIndex = sectionResult.nextIndex;
   }
+  console.log("Products displayed");
 }
 
 function createCategorySection(category, items, startIndex) {
