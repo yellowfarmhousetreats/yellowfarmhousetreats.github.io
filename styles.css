@@ -322,13 +322,13 @@
         }
 
         .btn-add-item {
-            background: #27ae60;
-            color: white;
+            background: #1e8449;
+            color: #ffffff;
             width: 100%;
         }
 
         .btn-add-item:hover {
-            background: #229954;
+            background: #176a37;
         }
 
         /* DIETARY OPTIONS */
@@ -440,7 +440,7 @@
 
         .btn-remove {
             background: #e74c3c;
-            color: white;
+            color: #000;
         }
 
         .btn-remove:hover {
@@ -732,7 +732,7 @@
 
         .btn-reset {
             background: #d4c5b9;
-            color: #8b7220;
+            color: #4a3c2a;
             padding: 14px 40px;
             font-size: 1.05em;
         }
