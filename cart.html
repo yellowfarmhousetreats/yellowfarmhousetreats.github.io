@@ -390,7 +390,9 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // Update cart badge count (call this from cart.min.js?v=1.0.0.279395"cartBadge");
+      // Update cart badge count (call this from cart.min.js)
+      function updateCartBadge() {
+        const badge = document.getElementById("cartBadge");
         const cart = globalThis.cart || [];
         if (badge) {
           const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
