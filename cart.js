@@ -5,7 +5,7 @@ function addToCart(index) {
   const item = menuItems[index];
   const size = document.getElementById(`size-${index}`).value;
   const flavor = document.getElementById(`flavor-${index}`).value;
-  const qty = parseInt(document.getElementById(`qty-${index}`).value) || 1;
+  const qty = Number.parseInt(document.getElementById(`qty-${index}`).value) || 1;
   const glutenFree = document.getElementById(`gluten-${index}`)?.checked || false;
   const sugarFree = document.getElementById(`sugar-${index}`)?.checked || false;
 
@@ -44,7 +44,7 @@ function updateCart() {
         <div class="order-item-details">
           <div>
             <div class="order-item-name">${item.name}</div>
-            <div class="order-item-specs">${item.quantity}x - ${item.size}${item.flavor !== 'Standard' ? ` - ${item.flavor}` : ''}${item.glutenFree ? ' [GF]' : ''}${item.sugarFree ? ' [SF]' : ''}</div>
+            <div class="order-item-specs">${item.quantity}x - ${item.size}${item.flavor === 'Standard' ? '' : ` - ${item.flavor}`}${item.glutenFree ? ' [GF]' : ''}${item.sugarFree ? ' [SF]' : ''}</div>
           </div>
           <div class="order-item-price">$${item.price.toFixed(2)}</div>
         </div>
@@ -138,7 +138,9 @@ function handleFulfillmentChange() {
 
     pickupDateInput.required = true;
     pickupTimeInput.required = true;
-    shippingInputs.forEach(input => input.required = false);
+    for (const input of shippingInputs) {
+      input.required = false;
+    }
 
     document.getElementById('summaryShippingRow').style.display = 'none';
     depositInfo.style.display = 'block';
@@ -150,7 +152,9 @@ function handleFulfillmentChange() {
 
     pickupDateInput.required = false;
     pickupTimeInput.required = false;
-    shippingInputs.forEach(input => input.required = true);
+    for (const input of shippingInputs) {
+      input.required = true;
+    }
 
     document.getElementById('summaryShippingRow').style.display = 'flex';
     depositInfo.style.display = 'none';
@@ -164,7 +168,7 @@ function calculateShipping() {
   let shippingCost = 0;
 
   if (zipCode) {
-    const zip = parseInt(zipCode);
+    const zip = Number.parseInt(zipCode);
     if (zip >= 83600 && zip <= 83899) {
       shippingCost = 10;
     } else if (zip >= 97000 && zip <= 97999) {
@@ -190,7 +194,7 @@ function calculateTotals() {
   const fulfillment = document.querySelector('input[name="fulfillment_method"]:checked').value;
   if (fulfillment === 'Shipping') {
     const shippingCostText = document.getElementById('shippingCost').textContent;
-    shippingCost = parseFloat(shippingCostText.replace('$', '')) || 0;
+    shippingCost = Number.parseFloat(shippingCostText.replace('$', '')) || 0;
   }
 
   const total = subtotal + shippingCost;
@@ -210,7 +214,7 @@ function calculateTotals() {
   document.getElementById('balanceDisplayAmount').textContent = `$${balance.toFixed(2)}`;
 
   const orderDetails = cart.map(item => 
-    `${item.quantity}x ${item.name} - ${item.size}${item.flavor !== 'Standard' ? ` - ${item.flavor}` : ''}${item.glutenFree ? ' [GF]' : ''}${item.sugarFree ? ' [SF]' : ''}: $${item.price.toFixed(2)}`
+    `${item.quantity}x ${item.name} - ${item.size}${item.flavor === 'Standard' ? '' : ' - ' + item.flavor}${item.glutenFree ? ' [GF]' : ''}${item.sugarFree ? ' [SF]' : ''}: $${item.price.toFixed(2)}`
   ).join('\n');
   document.getElementById('orderSummary').value = orderDetails + `\n\nTotal: $${total.toFixed(2)}\nDeposit Due: $${deposit.toFixed(2)}\nBalance Due at Pickup: $${balance.toFixed(2)}`;
 }
@@ -272,13 +276,13 @@ function buildOrderSummary() {
   summary += `\n`;
 
   summary += `=== ORDER DETAILS ===\n`;
-  cart.forEach(item => {
+  for (const item of cart) {
     summary += `${item.quantity}x ${item.name} - ${item.size}`;
     if (item.flavor && item.flavor !== 'Standard') summary += ` - ${item.flavor}`;
     if (item.glutenFree) summary += ' [GF]';
     if (item.sugarFree) summary += ' [SF]';
     summary += `: $${item.price.toFixed(2)}\n`;
-  });
+  }
   summary += `\n`;
 
   summary += `=== FULFILLMENT ===\n`;
@@ -304,7 +308,7 @@ function buildOrderSummary() {
   let shippingCost = 0;
   if (fulfillment === 'Shipping') {
     const shippingCostText = document.getElementById('shippingCost').textContent;
-    shippingCost = parseFloat(shippingCostText.replace('$', '')) || 0;
+    shippingCost = Number.parseFloat(shippingCostText.replace('$', '')) || 0;
   }
   const total = subtotal + shippingCost;
   const baseDeposit = total * 0.5;

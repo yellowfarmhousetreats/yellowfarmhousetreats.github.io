@@ -26,16 +26,16 @@ async function initializeProducts() {
 
   // Group products by category
   const productsByCategory = {};
-  menuItems.forEach(item => {
+  for (const item of menuItems) {
     if (!productsByCategory[item.category]) {
       productsByCategory[item.category] = [];
     }
     productsByCategory[item.category].push(item);
-  });
+  }
 
   let globalIndex = 0;
 
-  Object.keys(productsByCategory).forEach(category => {
+  for (const category of Object.keys(productsByCategory)) {
     // Create category section
     const section = document.createElement("div");
     section.className = "category-section";
@@ -48,7 +48,7 @@ async function initializeProducts() {
     const categoryGrid = document.createElement("div");
     categoryGrid.className = "products-grid";
 
-    productsByCategory[category].forEach(item => {
+    for (const item of productsByCategory[category]) {
       const defaultPrice = item.basePrice || item.sizePrice[item.sizes[0]];
 
       const card = document.createElement("div");
@@ -114,11 +114,11 @@ async function initializeProducts() {
       categoryGrid.appendChild(card);
       updateDietaryOptions(globalIndex);
       globalIndex++;
-    });
+    }
 
     section.appendChild(categoryGrid);
     grid.appendChild(section);
-  });
+  }
 
   // Removed dietary filtering as dietary tags are no longer in JSON
 }
