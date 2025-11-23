@@ -147,28 +147,17 @@ function clearCart() {
 }
 
 // ========== SHIPPING AVAILABILITY ==========
-// ========== SHIPPING AVAILABILITY ==========
 function checkShippingAvailability() {
-  const shippingRadio = document.getElementById("fulfillmentShip");
-  const fulfillmentNote = document.getElementById("fulfillmentNote");
-  
-  if (!shippingRadio) return;
+  const shippingNotice = document.getElementById("shippingNotice");
+  if (!shippingNotice) return;
 
-  const allCanShip = cart.length > 0 && cart.every((item) => item.canShip);
+  const hasNonShippable = cart.some((item) => !item.canShip);
 
-  shippingRadio.disabled = !allCanShip;
-  
-  if (fulfillmentNote) {
-    fulfillmentNote.classList.toggle("hidden", allCanShip);
-  }
-
-  // If shipping is now disabled and was selected, switch to pickup
-  if (shippingRadio.disabled && shippingRadio.checked) {
-    const pickupRadio = document.getElementById("fulfillmentPickup");
-    if (pickupRadio) {
-      pickupRadio.checked = true;
-      handleFulfillmentChange();
-    }
+  if (hasNonShippable) {
+    shippingNotice.style.display = "block";
+    shippingNotice.innerHTML = "⚠️ Some items in your cart require local pickup only.";
+  } else {
+    shippingNotice.style.display = "none";
   }
 }
 
