@@ -26,7 +26,7 @@
 - Cart badge (`#cartBadge`), success/error alerts (`#successAlert`, `#errorAlert`), modal container IDs, and filter inputs must remain stable; JS queries by ID/class.
 - Cart persistence relies on `localStorage["yft_cart"]` with the current schema. Any schema change requires migration logic in both JS files.
 
-## 3. Critical Areas & “Do Not Touch” Without Coordination
+## 3. Critical Areas & “Do Not Touch” (Read Carefully)
 
 1. **Cart storage & badge logic**
    - Keep storage key `yft_cart`.

@@ -562,8 +562,8 @@ function createModalContent(item, index) {
   html += '<input type="number" id="modal-qty" class="quantity-input" min="1" value="1">';
   html += "</div>";
 
-  // Dietary options
-  if (item.canGlutenfree || item.canSugarfree) {
+  // Dietary options and Gift Wrap
+  if (item.canGlutenfree || item.canSugarfree || item.canGiftWrap) {
     html += '<div class="form-group dietary-options">';
     html += "<label>Special Options:</label>";
     if (item.canGlutenfree) {
@@ -573,6 +573,10 @@ function createModalContent(item, index) {
     if (item.canSugarfree) {
       html +=
         '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+    }
+    if (item.canGiftWrap) {
+      html +=
+        '<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$' + item.giftWrapPrice + '</label>';
     }
     html += "</div>";
   }
@@ -587,12 +591,19 @@ function createModalContent(item, index) {
 
 function updatePriceInModal() {
   const sizeSelect = document.getElementById("modal-size");
+  const giftCheckbox = document.getElementById("modal-gift");
   const priceDisplay = document.querySelector("#modalContent .product-price");
   if (!sizeSelect || !priceDisplay) return;
 
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  const price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  
+  // Add gift wrap price if checked
+  if (giftCheckbox && giftCheckbox.checked && currentItem.canGiftWrap) {
+    price += currentItem.giftWrapPrice;
+  }
+  
   priceDisplay.textContent = `$${price.toFixed(2)}`;
 }
 

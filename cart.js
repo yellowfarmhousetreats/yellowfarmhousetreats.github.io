@@ -34,7 +34,7 @@ function addToCart(index) {
   }
 
   const item = menuItems[index];
-  let size, flavor, qty, glutenFree, sugarFree;
+  let size, flavor, qty, glutenFree, sugarFree, giftWrap;
 
   const modal = document.getElementById("productModal");
   const modalOpen = modal?.open;
@@ -45,15 +45,23 @@ function addToCart(index) {
     qty = Number.parseInt(document.getElementById("modal-qty").value) || 1;
     glutenFree = document.getElementById("modal-gf")?.checked || false;
     sugarFree = document.getElementById("modal-sf")?.checked || false;
+    giftWrap = document.getElementById("modal-gift")?.checked || false;
   } else {
     size = document.getElementById(`size-${index}`).value;
     flavor = document.getElementById(`flavor-${index}`)?.value || "Standard";
     qty = Number.parseInt(document.getElementById(`qty-${index}`).value) || 1;
     glutenFree = document.getElementById(`gf-${index}`)?.checked || false;
     sugarFree = document.getElementById(`sf-${index}`)?.checked || false;
+    giftWrap = document.getElementById(`gift-${index}`)?.checked || false;
   }
 
   let price = item.sizePrice[size.replaceAll(" ", "_")];
+  
+  // Add gift wrap price if selected
+  if (giftWrap && item.canGiftWrap) {
+    price += item.giftWrapPrice;
+  }
+  
   let totalPrice = price * qty;
 
   const cartItem = {
@@ -64,6 +72,7 @@ function addToCart(index) {
     price: totalPrice,
     glutenFree: glutenFree,
     sugarFree: sugarFree,
+    giftWrap: giftWrap,
     canShip: item.canShip || false,
     weight: item.weight || 0,
     hasDeposit: item.hasDeposit || false,
@@ -106,7 +115,7 @@ function updateCart() {
         <div class="order-item-details">
           <div>
             <div class="order-item-name">${item.name}</div>
-            <div class="order-item-specs">${item.quantity}x - ${item.size}${item.flavor === "Standard" ? "" : ` - ${item.flavor}`}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}</div>
+            <div class="order-item-specs">${item.quantity}x - ${item.size}${item.flavor === "Standard" ? "" : ` - ${item.flavor}`}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}${item.giftWrap ? " 🎁 [Gift Wrap]" : ""}</div>
           </div>
           <div class="order-item-price">$${item.price.toFixed(2)}</div>
         </div>
@@ -325,7 +334,7 @@ function calculateTotals() {
     const orderDetails = cart
       .map(
         (item) =>
-          `${item.quantity}x ${item.name} - ${item.size}${item.flavor === "Standard" ? "" : " - " + item.flavor}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}: $${item.price.toFixed(2)}`
+          `${item.quantity}x ${item.name} - ${item.size}${item.flavor === "Standard" ? "" : " - " + item.flavor}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}${item.giftWrap ? " [Gift Wrap]" : ""}: $${item.price.toFixed(2)}`
       )
       .join("\n");
     orderSummaryInput.value =
@@ -396,6 +405,7 @@ function buildOrderSummary() {
     if (item.flavor && item.flavor !== "Standard") summary += ` - ${item.flavor}`;
     if (item.glutenFree) summary += " [GF]";
     if (item.sugarFree) summary += " [SF]";
+    if (item.giftWrap) summary += " [Gift Wrap]";
     summary += `: $${item.price.toFixed(2)}\n`;
   }
   summary += `\n`;
@@ -520,4 +530,208 @@ document.addEventListener("DOMContentLoaded", function () {
     // Set default to min date
     pickupDateInput.value = pickupDateInput.min;
   }
+  
+  // Initialize progressive disclosure
+  initializeProgressiveDisclosure();
 });
+
+// ========== PROGRESSIVE DISCLOSURE SYSTEM ==========
+function initializeProgressiveDisclosure() {
+  const steps = document.querySelectorAll('.step-container');
+  const summaryBox = document.querySelector('.summary-box');
+  const depositInfo = document.getElementById('depositPickupInfo');
+  const submitContainer = document.querySelector('.submit-container');
+  
+  if (!steps.length) return; // Safety check
+  
+  // Hide all steps except cart (first one)
+  steps.forEach((step, index) => {
+    if (index > 0) {
+      step.style.maxHeight = '0';
+      step.style.overflow = 'hidden';
+      step.style.opacity = '0';
+      step.style.transition = 'max-height 0.5s ease, opacity 0.5s ease, margin 0.5s ease';
+      step.style.marginBottom = '0';
+    }
+  });
+  
+  // Hide summary and submit initially
+  if (summaryBox) {
+    summaryBox.style.maxHeight = '0';
+    summaryBox.style.overflow = 'hidden';
+    summaryBox.style.opacity = '0';
+    summaryBox.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
+  }
+  if (depositInfo) {
+    depositInfo.style.maxHeight = '0';
+    depositInfo.style.overflow = 'hidden';
+    depositInfo.style.opacity = '0';
+    depositInfo.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
+  }
+  if (submitContainer) {
+    submitContainer.style.maxHeight = '0';
+    submitContainer.style.overflow = 'hidden';
+    submitContainer.style.opacity = '0';
+    submitContainer.style.transition = 'max-height 0.5s ease, opacity 0.5s ease';
+  }
+  
+  // Check cart and reveal Step 1 if items exist
+  checkCartAndRevealStep1();
+  
+  // Add listeners for form field completion
+  setupStepListeners();
+}
+
+function revealStep(stepIndex) {
+  const steps = document.querySelectorAll('.step-container');
+  if (stepIndex < steps.length && steps[stepIndex]) {
+    const step = steps[stepIndex];
+    step.style.maxHeight = '2000px';
+    step.style.opacity = '1';
+    step.style.marginBottom = '30px';
+    
+    // Scroll to the newly revealed step
+    setTimeout(() => {
+      step.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+}
+
+function revealSummaryAndSubmit() {
+  const summaryBox = document.querySelector('.summary-box');
+  const depositInfo = document.getElementById('depositPickupInfo');
+  const submitContainer = document.querySelector('.submit-container');
+  
+  if (summaryBox) {
+    summaryBox.style.maxHeight = '1000px';
+    summaryBox.style.opacity = '1';
+  }
+  if (depositInfo && !depositInfo.classList.contains('hidden')) {
+    depositInfo.style.maxHeight = '500px';
+    depositInfo.style.opacity = '1';
+  }
+  if (submitContainer) {
+    submitContainer.style.maxHeight = '200px';
+    submitContainer.style.opacity = '1';
+    
+    setTimeout(() => {
+      submitContainer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 100);
+  }
+}
+
+function checkCartAndRevealStep1() {
+  if (typeof cart !== 'undefined' && cart && cart.length > 0) {
+    revealStep(1); // Reveal "Your Information" step
+  }
+}
+
+function setupStepListeners() {
+  // Step 1: Customer Information - reveal Step 2 when name and phone filled
+  const nameInput = document.getElementById('customerName');
+  const phoneInput = document.getElementById('customerPhone');
+  const step1ContinueBtn = document.getElementById('step1Continue');
+  
+  const checkStep1 = () => {
+    if (nameInput && phoneInput && nameInput.value.trim() && phoneInput.value.trim()) {
+      if (step1ContinueBtn) step1ContinueBtn.classList.remove('hidden');
+    } else {
+      if (step1ContinueBtn) step1ContinueBtn.classList.add('hidden');
+    }
+  };
+  
+  if (nameInput) {
+    nameInput.addEventListener('input', checkStep1);
+    nameInput.addEventListener('blur', checkStep1);
+  }
+  if (phoneInput) {
+    phoneInput.addEventListener('input', checkStep1);
+    phoneInput.addEventListener('blur', checkStep1);
+  }
+  
+  // Step 2: Fulfillment - reveal Step 3 when pickup date/time set
+  const pickupDate = document.getElementById('pickupDate');
+  const pickupTime = document.getElementById('pickupTime');
+  const shippingZip = document.getElementById('shippingZip');
+  const step2PickupContinue = document.getElementById('step2PickupContinue');
+  const step2ShipContinue = document.getElementById('step2ShipContinue');
+  
+  const checkStep2 = () => {
+    const fulfillmentMethod = document.querySelector('input[name="fulfillment_method"]:checked')?.value;
+    if (fulfillmentMethod === 'Pickup' && pickupDate && pickupTime && pickupDate.value && pickupTime.value) {
+      if (step2PickupContinue) step2PickupContinue.classList.remove('hidden');
+      revealStep(3); // Auto-reveal Step 3
+    } else {
+      if (step2PickupContinue) step2PickupContinue.classList.add('hidden');
+    }
+    
+    if (fulfillmentMethod === 'Shipping' && shippingZip && shippingZip.value.trim().length >= 5) {
+      if (step2ShipContinue) step2ShipContinue.classList.remove('hidden');
+      revealStep(3); // Auto-reveal Step 3
+    } else {
+      if (step2ShipContinue) step2ShipContinue.classList.add('hidden');
+    }
+  };
+  
+  if (pickupDate) {
+    pickupDate.addEventListener('change', checkStep2);
+    pickupDate.addEventListener('input', checkStep2);
+  }
+  if (pickupTime) {
+    pickupTime.addEventListener('change', checkStep2);
+    pickupTime.addEventListener('input', checkStep2);
+  }
+  if (shippingZip) {
+    shippingZip.addEventListener('blur', checkStep2);
+    shippingZip.addEventListener('change', checkStep2);
+    shippingZip.addEventListener('input', checkStep2);
+  }
+  
+  // Also check when fulfillment method changes
+  const fulfillmentRadios = document.querySelectorAll('input[name="fulfillment_method"]');
+  fulfillmentRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (step2PickupContinue) step2PickupContinue.classList.add('hidden');
+      if (step2ShipContinue) step2ShipContinue.classList.add('hidden');
+      setTimeout(checkStep2, 500); // Delay to allow fields to populate
+    });
+  });
+  
+  // Initial check on page load
+  setTimeout(checkStep2, 100);
+  
+  // Step 3: Special Instructions - reveal Step 4 and summary immediately (optional field)
+  // Auto-reveal after Step 2 is complete
+  const checkStep3 = () => {
+    const steps = document.querySelectorAll('.step-container');
+    if (steps[3] && steps[3].style.opacity === '1') {
+      revealStep(4); // Reveal payment method
+      revealSummaryAndSubmit();
+    }
+  };
+  
+  // Use mutation observer to detect when Step 3 is revealed
+  const steps = document.querySelectorAll('.step-container');
+  if (steps[3]) {
+    const observer = new MutationObserver(() => {
+      checkStep3();
+    });
+    observer.observe(steps[3], { attributes: true, attributeFilter: ['style'] });
+  }
+}
+
+// Function to manually continue to next step
+function continueToNextStep(stepNumber) {
+  revealStep(stepNumber);
+}
+
+// Override updateCart to trigger Step 1 reveal when cart has items
+const originalUpdateCart = globalThis.updateCart;
+if (originalUpdateCart && typeof originalUpdateCart === 'function') {
+  globalThis.updateCart = function() {
+    originalUpdateCart.call(this);
+    if (typeof cart !== 'undefined' && cart && cart.length > 0) {
+      checkCartAndRevealStep1();
+    }
+  };
+}
