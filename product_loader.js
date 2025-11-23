@@ -298,20 +298,11 @@ function createProductCard(item, index) {
   const imgWrap = document.createElement("div");
   imgWrap.className = "product-image";
   if (item.image) {
-    // Use <picture> for WebP support with JPG fallback
-    const picture = document.createElement("picture");
-    const webpSrc = item.image.replace(".jpg", ".webp").replace(".png", ".webp");
-    const source = document.createElement("source");
-    source.srcset = webpSrc;
-    source.type = "image/webp";
-    picture.appendChild(source);
-
     const img = document.createElement("img");
     img.src = item.image;
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
-    picture.appendChild(img);
-    imgWrap.appendChild(picture);
+    imgWrap.appendChild(img);
   } else {
     imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
   }
