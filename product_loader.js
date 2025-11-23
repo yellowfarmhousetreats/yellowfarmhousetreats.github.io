@@ -203,19 +203,11 @@ function createProductThumbnail(item, index) {
   const imgWrap = document.createElement("div");
   imgWrap.className = "thumbnail-image";
   if (item.image) {
-    const picture = document.createElement("picture");
-    const webpSrc = item.image.replace(".jpg", ".webp").replace(".png", ".webp");
-    const source = document.createElement("source");
-    source.srcset = webpSrc;
-    source.type = "image/webp";
-    picture.appendChild(source);
-
     const img = document.createElement("img");
     img.src = item.image;
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
-    picture.appendChild(img);
-    imgWrap.appendChild(picture);
+    imgWrap.appendChild(img);
   } else {
     imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
   }
@@ -498,8 +490,7 @@ function createModalContent(item, index) {
   // Image
   html += '<div class="product-image">';
   if (item.image) {
-    const webpSrc = item.image.replace(".jpg", ".webp").replace(".png", ".webp");
-    html += `<picture><source srcset="${webpSrc}" type="image/webp"><img alt="${item.name || "Product Image"}" data-src="${item.image}"></picture>`;
+    html += `<img src="${item.image}" alt="${item.name || "Product Image"}" loading="lazy">`;
   } else {
     html += '<div class="image-placeholder">Image Coming Soon</div>';
   }
