@@ -76,12 +76,126 @@ function displayProducts(products) {
   for (const category of sortedCategories) {
     const items = productsByCategory[category];
     if (items && items.length > 0) {
-      const sectionResult = createCategorySection(category, items, globalIndex);
-      grid.appendChild(sectionResult.node);
-      globalIndex = sectionResult.nextIndex;
+      const accordion = createAccordionSection(category, items, globalIndex);
+      grid.appendChild(accordion.node);
+      globalIndex = accordion.nextIndex;
     }
   }
   console.log("Products displayed");
+}
+
+function createAccordionSection(category, items, startIndex) {
+  const accordion = document.createElement("div");
+  accordion.className = "accordion-section";
+
+  const header = document.createElement("button");
+  header.className = "accordion-header";
+  header.setAttribute("aria-expanded", "true"); // Start open
+  header.innerHTML = `
+    <span class="accordion-title">${category} <span class="accordion-count">(${items.length})</span></span>
+    <svg class="accordion-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+
+  const content = document.createElement("div");
+  content.className = "accordion-content open"; // Start open
+
+  if (category === "Cookie") {
+    // Group cookies by subcategory
+    const subcategories = ["simple", "fancy", "complex"];
+    let index = startIndex;
+    for (const sub of subcategories) {
+      const subItems = items.filter((item) => item.subcategory === sub);
+      if (subItems.length > 0) {
+        const subTitle = document.createElement("h3");
+        subTitle.className = "subcategory-title";
+        subTitle.textContent = `${sub.charAt(0).toUpperCase() + sub.slice(1)} Cookies`;
+        content.appendChild(subTitle);
+
+        const grid = document.createElement("div");
+        grid.className = "accordion-grid";
+        for (const item of subItems) {
+          const thumb = createProductThumbnail(item, index);
+          grid.appendChild(thumb);
+          index++;
+        }
+        content.appendChild(grid);
+      }
+    }
+    accordion.appendChild(header);
+    accordion.appendChild(content);
+    
+    header.onclick = () => toggleAccordion(header, content);
+    return { node: accordion, nextIndex: index };
+  }
+
+  // Regular category
+  const grid = document.createElement("div");
+  grid.className = "accordion-grid";
+  let index = startIndex;
+  for (const item of items) {
+    const thumb = createProductThumbnail(item, index);
+    grid.appendChild(thumb);
+    index++;
+  }
+  content.appendChild(grid);
+  accordion.appendChild(header);
+  accordion.appendChild(content);
+
+  header.onclick = () => toggleAccordion(header, content);
+  return { node: accordion, nextIndex: index };
+}
+
+function toggleAccordion(header, content) {
+  const isOpen = content.classList.contains("open");
+  if (isOpen) {
+    content.classList.remove("open");
+    header.setAttribute("aria-expanded", "false");
+  } else {
+    content.classList.add("open");
+    header.setAttribute("aria-expanded", "true");
+  }
+}
+
+function createProductThumbnail(item, index) {
+  const thumb = document.createElement("div");
+  thumb.className = "product-thumbnail";
+  thumb.onclick = () => openProductModal(menuItems.indexOf(item));
+
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "thumbnail-image";
+  if (item.image) {
+    const picture = document.createElement("picture");
+    const webpSrc = item.image.replace(".jpg", ".webp").replace(".png", ".webp");
+    const source = document.createElement("source");
+    source.srcset = webpSrc;
+    source.type = "image/webp";
+    picture.appendChild(source);
+
+    const img = document.createElement("img");
+    img.src = item.image;
+    img.alt = item.name || "Product Image";
+    img.loading = "lazy";
+    picture.appendChild(img);
+    imgWrap.appendChild(picture);
+  } else {
+    imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
+  }
+  thumb.appendChild(imgWrap);
+
+  const nameDiv = document.createElement("div");
+  nameDiv.className = "thumbnail-name";
+  nameDiv.textContent = item.name;
+  thumb.appendChild(nameDiv);
+
+  const priceDiv = document.createElement("div");
+  priceDiv.className = "thumbnail-price";
+  const defaultPrice = getDefaultPrice(item);
+  priceDiv.textContent = `$${defaultPrice.toFixed(2)}`;
+  thumb.appendChild(priceDiv);
+
+  return thumb;
 }
 
 function createCategorySection(category, items, startIndex) {
