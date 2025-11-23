@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yellow Farmhouse Treats | Custom Baked Goods in Caldwell, Idaho</title>
+    <meta
+      name="description"
+      content="Order fresh custom cookies, cakes, breads, and pastries from Yellow Farmhouse Treats. Gluten-free and sugar-free options available. Caldwell, Idaho bakery."
+    />
+    <meta
+      name="keywords"
+      content="bakery Caldwell Idaho, custom cookies, gluten free baking, sugar free desserts, fresh bread, homemade treats"
+    />
+    <meta name="author" content="Yellow Farmhouse Treats" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <meta property="og:title" content="Yellow Farmhouse Treats | Custom Baked Goods" />
+    <meta
+      property="og:description"
+      content="Fresh custom cookies, cakes, breads, and pastries in Caldwell, Idaho"
+    />
+    <meta property="og:url" content="https://www.yellowfarmhousetreats.com/" />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- SnapWidget for Instagram -->
+    <script src="https://snapwidget.com/js/snapwidget.js"></script>
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.918988" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Bakery",
+        "name": "Yellow Farmhouse Treats",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "22659 Farmway Road",
+          "addressLocality": "Caldwell",
+          "addressRegion": "ID",
+          "postalCode": "83607"
+        },
+        "telephone": "(805) 709-4686",
+        "url": "https://www.yellowfarmhousetreats.com",
+        "priceRange": "$10-$50"
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sticky Navigation Header -->
+      <header class="sticky-header">
+        <div class="nav-container">
+          <a href="tel:+18057094686" class="phone-btn" aria-label="Call Yellow Farmhouse Treats">
+            📞 <span class="phone-text">Call</span>
+          </a>
+          <a href="#top" class="brand-name" onclick="scrollToTop(event)">
+            🌾 Yellow Farmhouse Treats
+          </a>
+          <a href="cart.html" class="cart-icon" aria-label="View cart and checkout">
+            🛒
+            <span class="cart-badge" id="cartBadge" aria-live="polite" aria-label="Items in cart"
+              >0</span
+            >
+          </a>
+        </div>
+        <div class="header-filters-container">
+          <button
+            class="filters-toggle"
+            onclick="toggleFilters()"
+            aria-label="Toggle search and filters"
+          >
+            🔍 <span class="toggle-text">Search & Filter</span>
+          </button>
+          <div class="header-filters" id="headerFilters">
+            <div class="filter-categories">
+              <button
+                class="filter-cat-btn active"
+                data-filter-category="all"
+                onclick="selectHeaderCategory('all')"
+              >
+                Everything
+              </button>
+              <button
+                class="filter-cat-btn"
+                data-filter-category="Candy"
+                onclick="selectHeaderCategory('Candy')"
+              >
+                Candy
+              </button>
+              <button
+                class="filter-cat-btn"
+                data-filter-category="Cookie"
+                onclick="selectHeaderCategory('Cookie')"
+              >
+                Cookies
+              </button>
+            </div>
+            <div class="filter-dietary">
+              <label class="dietary-toggle">
+                <input type="checkbox" id="header-filter-gf" onchange="filterAndDisplay()" />
+                <span class="dietary-icon">🚫🌾</span>
+                <span class="dietary-label">Gluten-Free</span>
+              </label>
+              <label class="dietary-toggle">
+                <input type="checkbox" id="header-filter-sf" onchange="filterAndDisplay()" />
+                <span class="dietary-icon">🚫🧊</span>
+                <span class="dietary-label">Sugar-Free</span>
+              </label>
+            </div>
+            <div class="nut-warning">⚠️ All items made in a kitchen that processes nuts</div>
+          </div>
+        </div>
+      </header>
+      <!-- ========== INSTAGRAM FEED - SHOWCASED UNDER HEADER ========== -->
+      <div class="instagram-showcase">
+        <div class="instagram-showcase-title">📸 Check Out Our Latest Creations!</div>
+        <div class="instagram-container">
+          <!-- SnapWidget -->
+          <iframe
+            src="https://snapwidget.com/embed/1112051"
+            class="snapwidget-widget"
+            title="Posts from Instagram"
+          ></iframe>
+        </div>
+        <div class="instagram-follow">
+          <p>
+            Follow
+            <a href="https://instagram.com/yellowfarmhousetreats" target="_blank" rel="noopener"
+              >@yellowfarmhousetreats</a
+            >
+            for daily updates and behind-the-scenes content! 🌻
+          </p>
+        </div>
+      </div>
+
+      <div class="contact-info">
+        <p>
+          <strong>📍 22659 Farmway Road, Caldwell, ID</strong> | <strong>📞 (805) 709-4686</strong>
+        </p>
+        <p>Please allow up to 48 hours for items to be prepared.</p>
+      </div>
+
+      <div id="orderForm" class="content">
+        <!-- ========== STEP 1: SELECT PRODUCTS ========== -->
+        <div class="step-container">
+          <div class="section-title">📦 Step 1: Select Your Items</div>
+
+          <div class="loading-spinner hidden" id="loadingSpinner">
+            <div class="spinner"></div>
+            Loading products...
+          </div>
+
+          <!-- PRODUCT CARDS GRID -->
+          <div class="products-grid" id="productsGrid">
+            <!-- Product cards will be generated here -->
+          </div>
+
+          <!-- Product Modal -->
+          <dialog
+            id="productModal"
+            aria-modal="true"
+            aria-labelledby="modalTitle"
+            aria-describedby="modalContent"
+          >
+            <div class="modal-content" tabindex="-1">
+              <button
+                class="modal-close"
+                aria-label="Close product details"
+                onclick="closeProductModal()"
+              >
+                &times;
+              </button>
+              <div id="modalContent"></div>
+            </div>
+          </dialog>
+
+          <!-- ADDED ITEMS SUMMARY -->
+          <div class="order-items" id="orderItems">
+            <div class="empty-items">No items added yet</div>
+          </div>
+        </div>
+
+        <div class="alerts">
+          <div class="alert alert-info hidden" id="emptyCartAlert">
+            Please add some items to your cart before proceeding.
+          </div>
+          <div class="alert alert-success hidden" id="readyToProceedAlert">
+            Ready to proceed to checkout!
+          </div>
+          <div class="alert alert-success" id="successAlert"></div>
+          <div class="alert alert-error" id="errorAlert"></div>
+        </div>
+
+        <div class="proceed-container">
+          <button class="btn btn-proceed" onclick="proceedToCart()">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="product_loader.min.js?v=1.0.0.918988"></script>
+    <script src="cart.min.js?v=1.0.0.918988"></script>
+
+    <!-- Navigation JavaScript -->
+    <script>
+      // Scroll to top smoothly
+      function scrollToTop(event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Scroll to cart section
+      function scrollToCart() {
+        const cartSection = document.getElementById("cartItems");
+        if (cartSection) {
+          cartSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }
+
+      // Update cart badge count
+      function updateCartBadge() {
+        const badge = document.getElementById("cartBadge");
+        const cart = globalThis.cart || [];
+        if (badge) {
+          const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+          badge.textContent = itemCount;
+          if (itemCount > 0) {
+            badge.style.display = "flex";
+            badge.style.visibility = "visible";
+          } else {
+            badge.style.display = "none";
+          }
+        }
+      }
+
+      // Animate cart icon when item added
+      function animateCartIcon() {
+        const cartIcon = document.querySelector(".cart-icon");
+        const badge = document.getElementById("cartBadge");
+
+        if (cartIcon) {
+          cartIcon.classList.add("pulse");
+          setTimeout(() => cartIcon.classList.remove("pulse"), 600);
+        }
+
+        if (badge) {
+          badge.classList.add("bounce");
+          setTimeout(() => badge.classList.remove("bounce"), 600);
+        }
+      }
+
+      // Toggle filters panel
+      function toggleFilters() {
+        const panel = document.getElementById("headerFilters");
+        const toggle = document.querySelector(".filters-toggle");
+        if (panel.classList.contains("open")) {
+          panel.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+        } else {
+          panel.classList.add("open");
+          toggle.setAttribute("aria-expanded", "true");
+        }
+      }
+
+      // Select category from header filters
+      function selectHeaderCategory(category) {
+        for (const btn of document.querySelectorAll(".filter-cat-btn")) {
+          btn.classList.toggle("active", btn.dataset.filterCategory === category);
+        }
+        if (typeof filterAndDisplay === "function") {
+          filterAndDisplay();
+        }
+      }
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        updateCartBadge();
+        // initializeProducts() is called from product_loader.min.js?v=1.0.0.918988"click", function(event) {
+          const panel = document.getElementById("headerFilters");
+          const toggle = document.querySelector(".filters-toggle");
+          const container = document.querySelector(".header-filters-container");
+          
+          if (panel && panel.classList.contains("open") && 
+              container && !container.contains(event.target)) {
+            panel.classList.remove("open");
+            if (toggle) toggle.setAttribute("aria-expanded", "false");
+          }
+        });
+        
+        console.log("Page loaded, cart and filters available");
+      });
+    </script>
+  </body>
+</html>
