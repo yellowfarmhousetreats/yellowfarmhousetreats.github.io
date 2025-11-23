@@ -130,9 +130,7 @@ body {
 
 /* ==================== STICKY NAVIGATION HEADER ==================== */
 .sticky-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: relative;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary-dark) 100%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
@@ -195,20 +193,32 @@ body {
 }
 
 .cart-icon {
-  position: relative;
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
   cursor: pointer;
-  padding: 8px;
-  min-width: 44px;
-  min-height: 44px;
-  display: flex;
+  padding: 12px;
+  min-width: 56px;
+  min-height: 56px;
+  display: none;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  background: rgba(139, 115, 85, 0.15);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  font-size: 1.5em;
+  text-decoration: none;
+  color: var(--color-primary-dark);
 }
 
 .cart-icon:hover {
-  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  background: rgba(139, 115, 85, 0.25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .cart-badge {
@@ -262,6 +272,29 @@ body {
 }
 
 /* ==================== HEADER FILTERS ==================== */
+/* ========== DIETARY INFO BANNER ========== */
+.dietary-info-banner {
+  background: linear-gradient(135deg, var(--color-gray-lighter) 0%, var(--bg-light) 100%);
+  border-top: 1px solid var(--border-light);
+  padding: 15px 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.95em;
+}
+
+.dietary-info-banner .info-item {
+  color: var(--text-primary);
+  font-weight: 500;
+  padding: 8px 15px;
+  background: var(--bg-card);
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
 .header-filters-container {
   background: rgba(255, 255, 255, 0.95);
   border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -697,6 +730,65 @@ body {
 
 .subcategory-title:first-child {
   margin-top: 0;
+}
+
+/* ========== SUB-ACCORDIONS (Cookie Subcategories) ========== */
+.sub-accordion-section {
+  margin-bottom: 15px;
+}
+
+.sub-accordion-header {
+  width: 100%;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+  color: var(--color-white);
+  border: none;
+  padding: 15px 20px;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.15em;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 6px;
+  transition: background 0.3s ease;
+}
+
+.sub-accordion-header:hover {
+  background: linear-gradient(135deg, var(--color-secondary-dark) 0%, var(--color-secondary) 100%);
+}
+
+.sub-accordion-header:focus {
+  outline: 3px solid var(--color-accent);
+  outline-offset: -3px;
+}
+
+.sub-accordion-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sub-accordion-header .accordion-icon {
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.sub-accordion-header[aria-expanded="false"] .accordion-icon {
+  transform: rotate(-90deg);
+}
+
+.sub-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+  padding: 0;
+}
+
+.sub-accordion-content.open {
+  max-height: 3000px;
+  padding: 20px 0;
 }
 
 .category-title {
@@ -1393,6 +1485,18 @@ textarea {
     font-size: 1.8em;
   }
 
+  .dietary-info-banner {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 15px;
+  }
+
+  .dietary-info-banner .info-item {
+    font-size: 0.9em;
+    padding: 6px 12px;
+    text-align: center;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
   }
@@ -1463,6 +1567,11 @@ textarea {
   .accordion-header {
     font-size: 1.2em;
     padding: 15px 20px;
+  }
+
+  .sub-accordion-header {
+    font-size: 1em;
+    padding: 12px 15px;
   }
 
   .accordion-grid {

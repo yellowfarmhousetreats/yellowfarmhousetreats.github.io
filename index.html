@@ -67,52 +67,9 @@
             >
           </a>
         </div>
-        <div class="header-filters-container">
-          <button
-            class="filters-toggle"
-            onclick="toggleFilters()"
-            aria-label="Toggle search and filters"
-          >
-            🔍 <span class="toggle-text">Search & Filter</span>
-          </button>
-          <div class="header-filters" id="headerFilters">
-            <div class="filter-categories">
-              <button
-                class="filter-cat-btn active"
-                data-filter-category="all"
-                onclick="selectHeaderCategory('all')"
-              >
-                Everything
-              </button>
-              <button
-                class="filter-cat-btn"
-                data-filter-category="Candy"
-                onclick="selectHeaderCategory('Candy')"
-              >
-                Candy
-              </button>
-              <button
-                class="filter-cat-btn"
-                data-filter-category="Cookie"
-                onclick="selectHeaderCategory('Cookie')"
-              >
-                Cookies
-              </button>
-            </div>
-            <div class="filter-dietary">
-              <label class="dietary-toggle">
-                <input type="checkbox" id="header-filter-gf" onchange="filterAndDisplay()" />
-                <span class="dietary-icon">🚫🌾</span>
-                <span class="dietary-label">Gluten-Free</span>
-              </label>
-              <label class="dietary-toggle">
-                <input type="checkbox" id="header-filter-sf" onchange="filterAndDisplay()" />
-                <span class="dietary-icon">🚫🧊</span>
-                <span class="dietary-label">Sugar-Free</span>
-              </label>
-            </div>
-            <div class="nut-warning">⚠️ All items made in a kitchen that processes nuts</div>
-          </div>
+        <div class="dietary-info-banner">
+          <div class="info-item">⚠️ All items made in a kitchen that processes nuts</div>
+          <div class="info-item">✨ Gluten-Free & Sugar-Free options available</div>
         </div>
       </header>
       <!-- ========== INSTAGRAM FEED - SHOWCASED UNDER HEADER ========== -->
@@ -223,15 +180,25 @@
       // Update cart badge count
       function updateCartBadge() {
         const badge = document.getElementById("cartBadge");
+        const cartIcon = document.querySelector(".cart-icon");
         const cart = globalThis.cart || [];
+        const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        
         if (badge) {
-          const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
           badge.textContent = itemCount;
           if (itemCount > 0) {
             badge.style.display = "flex";
             badge.style.visibility = "visible";
           } else {
             badge.style.display = "none";
+          }
+        }
+        
+        if (cartIcon) {
+          if (itemCount > 0) {
+            cartIcon.style.display = "flex";
+          } else {
+            cartIcon.style.display = "none";
           }
         }
       }

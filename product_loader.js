@@ -72,47 +72,78 @@ function displayProducts(products) {
   const sortedCategories = [...categoryOrder, ...otherCategories];
 
   let globalIndex = 0;
+  let isFirstAccordion = true;
 
   for (const category of sortedCategories) {
     const items = productsByCategory[category];
     if (items && items.length > 0) {
-      const accordion = createAccordionSection(category, items, globalIndex);
+      const accordion = createAccordionSection(category, items, globalIndex, isFirstAccordion);
       grid.appendChild(accordion.node);
       globalIndex = accordion.nextIndex;
+      isFirstAccordion = false;
     }
   }
   console.log("Products displayed");
 }
 
-function createAccordionSection(category, items, startIndex) {
+function pluralizeCategoryName(category) {
+  const pluralMap = {
+    Cookie: "Cookies",
+    Bread: "Breads",
+    Brownie: "Brownies",
+    Cake: "Cakes",
+    Candy: "Candies",
+    Muffin: "Muffins",
+    Pastry: "Pastries",
+    Pie: "Pies",
+  };
+  return pluralMap[category] || category;
+}
+
+function createAccordionSection(category, items, startIndex, isFirstAccordion = false) {
   const accordion = document.createElement("div");
   accordion.className = "accordion-section";
 
   const header = document.createElement("button");
   header.className = "accordion-header";
-  header.setAttribute("aria-expanded", "true"); // Start open
+  header.setAttribute("aria-expanded", isFirstAccordion ? "true" : "false");
+  const pluralCategory = pluralizeCategoryName(category);
   header.innerHTML = `
-    <span class="accordion-title">${category} <span class="accordion-count">(${items.length})</span></span>
+    <span class="accordion-title">${pluralCategory} <span class="accordion-count">(${items.length})</span></span>
     <svg class="accordion-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   `;
 
   const content = document.createElement("div");
-  content.className = "accordion-content open"; // Start open
+  content.className = isFirstAccordion ? "accordion-content open" : "accordion-content";
 
   if (category === "Cookie") {
-    // Group cookies by subcategory
+    // Group cookies by subcategory with nested accordions
     const subcategories = ["simple", "fancy", "complex"];
     let index = startIndex;
+    
     for (const sub of subcategories) {
       const subItems = items.filter((item) => item.subcategory === sub);
       if (subItems.length > 0) {
-        const subTitle = document.createElement("h3");
-        subTitle.className = "subcategory-title";
-        subTitle.textContent = `${sub.charAt(0).toUpperCase() + sub.slice(1)} Cookies`;
-        content.appendChild(subTitle);
-
+        // Create subcategory accordion
+        const subAccordion = document.createElement("div");
+        subAccordion.className = "sub-accordion-section";
+        
+        const subHeader = document.createElement("button");
+        subHeader.className = "sub-accordion-header";
+        subHeader.setAttribute("aria-expanded", "false");
+        const subLabel = sub.charAt(0).toUpperCase() + sub.slice(1);
+        subHeader.innerHTML = `
+          <span class="sub-accordion-title">${subLabel} Cookies <span class="accordion-count">(${subItems.length})</span></span>
+          <svg class="accordion-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        `;
+        
+        const subContent = document.createElement("div");
+        subContent.className = "sub-accordion-content";
+        
         const grid = document.createElement("div");
         grid.className = "accordion-grid";
         for (const item of subItems) {
@@ -120,7 +151,13 @@ function createAccordionSection(category, items, startIndex) {
           grid.appendChild(thumb);
           index++;
         }
-        content.appendChild(grid);
+        subContent.appendChild(grid);
+        
+        subAccordion.appendChild(subHeader);
+        subAccordion.appendChild(subContent);
+        content.appendChild(subAccordion);
+        
+        subHeader.onclick = () => toggleAccordion(subHeader, subContent);
       }
     }
     accordion.appendChild(header);
