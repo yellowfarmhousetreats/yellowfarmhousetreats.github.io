@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.918988" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.622991" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -201,8 +201,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1.0.0.918988"></script>
-    <script src="cart.min.js?v=1.0.0.918988"></script>
+    <script src="product_loader.min.js?v=1.0.0.622991"></script>
+    <script src="cart.min.js?v=1.0.0.622991"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -278,8 +278,11 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        // initializeProducts() is called from product_loader.min.js?v=1.0.0.918988"click", function(event) {
-          const panel = document.getElementById("headerFilters");
+        // initializeProducts() is called from product_loader.min.js?v=1.0.0.622991"click", function(event) {
+        // initializeProducts() is called from product_loader.min.js?v=1.0.0.622991
+        
+        // Close filters when clicking outside
+        document.addEventListener("click", function(event) {
           const toggle = document.querySelector(".filters-toggle");
           const container = document.querySelector(".header-filters-container");
           
