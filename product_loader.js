@@ -456,4 +456,8 @@ globalThis.updatePriceInModal = updatePriceInModal;
 globalThis.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
 
 // ========== INITIALIZE ON PAGE LOAD ==========
+
+// Expose filter function
+globalThis.filterAndDisplay = filterAndDisplay;
+
 document.addEventListener("DOMContentLoaded", initializeProducts);
