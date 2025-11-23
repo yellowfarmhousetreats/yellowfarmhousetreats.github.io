@@ -40,7 +40,8 @@
   /* SEMANTIC ALIASES - For clarity in usage */
   --bg-primary: var(--color-gray-lighter);
   --bg-secondary: var(--color-gray-lightest);
-  --bg-light: var(--color-white);
+  --bg-light: var(--color-gray-lightest);
+  --bg-card: var(--color-white);
   --text-primary: var(--color-gray-dark);
   --text-secondary: var(--color-gray-medium);
   --text-heading: var(--color-primary-dark);
@@ -560,7 +561,7 @@ body {
 }
 
 .product-card {
-  background: var(--bg-secondary);
+  background: var(--bg-card);
   border: 2px solid var(--color-border);
   border-radius: 8px;
   padding: 25px;
