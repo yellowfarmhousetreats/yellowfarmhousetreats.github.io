@@ -19,83 +19,19 @@ async function loadProducts() {
 async function initializeProducts() {
   console.log("Initializing products...");
   const spinner = document.getElementById("loadingSpinner");
-  spinner.classList.remove("hidden");
+  if (spinner) spinner.classList.remove("hidden");
 
   const products = await loadProducts();
   console.log("Loaded products:", products.length);
 
-  spinner.style.display = "none";
-  generateCategoryTabs();
+  if (spinner) spinner.style.display = "none";
   displayProducts(products);
 
-  // Add event listeners
-  document.getElementById("productSearch").addEventListener("input", filterAndDisplay);
-  document.getElementById("productSort").addEventListener("change", filterAndDisplay);
-  document.getElementById("filter-gf").addEventListener("change", filterAndDisplay);
-  document.getElementById("filter-sf").addEventListener("change", filterAndDisplay);
   console.log("Products initialized");
 }
 
 function generateCategoryTabs() {
-  const tabContainer = document.getElementById("categoryTabs");
-  tabContainer.innerHTML = "";
-
-  // Create select for mobile
-  const select = document.createElement("select");
-  select.id = "categorySelect";
-  select.className = "category-select";
-
-  // All option
-  const allOption = document.createElement("option");
-  allOption.value = "all";
-  allOption.textContent = "All";
-  select.appendChild(allOption);
-
-  // Get unique categories in desired order
-  const categoryOrder = ["Cookie", "Brownie", "Cake", "Pastry", "Pie", "Bread", "Muffin", "Candy"];
-  const allCategories = new Set(menuItems.map((item) => item.category));
-  const categories = categoryOrder.filter((cat) => allCategories.has(cat));
-
-  for (const cat of categories) {
-    const option = document.createElement("option");
-    option.value = cat;
-    option.textContent = cat;
-    select.appendChild(option);
-  }
-
-  tabContainer.appendChild(select);
-
-  // All tab
-  const allTab = document.createElement("button");
-  allTab.className = "tab-button active";
-  allTab.textContent = "All";
-  allTab.dataset.category = "all";
-  allTab.addEventListener("click", setActiveTab);
-  tabContainer.appendChild(allTab);
-
-  // Tabs for categories
-  for (const cat of categories) {
-    const tab = document.createElement("button");
-    tab.className = "tab-button";
-    tab.textContent = cat;
-    tab.dataset.category = cat;
-    tab.addEventListener("click", setActiveTab);
-    tabContainer.appendChild(tab);
-  }
-
-  // Add event listener to select
-  select.addEventListener("change", () => {
-    // Set active tab to match select
-    const selectedCategory = select.value;
-    for (const btn of document.querySelectorAll(".tab-button")) {
-      if (btn.dataset.category === selectedCategory) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    }
-    filterAndDisplay();
-  });
+  // Category tabs removed - using header dropdown only
 }
 
 function setActiveTab(event) {
@@ -111,8 +47,8 @@ function setActiveTab(event) {
 }
 
 function getCurrentCategory() {
-  const activeTab = document.querySelector(".tab-button.active");
-  return activeTab ? activeTab.dataset.category : "all";
+  const activeBtn = document.querySelector(".filter-cat-btn.active");
+  return activeBtn?.dataset?.filterCategory ?? "all";
 }
 
 function displayProducts(products) {
