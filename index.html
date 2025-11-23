@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.658367" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.918988" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -101,12 +101,12 @@
             </div>
             <div class="filter-dietary">
               <label class="dietary-toggle">
-                <input type="checkbox" id="header-filter-gf" onchange="syncDietaryFilters()" />
+                <input type="checkbox" id="header-filter-gf" onchange="filterAndDisplay()" />
                 <span class="dietary-icon">🚫🌾</span>
                 <span class="dietary-label">Gluten-Free</span>
               </label>
               <label class="dietary-toggle">
-                <input type="checkbox" id="header-filter-sf" onchange="syncDietaryFilters()" />
+                <input type="checkbox" id="header-filter-sf" onchange="filterAndDisplay()" />
                 <span class="dietary-icon">🚫🧊</span>
                 <span class="dietary-label">Sugar-Free</span>
               </label>
@@ -201,8 +201,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1.0.0.658367"></script>
-    <script src="cart.min.js?v=1.0.0.658367"></script>
+    <script src="product_loader.min.js?v=1.0.0.918988"></script>
+    <script src="cart.min.js?v=1.0.0.918988"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -278,7 +278,7 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        // initializeProducts() is called from product_loader.min.js?v=1.0.0.658367"click", function(event) {
+        // initializeProducts() is called from product_loader.min.js?v=1.0.0.918988"click", function(event) {
           const panel = document.getElementById("headerFilters");
           const toggle = document.querySelector(".filters-toggle");
           const container = document.querySelector(".header-filters-container");
