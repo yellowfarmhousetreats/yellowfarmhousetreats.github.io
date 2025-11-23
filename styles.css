@@ -464,7 +464,7 @@ body {
 /* INSTAGRAM SECTION - MOVED TO TOP */
 .instagram-showcase {
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--border-light) 100%);
-  padding: 30px;
+  padding: 15px;
   text-align: center;
   border-bottom: 3px solid var(--color-primary);
 }
@@ -474,7 +474,7 @@ body {
   font-size: 1.3em;
   font-weight: 600;
   color: var(--text-heading);
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -571,9 +571,9 @@ body {
 
 /* PRODUCT CATEGORY GRID */
 .products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-bottom: 30px;
 }
 
@@ -1514,7 +1514,7 @@ textarea {
   }
 
   .instagram-showcase {
-    padding: 20px 15px;
+    padding: 10px;
   }
 
   .snapwidget-widget {
