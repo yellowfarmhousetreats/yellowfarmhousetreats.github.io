@@ -653,6 +653,32 @@ input[type="number"] {
   background: #176a37;
 }
 
+/* Add to Cart button in modal */
+.add-to-cart-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  background: linear-gradient(135deg, #8b7355 0%, #a0826d 100%);
+  color: #ffffff;
+  width: 100%;
+  transition: all 0.3s;
+  font-family: inherit;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-to-cart-btn:hover {
+  background: linear-gradient(135deg, #6d5a44 0%, #8b7355 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.add-to-cart-btn:active {
+  transform: translateY(0);
+}
+
 /* DIETARY OPTIONS */
 .dietary-section {
   background: #fffbf0;
