@@ -474,101 +474,113 @@ function stopModalPropagation(e) {
 }
 
 function createModalContent(item, index) {
-  const defaultPrice = getDefaultPrice(item);
+  return [
+    createModalImage(item),
+    createModalHeader(item),
+    createModalBadges(item),
+    createModalForm(item, index)
+  ].join("");
+}
 
-  let html = "";
-
-  // Image
-  html += '<div class="product-image">';
+function createModalImage(item) {
+  let html = '<div class="product-image">';
   if (item.image) {
     html += `<img src="${item.image}" alt="${item.name || "Product Image"}" loading="lazy">`;
   } else {
     html += '<div class="image-placeholder">Image Coming Soon</div>';
   }
-  html += "</div>";
+  return html + "</div>";
+}
 
-  // Header
-  html += '<div class="product-header">';
-  html += `<div class="product-name">${item.name}</div>`;
-  html += `<div class="product-price">$${defaultPrice.toFixed(2)}</div>`;
-  html += "</div>";
+function createModalHeader(item) {
+  const defaultPrice = getDefaultPrice(item);
+  return `
+    <div class="product-header">
+      <div class="product-name">${item.name}</div>
+      <div class="product-price">$${defaultPrice.toFixed(2)}</div>
+    </div>
+  `;
+}
 
-  // Badges
-  html += '<div class="dietary-badges">';
+function createModalBadges(item) {
+  let html = '<div class="dietary-badges">';
   if (item.canGlutenfree) {
     html += '<span class="badge gluten-free">Can be Gluten Free</span>';
   }
   if (item.canSugarfree) {
     html += '<span class="badge sugar-free">Can be Sugar Free</span>';
   }
-  html += "</div>";
+  return html + "</div>";
+}
 
-  // Form
-  html += '<div class="product-form">';
+function createModalForm(item, index) {
+  let html = '<div class="product-form">';
+  html += createSizeSelect(item);
+  html += createFlavorSelect(item);
+  html += createFlavorNotes(item);
+  html += createQuantityInput();
+  html += createDietaryOptions(item);
+  html += `<button class="add-to-cart-btn" onclick="addToCart(${index})">Add to Cart</button>`;
+  return html + "</div>";
+}
 
-  // Size select
-  html += '<div class="form-group">';
+function createSizeSelect(item) {
+  let html = '<div class="form-group">';
   html += '<label for="modal-size">Size:</label>';
   html += '<select id="modal-size" class="size-select" onchange="updatePriceInModal()">';
   for (const size of item.sizes) {
     html += `<option value="${size}">${size}</option>`;
   }
-  html += "</select>";
-  html += "</div>";
-
-  // Flavor select (optional)
-  if (item.flavors && item.flavors.length > 0) {
-    html += '<div class="form-group">';
-    html += '<label for="modal-flavor">Flavor:</label>';
-    html +=
-      '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
-    for (const flavor of item.flavors) {
-      html += `<option value="${flavor}">${flavor}</option>`;
-    }
-    html += "</select>";
-    html += "</div>";
-  }
-
-  // Flavor notes (optional)
-  if (item.flavorNotes) {
-    html += '<div class="form-group">';
-    html += '<label for="modal-notes">Flavor Notes:</label>';
-    html +=
-      '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
-    html += "</div>";
-  }
-
-  // Quantity
-  html += '<div class="form-group">';
-  html += '<label for="modal-qty">Quantity:</label>';
-  html += '<input type="number" id="modal-qty" class="quantity-input" min="1" value="1">';
-  html += "</div>";
-
-  // Dietary options and Gift Wrap
-  if (item.canGlutenfree || item.canSugarfree || item.canGiftWrap) {
-    html += '<div class="form-group dietary-options">';
-    html += "<label>Special Options:</label>";
-    if (item.canGlutenfree) {
-      html +=
-        '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
-    }
-    if (item.canSugarfree) {
-      html +=
-        '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
-    }
-    if (item.canGiftWrap) {
-      html +=
-        '<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$' + item.giftWrapPrice + '</label>';
-    }
-    html += "</div>";
-  }
-
-  // Add to Cart button
-  html += `<button class="add-to-cart-btn" onclick="addToCart(${index})">Add to Cart</button>`;
-
-  html += "</div>";
-
+  html += "</select></div>";
   return html;
+}
+
+function createFlavorSelect(item) {
+  if (!item.flavors || item.flavors.length === 0) return "";
+  let html = '<div class="form-group">';
+  html += '<label for="modal-flavor">Flavor:</label>';
+  html += '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
+  for (const flavor of item.flavors) {
+    html += `<option value="${flavor}">${flavor}</option>`;
+  }
+  html += "</select></div>";
+  return html;
+}
+
+function createFlavorNotes(item) {
+  if (!item.flavorNotes) return "";
+  return `
+    <div class="form-group">
+      <label for="modal-notes">Flavor Notes:</label>
+      <input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">
+    </div>
+  `;
+}
+
+function createQuantityInput() {
+  return `
+    <div class="form-group">
+      <label for="modal-qty">Quantity:</label>
+      <input type="number" id="modal-qty" class="quantity-input" min="1" value="1">
+    </div>
+  `;
+}
+
+function createDietaryOptions(item) {
+  if (!item.canGlutenfree && !item.canSugarfree && !item.canGiftWrap) return "";
+  
+  let html = '<div class="form-group dietary-options">';
+  html += "<label>Special Options:</label>";
+  if (item.canGlutenfree) {
+    html += '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
+  }
+  if (item.canSugarfree) {
+    html += '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+  }
+  if (item.canGiftWrap) {
+    html += `<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$${item.giftWrapPrice}</label>`;
+  }
+  return html + "</div>";
 }
 
 function updatePriceInModal() {
@@ -582,7 +594,7 @@ function updatePriceInModal() {
   let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
   
   // Add gift wrap price if checked
-  if (giftCheckbox && giftCheckbox.checked && currentItem.canGiftWrap) {
+  if (giftCheckbox?.checked && currentItem.canGiftWrap) {
     price += currentItem.giftWrapPrice;
   }
   

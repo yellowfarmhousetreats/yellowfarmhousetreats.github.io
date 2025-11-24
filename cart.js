@@ -385,21 +385,33 @@ document.getElementById("orderForm").addEventListener("submit", function (e) {
 
 // ========== BUILD ORDER SUMMARY ==========
 function buildOrderSummary() {
+  const summaryParts = [
+    buildCustomerInfoSection(),
+    buildOrderDetailsSection(),
+    buildFulfillmentSection(),
+    buildPaymentSection(),
+    buildTotalsSection()
+  ];
+
+  document.getElementById("orderSummary").value = summaryParts.join("\n");
+}
+
+function buildCustomerInfoSection() {
   const name = document.getElementById("customerName").value.trim();
   const email = document.getElementById("customerEmail").value.trim();
   const phone = document.getElementById("customerPhone").value.trim();
   const notes = document.getElementById("specialInstructions").value.trim();
-  const fulfillment = document.querySelector('input[name="fulfillment_method"]:checked').value;
-  const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
 
   let summary = `=== CUSTOMER INFORMATION ===\n`;
   summary += `Name: ${name}\n`;
   summary += `Email: ${email}\n`;
   summary += `Phone: ${phone}\n`;
   if (notes) summary += `Notes: ${notes}\n`;
-  summary += `\n`;
+  return summary + `\n`;
+}
 
-  summary += `=== ORDER DETAILS ===\n`;
+function buildOrderDetailsSection() {
+  let summary = `=== ORDER DETAILS ===\n`;
   for (const item of cart) {
     summary += `${item.quantity}x ${item.name} - ${item.size}`;
     if (item.flavor && item.flavor !== "Standard") summary += ` - ${item.flavor}`;
@@ -408,9 +420,12 @@ function buildOrderSummary() {
     if (item.giftWrap) summary += " [Gift Wrap]";
     summary += `: $${item.price.toFixed(2)}\n`;
   }
-  summary += `\n`;
+  return summary + `\n`;
+}
 
-  summary += `=== FULFILLMENT ===\n`;
+function buildFulfillmentSection() {
+  const fulfillment = document.querySelector('input[name="fulfillment_method"]:checked').value;
+  let summary = `=== FULFILLMENT ===\n`;
   if (fulfillment === "Pickup") {
     const pickupDate = document.getElementById("pickupDate").value;
     const pickupTime = document.getElementById("pickupTime").value;
@@ -422,13 +437,18 @@ function buildOrderSummary() {
     const shippingZip = document.getElementById("shippingZip").value.trim();
     summary += `Shipping to: ${shippingAddress}, ${shippingCity}, ${shippingState} ${shippingZip}\n`;
   }
-  summary += `\n`;
+  return summary + `\n`;
+}
 
-  summary += `=== PAYMENT ===\n`;
+function buildPaymentSection() {
+  const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+  let summary = `=== PAYMENT ===\n`;
   summary += `Method: ${paymentMethod}\n`;
-  summary += `\n`;
+  return summary + `\n`;
+}
 
-  // Calculate totals
+function buildTotalsSection() {
+  const fulfillment = document.querySelector('input[name="fulfillment_method"]:checked').value;
   let subtotal = cart.reduce((sum, item) => sum + item.price, 0);
   let shippingCost = 0;
   if (fulfillment === "Shipping") {
@@ -444,14 +464,13 @@ function buildOrderSummary() {
   const deposit = baseDeposit + additionalDeposit;
   const balance = total - deposit;
 
-  summary += `=== TOTALS ===\n`;
+  let summary = `=== TOTALS ===\n`;
   summary += `Subtotal: $${subtotal.toFixed(2)}\n`;
   if (shippingCost > 0) summary += `Shipping: $${shippingCost.toFixed(2)}\n`;
   summary += `Total: $${total.toFixed(2)}\n`;
   summary += `Deposit Due: $${deposit.toFixed(2)}\n`;
   summary += `Balance Due at ${fulfillment === "Pickup" ? "Pickup" : "Delivery"}: $${balance.toFixed(2)}\n`;
-
-  document.getElementById("orderSummary").value = summary;
+  return summary;
 }
 
 // ========== RESET FORM ==========
@@ -545,7 +564,7 @@ function initializeProgressiveDisclosure() {
   if (!steps.length) return; // Safety check
   
   // Hide all steps except cart (first one)
-  steps.forEach((step, index) => {
+  for (const [index, step] of steps.entries()) {
     if (index > 0) {
       step.style.maxHeight = '0';
       step.style.overflow = 'hidden';
@@ -553,7 +572,7 @@ function initializeProgressiveDisclosure() {
       step.style.transition = 'max-height 0.5s ease, opacity 0.5s ease, margin 0.5s ease';
       step.style.marginBottom = '0';
     }
-  });
+  }
   
   // Hide summary and submit initially
   if (summaryBox) {
@@ -621,7 +640,7 @@ function revealSummaryAndSubmit() {
 }
 
 function checkCartAndRevealStep1() {
-  if (typeof cart !== 'undefined' && cart && cart.length > 0) {
+  if (cart !== undefined && cart && cart.length > 0) {
     revealStep(1); // Reveal "Your Information" step
   }
 }
@@ -633,10 +652,12 @@ function setupStepListeners() {
   const step1ContinueBtn = document.getElementById('step1Continue');
   
   const checkStep1 = () => {
-    if (nameInput && phoneInput && nameInput.value.trim() && phoneInput.value.trim()) {
-      if (step1ContinueBtn) step1ContinueBtn.classList.remove('hidden');
-    } else {
-      if (step1ContinueBtn) step1ContinueBtn.classList.add('hidden');
+    if (step1ContinueBtn) {
+      if (nameInput && phoneInput && nameInput.value.trim() && phoneInput.value.trim()) {
+        step1ContinueBtn.classList.remove('hidden');
+      } else {
+        step1ContinueBtn.classList.add('hidden');
+      }
     }
   };
   
@@ -658,18 +679,29 @@ function setupStepListeners() {
   
   const checkStep2 = () => {
     const fulfillmentMethod = document.querySelector('input[name="fulfillment_method"]:checked')?.value;
-    if (fulfillmentMethod === 'Pickup' && pickupDate && pickupTime && pickupDate.value && pickupTime.value) {
-      if (step2PickupContinue) step2PickupContinue.classList.remove('hidden');
+    
+    const isPickupReady = fulfillmentMethod === 'Pickup' && pickupDate && pickupTime && pickupDate.value && pickupTime.value;
+    if (step2PickupContinue) {
+      if (isPickupReady) {
+        step2PickupContinue.classList.remove('hidden');
+      } else {
+        step2PickupContinue.classList.add('hidden');
+      }
+    }
+    if (isPickupReady) {
       revealStep(3); // Auto-reveal Step 3
-    } else {
-      if (step2PickupContinue) step2PickupContinue.classList.add('hidden');
     }
     
-    if (fulfillmentMethod === 'Shipping' && shippingZip && shippingZip.value.trim().length >= 5) {
-      if (step2ShipContinue) step2ShipContinue.classList.remove('hidden');
+    const isShippingReady = fulfillmentMethod === 'Shipping' && shippingZip && shippingZip.value.trim().length >= 5;
+    if (step2ShipContinue) {
+      if (isShippingReady) {
+        step2ShipContinue.classList.remove('hidden');
+      } else {
+        step2ShipContinue.classList.add('hidden');
+      }
+    }
+    if (isShippingReady) {
       revealStep(3); // Auto-reveal Step 3
-    } else {
-      if (step2ShipContinue) step2ShipContinue.classList.add('hidden');
     }
   };
   
@@ -689,13 +721,13 @@ function setupStepListeners() {
   
   // Also check when fulfillment method changes
   const fulfillmentRadios = document.querySelectorAll('input[name="fulfillment_method"]');
-  fulfillmentRadios.forEach(radio => {
+  for (const radio of fulfillmentRadios) {
     radio.addEventListener('change', () => {
       if (step2PickupContinue) step2PickupContinue.classList.add('hidden');
       if (step2ShipContinue) step2ShipContinue.classList.add('hidden');
       setTimeout(checkStep2, 500); // Delay to allow fields to populate
     });
-  });
+  }
   
   // Initial check on page load
   setTimeout(checkStep2, 100);
@@ -704,7 +736,7 @@ function setupStepListeners() {
   // Auto-reveal after Step 2 is complete
   const checkStep3 = () => {
     const steps = document.querySelectorAll('.step-container');
-    if (steps[3] && steps[3].style.opacity === '1') {
+    if (steps[3]?.style.opacity === '1') {
       revealStep(4); // Reveal payment method
       revealSummaryAndSubmit();
     }
@@ -730,7 +762,7 @@ const originalUpdateCart = globalThis.updateCart;
 if (originalUpdateCart && typeof originalUpdateCart === 'function') {
   globalThis.updateCart = function() {
     originalUpdateCart.call(this);
-    if (typeof cart !== 'undefined' && cart && cart.length > 0) {
+    if (cart !== undefined && cart && cart.length > 0) {
       checkCartAndRevealStep1();
     }
   };

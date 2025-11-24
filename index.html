@@ -80,9 +80,6 @@
           <iframe
             src="https://snapwidget.com/embed/1113167"
             class="snapwidget-widget"
-            allowtransparency="true"
-            frameborder="0"
-            scrolling="no"
             style="border:none; overflow:hidden; width:100%;"
             title="Posts from Instagram"
           ></iframe>
@@ -249,7 +246,10 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        // initializeProducts() is called from product_loader.min.js?v=1.0.0.126501"click", function(event) {
+        // initializeProducts() is called from product_loader.min.js
+        
+        // Close filters when clicking outside
+        document.addEventListener("click", function(event) {
           const panel = document.getElementById("headerFilters");
           const toggle = document.querySelector(".filters-toggle");
           const container = document.querySelector(".header-filters-container");
