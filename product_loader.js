@@ -516,9 +516,9 @@ function createIngredientsView(item) {
     html += '<div class="ingredients-section">';
     html += '<h3>⚠️ Allergen Information</h3>';
     html += '<div class="allergens-list">';
-    item.allergens.forEach(allergen => {
+    for (const allergen of item.allergens) {
       html += `<span class="allergen-badge">${allergen}</span>`;
-    });
+    }
     html += '</div>';
     html += '</div>';
   }
