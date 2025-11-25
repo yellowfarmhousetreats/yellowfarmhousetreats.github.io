@@ -221,7 +221,7 @@ function createProductThumbnail(item, index) {
   const priceDiv = document.createElement("div");
   priceDiv.className = "thumbnail-price";
   const defaultPrice = getDefaultPrice(item);
-  priceDiv.textContent = `$${defaultPrice.toFixed(2)}`;
+  priceDiv.textContent = `Starting at $${defaultPrice.toFixed(2)}`;
   thumb.appendChild(priceDiv);
 
   return thumb;
@@ -474,12 +474,71 @@ function stopModalPropagation(e) {
 }
 
 function createModalContent(item, index) {
-  return [
-    createModalImage(item),
-    createModalHeader(item),
-    createModalBadges(item),
-    createModalForm(item, index)
-  ].join("");
+  return `
+    <div class="flip-card-container" id="flipCard">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          ${createModalImage(item)}
+          ${createModalHeader(item)}
+          ${createModalBadges(item)}
+          ${createModalForm(item, index)}
+          ${createFlipButton(true)}
+        </div>
+        <div class="flip-card-back">
+          ${createIngredientsView(item)}
+          ${createFlipButton(false)}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function createFlipButton(isToIngredients) {
+  const icon = isToIngredients ? "📋" : "🛒";
+  const text = isToIngredients ? "View Ingredients" : "Back to Order";
+  return `<button class="flip-button" onclick="toggleFlipCard()">${icon} ${text}</button>`;
+}
+
+function createIngredientsView(item) {
+  let html = '<div class="ingredients-container">';
+  html += `<h2 class="ingredients-header">${item.name}</h2>`;
+  
+  // Ingredients Section
+  if (item.ingredients) {
+    html += '<div class="ingredients-section">';
+    html += '<h3>🥘 Ingredients</h3>';
+    html += `<div class="ingredients-list">${item.ingredients}</div>`;
+    html += '</div>';
+  }
+  
+  // Allergens Section
+  if (item.allergens && item.allergens.length > 0) {
+    html += '<div class="ingredients-section">';
+    html += '<h3>⚠️ Allergen Information</h3>';
+    html += '<div class="allergens-list">';
+    item.allergens.forEach(allergen => {
+      html += `<span class="allergen-badge">${allergen}</span>`;
+    });
+    html += '</div>';
+    html += '</div>';
+  }
+  
+  // Dietary Notes Section
+  if (item.dietaryNotes) {
+    html += '<div class="ingredients-section">';
+    html += '<h3>ℹ️ Product Notes</h3>';
+    html += `<div class="dietary-notes">${item.dietaryNotes}</div>`;
+    html += '</div>';
+  }
+  
+  // Idaho Home Kitchen Disclaimer
+  html += '<div class="ingredients-section">';
+  html += '<h3>🏡 Idaho Home Kitchen</h3>';
+  html += '<div class="dietary-notes"><small>This product was produced in a home kitchen not subject to public health inspection that may also process common food allergens.</small></div>';
+  html += '</div>';
+  
+  html += '</div>';
+  return html;
 }
 
 function createModalImage(item) {
@@ -497,7 +556,7 @@ function createModalHeader(item) {
   return `
     <div class="product-header">
       <div class="product-name">${item.name}</div>
-      <div class="product-price">$${defaultPrice.toFixed(2)}</div>
+      <div class="product-price">Starting at $${defaultPrice.toFixed(2)}</div>
     </div>
   `;
 }
@@ -605,11 +664,19 @@ function updateDietaryOptionsInModal() {
   // Similar, but for now, skip if not needed.
 }
 
+function toggleFlipCard() {
+  const flipCard = document.getElementById("flipCard");
+  if (flipCard) {
+    flipCard.classList.toggle("flipped");
+  }
+}
+
 // Expose functions to global scope
 globalThis.openProductModal = openProductModal;
 globalThis.closeProductModal = closeProductModal;
 globalThis.updatePriceInModal = updatePriceInModal;
 globalThis.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
+globalThis.toggleFlipCard = toggleFlipCard;
 
 // ========== INITIALIZE ON PAGE LOAD ==========
 
