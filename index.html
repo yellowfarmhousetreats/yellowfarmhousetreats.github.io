@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.951715" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.145958" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -159,8 +159,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1.0.0.951715"></script>
-    <script src="cart.min.js?v=1.0.0.951715"></script>
+    <script src="product_loader.min.js?v=1.0.0.145958"></script>
+    <script src="cart.min.js?v=1.0.0.145958"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -196,11 +196,7 @@
         }
         
         if (cartIcon) {
-          if (itemCount > 0) {
-            cartIcon.style.display = "flex";
-          } else {
-            cartIcon.style.display = "none";
-          }
+          cartIcon.style.display = "flex";
         }
       }
 
@@ -246,7 +242,7 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        // initializeProducts() is called from product_loader.min.js?v=1.0.0.951715"click", function(event) {
+        // initializeProducts() is called from product_loader.min.js?v=1.0.0.145958"click", function(event) {
           const panel = document.getElementById("headerFilters");
           const toggle = document.querySelector(".filters-toggle");
           const container = document.querySelector(".header-filters-container");

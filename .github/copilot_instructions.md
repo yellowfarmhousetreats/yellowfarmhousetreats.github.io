@@ -1,4 +1,4 @@
-# Yellow Farmhouse Treats – Dev Onboarding
+## Yellow Farmhouse Treats – Dev Onboarding
 
 ## 1. Project Inventory
 
