@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.145958" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.630877" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -159,8 +159,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1.0.0.145958"></script>
-    <script src="cart.min.js?v=1.0.0.145958"></script>
+    <script src="product_loader.min.js?v=1.0.0.630877"></script>
+    <script src="cart.min.js?v=1.0.0.630877"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -178,13 +178,29 @@
         }
       }
 
+      function getCurrentCartItems() {
+        if (Array.isArray(globalThis.cart) && globalThis.cart.length >= 0) {
+          return globalThis.cart;
+        }
+        try {
+          const stored = localStorage.getItem("cart");
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            return Array.isArray(parsed) ? parsed : [];
+          }
+        } catch (error) {
+          console.warn("Failed to parse cart from storage", error);
+        }
+        return [];
+      }
+
       // Update cart badge count
       function updateCartBadge() {
         const badge = document.getElementById("cartBadge");
         const cartIcon = document.querySelector(".cart-icon");
-        const cart = globalThis.cart || [];
-        const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        
+        const cartItems = getCurrentCartItems();
+        const itemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
         if (badge) {
           badge.textContent = itemCount;
           if (itemCount > 0) {
@@ -196,7 +212,7 @@
         }
         
         if (cartIcon) {
-          cartIcon.style.display = "flex";
+          cartIcon.style.display = itemCount > 0 ? "flex" : "none";
         }
       }
 
@@ -242,19 +258,26 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        // initializeProducts() is called from product_loader.min.js?v=1.0.0.145958"click", function(event) {
-          const panel = document.getElementById("headerFilters");
-          const toggle = document.querySelector(".filters-toggle");
-          const container = document.querySelector(".header-filters-container");
-          
-          if (panel && panel.classList.contains("open") && 
-              container && !container.contains(event.target)) {
-            panel.classList.remove("open");
-            if (toggle) toggle.setAttribute("aria-expanded", "false");
-          }
-        });
-        
         console.log("Page loaded, cart and filters available");
+      });
+
+      // Close filters when clicking outside
+      document.addEventListener("click", function (event) {
+        const panel = document.getElementById("headerFilters");
+        const toggle = document.querySelector(".filters-toggle");
+        const container = document.querySelector(".header-filters-container");
+
+        if (
+          panel &&
+          panel.classList.contains("open") &&
+          container &&
+          !container.contains(event.target)
+        ) {
+          panel.classList.remove("open");
+          if (toggle) {
+            toggle.setAttribute("aria-expanded", "false");
+          }
+        }
       });
     </script>
   </body>

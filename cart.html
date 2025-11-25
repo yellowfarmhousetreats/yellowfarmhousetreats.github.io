@@ -21,7 +21,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.145958" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.630877" />
   </head>
   <body>
     <div class="container">
@@ -372,7 +372,7 @@
       <div class="alert alert-error" id="errorAlert"></div>
     </div>
 
-    <script src="cart.min.js?v=1.0.0.145958"></script>
+    <script src="cart.min.js?v=1.0.0.630877"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -382,12 +382,30 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
+      function getCurrentCartItems() {
+        if (Array.isArray(globalThis.cart) && globalThis.cart.length >= 0) {
+          return globalThis.cart;
+        }
+        try {
+          const stored = localStorage.getItem("cart");
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            return Array.isArray(parsed) ? parsed : [];
+          }
+        } catch (error) {
+          console.warn("Failed to parse cart from storage", error);
+        }
+        return [];
+      }
+
       // Update cart badge count
       function updateCartBadge() {
         const badge = document.getElementById("cartBadge");
-        const cart = globalThis.cart || [];
+        const cartIcon = document.querySelector(".cart-icon");
+        const cartItems = getCurrentCartItems();
+        const itemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
         if (badge) {
-          const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
           badge.textContent = itemCount;
           if (itemCount > 0) {
             badge.style.display = "flex";
@@ -395,6 +413,10 @@
           } else {
             badge.style.display = "none";
           }
+        }
+
+        if (cartIcon) {
+          cartIcon.style.display = itemCount > 0 ? "flex" : "none";
         }
       }
 

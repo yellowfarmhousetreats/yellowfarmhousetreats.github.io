@@ -81,7 +81,6 @@ function addToCart(index) {
 
   cart.push(cartItem);
   updateCart();
-  saveCart();
 
   if (modalOpen) {
     closeProductModal();
@@ -128,12 +127,13 @@ function updateCart() {
       .join("");
   }
 
+  // Persist cart before updating badges so global state is current
+  saveCart();
+
   // Update navigation cart badge
   if (typeof updateCartBadge === "function") {
     updateCartBadge();
   }
-
-  saveCart();
   checkShippingAvailability();
   calculateTotals();
 
