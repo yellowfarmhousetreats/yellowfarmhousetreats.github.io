@@ -2,21 +2,54 @@ import sys
 import json
 import shutil
 from pathlib import Path
+from typing import List, Dict, Optional, Any, TypedDict, Union, cast
+
 from PyQt6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                               QHBoxLayout, QLabel, QPushButton, QFileDialog, 
                               QLineEdit, QScrollArea, QGridLayout, QMessageBox)
-from PyQt6.QtCore import Qt, QMimeData
-from PyQt6.QtGui import QDragEnterEvent, QDropEvent, QPixmap
+from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QDragEnterEvent, QDropEvent, QMouseEvent, QDragLeaveEvent
+
+
+# Define TypedDicts
+class ProductImages(TypedDict, total=False):
+    primary: str
+
+class ProductDict(TypedDict, total=False):
+    name: str
+    sizes: List[str]
+    sizePrice: Dict[str, int]
+    canGlutenfree: bool
+    canSugarfree: bool
+    category: str
+    canShip: bool
+    weight: Union[int, float]
+    image: str
+    ingredients: str
+    allergens: List[str]
+    dietaryNotes: str
+    subcategory: str
+    hasDeposit: bool
+    depositAmount: int
+    canGiftWrap: bool
+    giftWrapPrice: int
+    # Fields used by renamer logic
+    id: str
+    images: Dict[str, str]
+
+class DropZoneData(TypedDict):
+    zone: 'DropZone'
+    expected: str
 
 
 class DropZone(QLabel):
     """Drag-and-drop zone for product images"""
     
-    def __init__(self, product_name, expected_filename, parent=None):
+    def __init__(self, product_name: str, expected_filename: str, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
-        self.product_name = product_name
-        self.expected_filename = expected_filename
-        self.dropped_file = None
+        self.product_name: str = product_name
+        self.expected_filename: str = expected_filename
+        self.dropped_file: Optional[str] = None
         
         self.setAcceptDrops(True)
         self.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -37,9 +70,12 @@ class DropZone(QLabel):
         self.setText("Drop image here\nor click to select")
         self.setWordWrap(True)
         
-    def dragEnterEvent(self, event: QDragEnterEvent):
-        if event.mimeData().hasUrls():
-            event.acceptProposedAction()
+    def dragEnterEvent(self, a0: Optional[QDragEnterEvent]) -> None:
+        if not a0:
+            return
+        mime_data = a0.mimeData()
+        if mime_data and mime_data.hasUrls():
+            a0.acceptProposedAction()
             self.setStyleSheet("""
                 QLabel {
                     border: 3px solid #21808d;
@@ -51,7 +87,9 @@ class DropZone(QLabel):
                 }
             """)
     
-    def dragLeaveEvent(self, event):
+    def dragLeaveEvent(self, a0: Optional[QDragLeaveEvent]) -> None:
+        if not a0:
+            return
         self.setStyleSheet("""
             QLabel {
                 border: 2px dashed #21808d;
@@ -63,8 +101,14 @@ class DropZone(QLabel):
             }
         """)
     
-    def dropEvent(self, event: QDropEvent):
-        urls = event.mimeData().urls()
+    def dropEvent(self, a0: Optional[QDropEvent]) -> None:
+        if not a0:
+            return
+        mime_data = a0.mimeData()
+        if not mime_data:
+            return
+            
+        urls = mime_data.urls()
         if urls:
             file_path = urls[0].toLocalFile()
             if file_path.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
@@ -84,11 +128,13 @@ class DropZone(QLabel):
             else:
                 QMessageBox.warning(self, "Invalid File", "Please drop an image file (jpg, png, webp)")
     
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, ev: Optional[QMouseEvent]) -> None:
+        if not ev:
+            return
         file_path, _ = QFileDialog.getOpenFileName(
-            self, 
-            "Select Image", 
-            "", 
+            self,
+            "Select Image",
+            "",
             "Images (*.jpg *.jpeg *.png *.webp)"
         )
         if file_path:
@@ -108,11 +154,11 @@ class DropZone(QLabel):
 
 
 class ImageRenamerApp(QMainWindow):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
-        self.products = []
-        self.drop_zones = {}
-        self.output_folder = ""
+        self.products: List[ProductDict] = []
+        self.drop_zones: Dict[str, DropZoneData] = {}
+        self.output_folder: Optional[str] = None
         
         self.setWindowTitle("Image Renamer - FarmBakeGo")
         self.setMinimumSize(1000, 700)
@@ -141,7 +187,7 @@ class ImageRenamerApp(QMainWindow):
         self.json_path_display.setReadOnly(True)
         self.json_path_display.setPlaceholderText("No file selected")
         json_btn = QPushButton("Browse JSON")
-        json_btn.clicked.connect(self.load_json)
+        json_btn.clicked.connect(self.load_json) # type: ignore
         json_layout.addWidget(json_label)
         json_layout.addWidget(self.json_path_display)
         json_layout.addWidget(json_btn)
@@ -154,7 +200,7 @@ class ImageRenamerApp(QMainWindow):
         self.folder_path_display = QLineEdit()
         self.folder_path_display.setPlaceholderText("/path/to/your/repo/images")
         folder_btn = QPushButton("Select Folder")
-        folder_btn.clicked.connect(self.select_output_folder)
+        folder_btn.clicked.connect(self.select_output_folder) # type: ignore
         folder_layout.addWidget(folder_label)
         folder_layout.addWidget(self.folder_path_display)
         folder_layout.addWidget(folder_btn)
@@ -191,14 +237,14 @@ class ImageRenamerApp(QMainWindow):
                 color: #a7a9a9;
             }
         """)
-        self.export_btn.clicked.connect(self.export_images)
+        self.export_btn.clicked.connect(self.export_images) # type: ignore
         layout.addWidget(self.export_btn)
     
-    def load_json(self):
+    def load_json(self, checked: bool = False) -> None:
         file_path, _ = QFileDialog.getOpenFileName(
-            self, 
-            "Select Products JSON", 
-            "", 
+            self,
+            "Select Products JSON",
+            "",
             "JSON Files (*.json)"
         )
         
@@ -207,10 +253,22 @@ class ImageRenamerApp(QMainWindow):
         
         try:
             with open(file_path, 'r') as f:
-                data = json.load(f)
+                data: Any = json.load(f)
             
-            # Handle your JSON structure: products array
-            self.products = data.get('products', [])
+            loaded_products: List[ProductDict] = []
+            
+            # Handle both list and dict root elements
+            if isinstance(data, list):
+                loaded_products = cast(List[ProductDict], data)
+            elif isinstance(data, dict):
+                # Explicitly cast to Dict[str, Any] to satisfy strict mode for .get()
+                data_dict = cast(Dict[str, Any], data)
+                loaded_products = cast(List[ProductDict], data_dict.get('products', []))
+            else:
+                QMessageBox.warning(self, "Invalid JSON", "JSON root must be a list or a dict containing 'products'.")
+                return
+            
+            self.products = loaded_products
             
             if not self.products:
                 QMessageBox.warning(self, "No Products", "No products found in JSON file.")
@@ -222,63 +280,76 @@ class ImageRenamerApp(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to load JSON: {str(e)}")
     
-    def render_products(self):
+    def render_products(self) -> None:
         # Clear existing widgets
-        for i in reversed(range(self.products_layout.count())): 
-            self.products_layout.itemAt(i).widget().setParent(None)
+        for i in reversed(range(self.products_layout.count())):
+            item = self.products_layout.itemAt(i)
+            if item:
+                widget = item.widget()
+                if widget:
+                    widget.setParent(None)
         
         self.drop_zones.clear()
         
         # Create product cards in grid
         for idx, product in enumerate(self.products):
-            row = idx // 3
-            col = idx % 3
-            
-            # Product card container
-            card = QWidget()
-            card.setStyleSheet("""
-                QWidget {
-                    background-color: #fffffe;
-                    border: 1px solid rgba(94, 82, 64, 0.2);
-                    border-radius: 12px;
-                    padding: 16px;
-                }
-            """)
-            card_layout = QVBoxLayout(card)
-            card_layout.setSpacing(8)
-            
-            # Product name
-            name_label = QLabel(product.get('name', 'Unnamed Product'))
-            name_label.setStyleSheet("font-weight: bold; font-size: 16px;")
-            name_label.setWordWrap(True)
-            card_layout.addWidget(name_label)
-            
-            # Expected filename (from images.primary)
-            expected_filename = product.get('images', {}).get('primary', f"product-{idx}.jpg")
-            filename_label = QLabel(f"→ {expected_filename}")
-            filename_label.setStyleSheet("font-family: 'Courier New'; font-size: 13px; color: #626c71;")
-            card_layout.addWidget(filename_label)
-            
-            # Drop zone
-            drop_zone = DropZone(product.get('name', ''), expected_filename)
-            card_layout.addWidget(drop_zone)
-            
-            self.drop_zones[product.get('id', f'product-{idx}')] = {
-                'zone': drop_zone,
-                'expected': expected_filename
-            }
-            
-            self.products_layout.addWidget(card, row, col)
+            self.create_product_card(product, idx)
         
         self.export_btn.setEnabled(True)
+
+    def create_product_card(self, product: ProductDict, idx: int) -> None:
+        row = idx // 3
+        col = idx % 3
+        
+        # Product card container
+        card = QWidget()
+        card.setStyleSheet("""
+            QWidget {
+                background-color: #fffffe;
+                border: 1px solid rgba(94, 82, 64, 0.2);
+                border-radius: 12px;
+                padding: 16px;
+            }
+        """)
+        card_layout = QVBoxLayout(card)
+        card_layout.setSpacing(8)
+        
+        # Product name
+        name_label = QLabel(product.get('name', 'Unnamed Product'))
+        name_label.setStyleSheet("font-weight: bold; font-size: 16px;")
+        name_label.setWordWrap(True)
+        card_layout.addWidget(name_label)
+        
+        # Expected filename
+        # Logic: try images.primary, else fallback to product-{idx}.jpg
+        images = product.get('images', {})
+        # images is typed as Dict[str, str] in ProductDict, so we can safely use .get
+        expected_filename = images.get('primary', f"product-{idx}.jpg")
+        
+        filename_label = QLabel(f"→ {expected_filename}")
+        filename_label.setStyleSheet("font-family: 'Courier New'; font-size: 13px; color: #626c71;")
+        card_layout.addWidget(filename_label)
+        
+        # Drop zone
+        drop_zone = DropZone(product.get('name', ''), expected_filename)
+        card_layout.addWidget(drop_zone)
+        
+        # Store metadata
+        product_id = product.get('id', f'product-{idx}')
+        self.drop_zones[product_id] = {
+            'zone': drop_zone,
+            'expected': expected_filename
+        }
+        
+        self.products_layout.addWidget(card, row, col)
     
-    def select_output_folder(self):
+    def select_output_folder(self, checked: bool = False) -> None:
         folder = QFileDialog.getExistingDirectory(self, "Select Output Folder")
         if folder:
             self.output_folder = folder
             self.folder_path_display.setText(folder)
     
-    def export_images(self):
+    def export_images(self, checked: bool = False) -> None:
         if not self.output_folder:
             QMessageBox.warning(self, "No Folder", "Please select an output folder first.")
             return
@@ -290,7 +361,7 @@ class ImageRenamerApp(QMainWindow):
         
         exported_count = 0
         
-        for product_id, data in self.drop_zones.items():
+        for _, data in self.drop_zones.items():
             drop_zone = data['zone']
             expected_filename = data['expected']
             
@@ -331,7 +402,7 @@ class ImageRenamerApp(QMainWindow):
             QMessageBox.information(self, "No Images", "No images were dropped. Add images first.")
 
 
-def main():
+def main() -> None:
     app = QApplication(sys.argv)
     window = ImageRenamerApp()
     window.show()
