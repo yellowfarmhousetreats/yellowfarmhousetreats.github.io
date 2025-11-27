@@ -19,83 +19,19 @@ async function loadProducts() {
 async function initializeProducts() {
   console.log("Initializing products...");
   const spinner = document.getElementById("loadingSpinner");
-  spinner.classList.remove("hidden");
+  if (spinner) spinner.classList.remove("hidden");
 
   const products = await loadProducts();
   console.log("Loaded products:", products.length);
 
-  spinner.style.display = "none";
-  generateCategoryTabs();
+  if (spinner) spinner.style.display = "none";
   displayProducts(products);
 
-  // Add event listeners
-  document.getElementById("productSearch").addEventListener("input", filterAndDisplay);
-  document.getElementById("productSort").addEventListener("change", filterAndDisplay);
-  document.getElementById("filter-gf").addEventListener("change", filterAndDisplay);
-  document.getElementById("filter-sf").addEventListener("change", filterAndDisplay);
   console.log("Products initialized");
 }
 
 function generateCategoryTabs() {
-  const tabContainer = document.getElementById("categoryTabs");
-  tabContainer.innerHTML = "";
-
-  // Create select for mobile
-  const select = document.createElement("select");
-  select.id = "categorySelect";
-  select.className = "category-select";
-
-  // All option
-  const allOption = document.createElement("option");
-  allOption.value = "all";
-  allOption.textContent = "All";
-  select.appendChild(allOption);
-
-  // Get unique categories in desired order
-  const categoryOrder = ["Cookie", "Brownie", "Cake", "Pastry", "Pie", "Bread", "Muffin", "Candy"];
-  const allCategories = new Set(menuItems.map((item) => item.category));
-  const categories = categoryOrder.filter((cat) => allCategories.has(cat));
-
-  for (const cat of categories) {
-    const option = document.createElement("option");
-    option.value = cat;
-    option.textContent = cat;
-    select.appendChild(option);
-  }
-
-  tabContainer.appendChild(select);
-
-  // All tab
-  const allTab = document.createElement("button");
-  allTab.className = "tab-button active";
-  allTab.textContent = "All";
-  allTab.dataset.category = "all";
-  allTab.addEventListener("click", setActiveTab);
-  tabContainer.appendChild(allTab);
-
-  // Tabs for categories
-  for (const cat of categories) {
-    const tab = document.createElement("button");
-    tab.className = "tab-button";
-    tab.textContent = cat;
-    tab.dataset.category = cat;
-    tab.addEventListener("click", setActiveTab);
-    tabContainer.appendChild(tab);
-  }
-
-  // Add event listener to select
-  select.addEventListener("change", () => {
-    // Set active tab to match select
-    const selectedCategory = select.value;
-    for (const btn of document.querySelectorAll(".tab-button")) {
-      if (btn.dataset.category === selectedCategory) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    }
-    filterAndDisplay();
-  });
+  // Category tabs removed - using header dropdown only
 }
 
 function setActiveTab(event) {
@@ -111,8 +47,8 @@ function setActiveTab(event) {
 }
 
 function getCurrentCategory() {
-  const activeTab = document.querySelector(".tab-button.active");
-  return activeTab ? activeTab.dataset.category : "all";
+  const activeBtn = document.querySelector(".filter-cat-btn.active");
+  return activeBtn?.dataset?.filterCategory ?? "all";
 }
 
 function displayProducts(products) {
@@ -136,16 +72,159 @@ function displayProducts(products) {
   const sortedCategories = [...categoryOrder, ...otherCategories];
 
   let globalIndex = 0;
+  let isFirstAccordion = true;
 
   for (const category of sortedCategories) {
     const items = productsByCategory[category];
     if (items && items.length > 0) {
-      const sectionResult = createCategorySection(category, items, globalIndex);
-      grid.appendChild(sectionResult.node);
-      globalIndex = sectionResult.nextIndex;
+      const accordion = createAccordionSection(category, items, globalIndex, isFirstAccordion);
+      grid.appendChild(accordion.node);
+      globalIndex = accordion.nextIndex;
+      isFirstAccordion = false;
     }
   }
   console.log("Products displayed");
+}
+
+function pluralizeCategoryName(category) {
+  const pluralMap = {
+    Cookie: "Cookies",
+    Bread: "Breads",
+    Brownie: "Brownies",
+    Cake: "Cakes",
+    Candy: "Candies",
+    Muffin: "Muffins",
+    Pastry: "Pastries",
+    Pie: "Pies",
+  };
+  return pluralMap[category] || category;
+}
+
+function createAccordionSection(category, items, startIndex, isFirstAccordion = false) {
+  const accordion = document.createElement("div");
+  accordion.className = "accordion-section";
+
+  const header = document.createElement("button");
+  header.className = "accordion-header";
+  header.setAttribute("aria-expanded", isFirstAccordion ? "true" : "false");
+  const pluralCategory = pluralizeCategoryName(category);
+  header.innerHTML = `
+    <span class="accordion-title">${pluralCategory} <span class="accordion-count">(${items.length})</span></span>
+    <svg class="accordion-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+
+  const content = document.createElement("div");
+  content.className = isFirstAccordion ? "accordion-content open" : "accordion-content";
+
+  if (category === "Cookie") {
+    // Group cookies by subcategory with nested accordions
+    const subcategories = ["simple", "fancy", "complex"];
+    let index = startIndex;
+    
+    for (const sub of subcategories) {
+      const subItems = items.filter((item) => item.subcategory === sub);
+      if (subItems.length > 0) {
+        // Create subcategory accordion
+        const subAccordion = document.createElement("div");
+        subAccordion.className = "sub-accordion-section";
+        
+        const subHeader = document.createElement("button");
+        subHeader.className = "sub-accordion-header";
+        subHeader.setAttribute("aria-expanded", "false");
+        const subLabel = sub.charAt(0).toUpperCase() + sub.slice(1);
+        subHeader.innerHTML = `
+          <span class="sub-accordion-title">${subLabel} Cookies <span class="accordion-count">(${subItems.length})</span></span>
+          <svg class="accordion-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        `;
+        
+        const subContent = document.createElement("div");
+        subContent.className = "sub-accordion-content";
+        
+        const grid = document.createElement("div");
+        grid.className = "accordion-grid";
+        for (const item of subItems) {
+          const thumb = createProductThumbnail(item, index);
+          grid.appendChild(thumb);
+          index++;
+        }
+        subContent.appendChild(grid);
+        
+        subAccordion.appendChild(subHeader);
+        subAccordion.appendChild(subContent);
+        content.appendChild(subAccordion);
+        
+        subHeader.onclick = () => toggleAccordion(subHeader, subContent);
+      }
+    }
+    accordion.appendChild(header);
+    accordion.appendChild(content);
+    
+    header.onclick = () => toggleAccordion(header, content);
+    return { node: accordion, nextIndex: index };
+  }
+
+  // Regular category
+  const grid = document.createElement("div");
+  grid.className = "accordion-grid";
+  let index = startIndex;
+  for (const item of items) {
+    const thumb = createProductThumbnail(item, index);
+    grid.appendChild(thumb);
+    index++;
+  }
+  content.appendChild(grid);
+  accordion.appendChild(header);
+  accordion.appendChild(content);
+
+  header.onclick = () => toggleAccordion(header, content);
+  return { node: accordion, nextIndex: index };
+}
+
+function toggleAccordion(header, content) {
+  const isOpen = content.classList.contains("open");
+  if (isOpen) {
+    content.classList.remove("open");
+    header.setAttribute("aria-expanded", "false");
+  } else {
+    content.classList.add("open");
+    header.setAttribute("aria-expanded", "true");
+  }
+}
+
+function createProductThumbnail(item, index) {
+  const thumb = document.createElement("div");
+  thumb.className = "product-thumbnail";
+  thumb.onclick = () => openProductModal(menuItems.indexOf(item));
+
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "thumbnail-image";
+  if (item.image) {
+    const img = document.createElement("img");
+    img.src = item.image;
+    img.alt = item.name || "Product Image";
+    img.loading = "lazy";
+    imgWrap.appendChild(img);
+  } else {
+    imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
+  }
+  thumb.appendChild(imgWrap);
+
+  const nameDiv = document.createElement("div");
+  nameDiv.className = "thumbnail-name";
+  nameDiv.textContent = item.name;
+  thumb.appendChild(nameDiv);
+
+  const priceDiv = document.createElement("div");
+  priceDiv.className = "thumbnail-price";
+  const defaultPrice = getDefaultPrice(item);
+  priceDiv.textContent = `Starting at $${defaultPrice.toFixed(2)}`;
+  thumb.appendChild(priceDiv);
+
+  return thumb;
 }
 
 function createCategorySection(category, items, startIndex) {
@@ -219,20 +298,11 @@ function createProductCard(item, index) {
   const imgWrap = document.createElement("div");
   imgWrap.className = "product-image";
   if (item.image) {
-    // Use <picture> for WebP support with JPG fallback
-    const picture = document.createElement("picture");
-    const webpSrc = item.image.replace(".jpg", ".webp").replace(".png", ".webp");
-    const source = document.createElement("source");
-    source.srcset = webpSrc;
-    source.type = "image/webp";
-    picture.appendChild(source);
-
     const img = document.createElement("img");
     img.src = item.image;
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
-    picture.appendChild(img);
-    imgWrap.appendChild(picture);
+    imgWrap.appendChild(img);
   } else {
     imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
   }
@@ -307,11 +377,13 @@ function filterAndDisplay() {
     filtered = filtered.filter((item) => item.name.toLowerCase().includes(searchQuery));
   }
 
-  // Dietary filters (updated to use button states and OR logic)
-  if (gfFilterActive || sfFilterActive) {
+  // Dietary filters (use checkbox states directly)
+  const gfFilter = document.getElementById("filter-gf")?.checked;
+  const sfFilter = document.getElementById("filter-sf")?.checked;
+  if (gfFilter || sfFilter) {
     filtered = filtered.filter((item) => {
-      if (gfFilterActive && item.canGlutenfree) return true;
-      if (sfFilterActive && item.canSugarfree) return true;
+      if (gfFilter && item.canGlutenfree) return true;
+      if (sfFilter && item.canSugarfree) return true;
       return false; // Only include if at least one filter matches
     });
   }
@@ -370,7 +442,7 @@ function openProductModal(index) {
       const idx = focusable.indexOf(document.activeElement);
       if (e.shiftKey && idx === 0) {
         e.preventDefault();
-        focusable[focusable.length - 1].focus();
+        focusable.at(-1).focus();
       } else if (!e.shiftKey && idx === focusable.length - 1) {
         e.preventDefault();
         focusable[0].focus();
@@ -378,17 +450,16 @@ function openProductModal(index) {
     }
   };
   modal.addEventListener("keydown", keyHandler);
-  modal.dataset.keyHandlerAttached = "true";
+  modal._keyHandler = keyHandler; // Store reference for later removal
   modal.showModal();
 }
 
 function closeProductModal() {
   const modal = document.getElementById("productModal");
   modal.removeEventListener("click", handleBackdropClick);
-  if (modal.dataset.keyHandlerAttached) {
-    // Remove all keydown handlers by cloning (quick way without tracking reference)
-    const clone = modal.cloneNode(true);
-    modal.parentNode.replaceChild(clone, modal);
+  if (modal._keyHandler) {
+    modal.removeEventListener("keydown", modal._keyHandler);
+    delete modal._keyHandler;
   }
   modal.close();
   document.getElementById("modalContent").innerHTML = "";
@@ -410,8 +481,7 @@ function createModalContent(item, index) {
   // Image
   html += '<div class="product-image">';
   if (item.image) {
-    const webpSrc = item.image.replace(".jpg", ".webp").replace(".png", ".webp");
-    html += `<picture><source srcset="${webpSrc}" type="image/webp"><img alt="${item.name || "Product Image"}" data-src="${item.image}"></picture>`;
+    html += `<img src="${item.image}" alt="${item.name || "Product Image"}" loading="lazy">`;
   } else {
     html += '<div class="image-placeholder">Image Coming Soon</div>';
   }
@@ -420,7 +490,7 @@ function createModalContent(item, index) {
   // Header
   html += '<div class="product-header">';
   html += `<div class="product-name">${item.name}</div>`;
-  html += `<div class="product-price">$${defaultPrice.toFixed(2)}</div>`;
+  html += `<div class="product-price">Starting at $${defaultPrice.toFixed(2)}</div>`;
   html += "</div>";
 
   // Badges
@@ -450,8 +520,7 @@ function createModalContent(item, index) {
   if (item.flavors && item.flavors.length > 0) {
     html += '<div class="form-group">';
     html += '<label for="modal-flavor">Flavor:</label>';
-    html +=
-      '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
+    html += '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
     for (const flavor of item.flavors) {
       html += `<option value="${flavor}">${flavor}</option>`;
     }
@@ -463,8 +532,7 @@ function createModalContent(item, index) {
   if (item.flavorNotes) {
     html += '<div class="form-group">';
     html += '<label for="modal-notes">Flavor Notes:</label>';
-    html +=
-      '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
+    html += '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
     html += "</div>";
   }
 
@@ -474,17 +542,18 @@ function createModalContent(item, index) {
   html += '<input type="number" id="modal-qty" class="quantity-input" min="1" value="1">';
   html += "</div>";
 
-  // Dietary options
-  if (item.canGlutenfree || item.canSugarfree) {
+  // Dietary options and Gift Wrap
+  if (item.canGlutenfree || item.canSugarfree || item.canGiftWrap) {
     html += '<div class="form-group dietary-options">';
     html += "<label>Special Options:</label>";
     if (item.canGlutenfree) {
-      html +=
-        '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
+      html += '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
     }
     if (item.canSugarfree) {
-      html +=
-        '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+      html += '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+    }
+    if (item.canGiftWrap) {
+      html += `<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$${item.giftWrapPrice}</label>`;
     }
     html += "</div>";
   }
@@ -499,12 +568,19 @@ function createModalContent(item, index) {
 
 function updatePriceInModal() {
   const sizeSelect = document.getElementById("modal-size");
+  const giftCheckbox = document.getElementById("modal-gift");
   const priceDisplay = document.querySelector("#modalContent .product-price");
   if (!sizeSelect || !priceDisplay) return;
 
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  const price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  
+  // Add gift wrap price if checked
+  if (giftCheckbox?.checked && currentItem.canGiftWrap) {
+    price += currentItem.giftWrapPrice;
+  }
+  
   priceDisplay.textContent = `$${price.toFixed(2)}`;
 }
 
@@ -513,10 +589,14 @@ function updateDietaryOptionsInModal() {
 }
 
 // Expose functions to global scope
-window.openProductModal = openProductModal;
-window.closeProductModal = closeProductModal;
-window.updatePriceInModal = updatePriceInModal;
-window.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
+globalThis.openProductModal = openProductModal;
+globalThis.closeProductModal = closeProductModal;
+globalThis.updatePriceInModal = updatePriceInModal;
+globalThis.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
 
 // ========== INITIALIZE ON PAGE LOAD ==========
+
+// Expose filter function
+globalThis.filterAndDisplay = filterAndDisplay;
+
 document.addEventListener("DOMContentLoaded", initializeProducts);

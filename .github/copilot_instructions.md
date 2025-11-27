@@ -1,4 +1,4 @@
-# Yellow Farmhouse Treats – Dev Onboarding
+## Yellow Farmhouse Treats – Dev Onboarding
 
 ## 1. Project Inventory
 
@@ -26,7 +26,7 @@
 - Cart badge (`#cartBadge`), success/error alerts (`#successAlert`, `#errorAlert`), modal container IDs, and filter inputs must remain stable; JS queries by ID/class.
 - Cart persistence relies on `localStorage["yft_cart"]` with the current schema. Any schema change requires migration logic in both JS files.
 
-## 3. Critical Areas & “Do Not Touch” Without Coordination
+## 3. Critical Areas & “Do Not Touch” (Read Carefully)
 
 1. **Cart storage & badge logic**
    - Keep storage key `yft_cart`.
@@ -133,3 +133,18 @@ Keep this doc up to date whenever the architecture or workflow changes.```// fil
 - DevTools console shows no errors after interactions.
 
 Keep this doc up to date whenever the architecture or workflow changes.```
+ Completed Work:
+SEO Optimization - Added meta tags, Open Graph, schema markup, sitemap, robots.txt
+Performance - Lazy loading images, WebP support, code minification (JS/CSS)
+Code Quality - Fixed 29/33 formatting errors (window→globalThis, optional chaining, for...of loops)
+Bug Fixes - Fixed undefined gfFilterActive/sfFilterActive variables, modal close functionality
+Modal Centering - Fixed modal positioning with position: fixed, transform: translate(-50%, -50%), z-index: 9999
+Cache Busting - Updated version parameters to v=1763842406
+🔧 Recent Changes:
+Modified styles.css: Dialog now centers with fixed positioning
+Updated index.html & cart.html: New cache-busting version for CSS
+All changes committed and pushed to GitHub Pages
+📌 To Resume:
+Modal should now appear centered on screen when product cards are clicked
+User should hard refresh (Cmd+Shift+R) to see changes
+4 remaining contrast warnings (non-critical accessibility suggestions)

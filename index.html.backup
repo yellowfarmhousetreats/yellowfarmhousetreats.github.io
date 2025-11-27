@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.630877" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.918988" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -67,9 +67,52 @@
             >
           </a>
         </div>
-        <div class="dietary-info-banner">
-          <div class="info-item">⚠️ All items made in a kitchen that processes nuts</div>
-          <div class="info-item">✨ Gluten-Free & Sugar-Free options available</div>
+        <div class="header-filters-container">
+          <button
+            class="filters-toggle"
+            onclick="toggleFilters()"
+            aria-label="Toggle search and filters"
+          >
+            🔍 <span class="toggle-text">Search & Filter</span>
+          </button>
+          <div class="header-filters" id="headerFilters">
+            <div class="filter-categories">
+              <button
+                class="filter-cat-btn active"
+                data-filter-category="all"
+                onclick="selectHeaderCategory('all')"
+              >
+                Everything
+              </button>
+              <button
+                class="filter-cat-btn"
+                data-filter-category="Candy"
+                onclick="selectHeaderCategory('Candy')"
+              >
+                Candy
+              </button>
+              <button
+                class="filter-cat-btn"
+                data-filter-category="Cookie"
+                onclick="selectHeaderCategory('Cookie')"
+              >
+                Cookies
+              </button>
+            </div>
+            <div class="filter-dietary">
+              <label class="dietary-toggle">
+                <input type="checkbox" id="header-filter-gf" onchange="filterAndDisplay()" />
+                <span class="dietary-icon">🚫🌾</span>
+                <span class="dietary-label">Gluten-Free</span>
+              </label>
+              <label class="dietary-toggle">
+                <input type="checkbox" id="header-filter-sf" onchange="filterAndDisplay()" />
+                <span class="dietary-icon">🚫🧊</span>
+                <span class="dietary-label">Sugar-Free</span>
+              </label>
+            </div>
+            <div class="nut-warning">⚠️ All items made in a kitchen that processes nuts</div>
+          </div>
         </div>
       </header>
       <!-- ========== INSTAGRAM FEED - SHOWCASED UNDER HEADER ========== -->
@@ -78,9 +121,8 @@
         <div class="instagram-container">
           <!-- SnapWidget -->
           <iframe
-            src="https://snapwidget.com/embed/1113167"
+            src="https://snapwidget.com/embed/1112051"
             class="snapwidget-widget"
-            style="border:none; overflow:hidden; width:100%;"
             title="Posts from Instagram"
           ></iframe>
         </div>
@@ -159,8 +201,8 @@
       </div>
     </div>
 
-    <script src="product_loader.min.js?v=1.0.0.630877"></script>
-    <script src="cart.min.js?v=1.0.0.630877"></script>
+    <script src="product_loader.min.js?v=1.0.0.918988"></script>
+    <script src="cart.min.js?v=1.0.0.918988"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -178,30 +220,12 @@
         }
       }
 
-      function getCurrentCartItems() {
-        if (Array.isArray(globalThis.cart) && globalThis.cart.length >= 0) {
-          return globalThis.cart;
-        }
-        try {
-          const stored = localStorage.getItem("cart");
-          if (stored) {
-            const parsed = JSON.parse(stored);
-            return Array.isArray(parsed) ? parsed : [];
-          }
-        } catch (error) {
-          console.warn("Failed to parse cart from storage", error);
-        }
-        return [];
-      }
-
       // Update cart badge count
       function updateCartBadge() {
         const badge = document.getElementById("cartBadge");
-        const cartIcon = document.querySelector(".cart-icon");
-        const cartItems = getCurrentCartItems();
-        const itemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
+        const cart = globalThis.cart || [];
         if (badge) {
+          const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
           badge.textContent = itemCount;
           if (itemCount > 0) {
             badge.style.display = "flex";
@@ -209,10 +233,6 @@
           } else {
             badge.style.display = "none";
           }
-        }
-        
-        if (cartIcon) {
-          cartIcon.style.display = itemCount > 0 ? "flex" : "none";
         }
       }
 
@@ -245,83 +265,32 @@
         }
       }
 
-      // Close filters panel
-      function closeFilters() {
-        const panel = document.getElementById("headerFilters");
-        const toggle = document.querySelector(".filters-toggle");
-        if (panel && panel.classList.contains("open")) {
-          panel.classList.remove("open");
-          toggle.setAttribute("aria-expanded", "false");
-        }
-      }
-
       // Select category from header filters
       function selectHeaderCategory(category) {
         for (const btn of document.querySelectorAll(".filter-cat-btn")) {
           btn.classList.toggle("active", btn.dataset.filterCategory === category);
-        });
-
-        // Sync with main category tabs
-        const mainTabs = document.querySelectorAll(".tab-button");
-        mainTabs.forEach((tab) => {
-          if (tab.dataset.category === category) {
-            tab.classList.add("active");
-            tab.click();
-          } else {
-            tab.classList.remove("active");
-          }
-        });
-
-        // Sync select dropdown
-        const select = document.getElementById("categorySelect");
-        if (select) select.value = category;
-
-        // Close filters after selection
-        setTimeout(closeFilters, 300);
-      }
-
-      // Sync dietary filters between header and main controls
-      function syncDietaryFilters() {
-        const headerGF = document.getElementById("header-filter-gf");
-        const headerSF = document.getElementById("header-filter-sf");
-        const mainGF = document.getElementById("filter-gf");
-        const mainSF = document.getElementById("filter-sf");
-
-        if (mainGF) mainGF.checked = headerGF.checked;
-        if (mainSF) mainSF.checked = headerSF.checked;
-
-        // Trigger filter update
+        }
         if (typeof filterAndDisplay === "function") {
           filterAndDisplay();
         }
-
-        // Close filters after dietary selection
-        setTimeout(closeFilters, 300);
       }
 
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        console.log("Page loaded, cart and filters available");
-      });
-
-      // Close filters when clicking outside
-      document.addEventListener("click", function (event) {
-        const panel = document.getElementById("headerFilters");
-        const toggle = document.querySelector(".filters-toggle");
-        const container = document.querySelector(".header-filters-container");
-
-        if (
-          panel &&
-          panel.classList.contains("open") &&
-          container &&
-          !container.contains(event.target)
-        ) {
-          panel.classList.remove("open");
-          if (toggle) {
-            toggle.setAttribute("aria-expanded", "false");
+        // initializeProducts() is called from product_loader.min.js?v=1.0.0.918988"click", function(event) {
+          const panel = document.getElementById("headerFilters");
+          const toggle = document.querySelector(".filters-toggle");
+          const container = document.querySelector(".header-filters-container");
+          
+          if (panel && panel.classList.contains("open") && 
+              container && !container.contains(event.target)) {
+            panel.classList.remove("open");
+            if (toggle) toggle.setAttribute("aria-expanded", "false");
           }
-        }
+        });
+        
+        console.log("Page loaded, cart and filters available");
       });
     </script>
   </body>

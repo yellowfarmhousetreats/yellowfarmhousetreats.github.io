@@ -3,25 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yellow Farmhouse Treats - Checkout</title>
-    <!-- SEO Meta Tags -->
-    <meta
-      name="description"
-      content="Complete your order for fresh, custom baked goods from Yellow Farmhouse Treats in Caldwell, Idaho."
-    />
-    <link rel="canonical" href="https://www.yellowfarmhousetreats.com/cart.html" />
-    <meta name="robots" content="noindex, nofollow" />
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Checkout - Yellow Farmhouse Treats" />
-    <meta property="og:description" content="Complete your order for fresh, custom baked goods." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.yellowfarmhousetreats.com/cart.html" />
+    <title>
+      Yellow Farmhous <!-- SEO Meta Tags --> <meta name="description" content="Complete your order
+      for fresh, custom baked goods from Yellow Farmhouse Treats in Caldwell, Idaho."> <link
+      rel="canonical" href="https://www.yellowfarmhousetreats.com/cart.html"> <meta name="robots"
+      content="noindex, nofollow"> <!-- Open Graph Meta Tags --> <meta property="og:title"
+      content="Checkout - Yellow Farmhouse Treats"> <meta property="og:description"
+      content="Complete your order for fresh, custom baked goods."> <meta property="og:type"
+      content="website"> <meta property="og:url"
+      content="https://www.yellowfarmhousetreats.com/cart.html">e Treats - Checkout
+    </title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.630877" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.039616" />
   </head>
   <body>
     <div class="container">
@@ -40,6 +42,27 @@
         </div>
         <div class="header-subtitle">Checkout</div>
       </header>
+      <!-- ========== INSTAGRAM FEED - SHOWCASED UNDER HEADER ========== -->
+      <div class="instagram-showcase">
+        <div class="instagram-showcase-title">📸 Check Out Our Latest Creations!</div>
+        <div class="instagram-container">
+          <!-- SnapWidget -->
+          <iframe
+            src="https://snapwidget.com/embed/1112051"
+            class="snapwidget-widget"
+            title="Posts from Instagram"
+          ></iframe>
+        </div>
+        <div class="instagram-follow">
+          <p>
+            Follow
+            <a href="https://instagram.com/yellowfarmhousetreats" target="_blank" rel="noopener"
+              >@yellowfarmhousetreats</a
+            >
+            for daily updates and behind-the-scenes content! 🌻
+          </p>
+        </div>
+      </div>
 
       <div class="contact-info">
         <p>
@@ -86,9 +109,6 @@
                 <input type="email" id="customerEmail" name="email" />
               </div>
             </div>
-          </div>
-          <div class="step-continue-btn-container hidden" id="step1Continue">
-            <button type="button" class="btn-continue" onclick="continueToNextStep(2)">Continue to Step 2 →</button>
           </div>
         </div>
 
@@ -140,19 +160,9 @@
                   <input type="date" id="pickupDate" name="pickup_date" required />
                 </div>
                 <div class="form-group">
-                  <label for="pickupTime">Pickup Time Window *</label>
-                  <select id="pickupTime" name="pickup_time" required>
-                    <option value="">Select a time window</option>
-                    <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
-                    <option value="1:00 PM - 3:00 PM">1:00 PM - 3:00 PM</option>
-                    <option value="3:00 PM - 5:00 PM">3:00 PM - 5:00 PM</option>
-                    <option value="5:00 PM - 7:00 PM">5:00 PM - 7:00 PM</option>
-                    <option value="7:00 PM - 8:00 PM">7:00 PM - 8:00 PM</option>
-                  </select>
+                  <label for="pickupTime">Pickup Time *</label>
+                  <input type="time" id="pickupTime" name="pickup_time" required />
                 </div>
-              </div>
-              <div class="step-continue-btn-container hidden" id="step2PickupContinue">
-                <button type="button" class="btn-continue" onclick="continueToNextStep(3)">Continue to Step 3 →</button>
               </div>
             </div>
 
@@ -202,9 +212,6 @@
                   </div>
                 </div>
               </div>
-              <div class="step-continue-btn-container hidden" id="step2ShipContinue">
-                <button type="button" class="btn-continue" onclick="continueToNextStep(3)">Continue to Step 3 →</button>
-              </div>
             </div>
           </div>
         </div>
@@ -244,7 +251,7 @@
             <span id="summaryTotal">$0.00</span>
           </div>
           <div class="summary-row deposit" id="depositRow">
-            <span> 50% Deposit Due Now:</span>
+            <span>💳 50% Deposit Due Now:</span>
             <span id="summaryDeposit">$0.00</span>
           </div>
           <div class="summary-row balance-row" id="balanceRow">
@@ -372,7 +379,7 @@
       <div class="alert alert-error" id="errorAlert"></div>
     </div>
 
-    <script src="cart.min.js?v=1.0.0.630877"></script>
+    <script src="cart.min.js?v=1.0.0.039616"></script>
 
     <!-- Navigation JavaScript -->
     <script>
@@ -382,30 +389,12 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      function getCurrentCartItems() {
-        if (Array.isArray(globalThis.cart) && globalThis.cart.length >= 0) {
-          return globalThis.cart;
-        }
-        try {
-          const stored = localStorage.getItem("cart");
-          if (stored) {
-            const parsed = JSON.parse(stored);
-            return Array.isArray(parsed) ? parsed : [];
-          }
-        } catch (error) {
-          console.warn("Failed to parse cart from storage", error);
-        }
-        return [];
-      }
-
       // Update cart badge count
       function updateCartBadge() {
         const badge = document.getElementById("cartBadge");
-        const cartIcon = document.querySelector(".cart-icon");
-        const cartItems = getCurrentCartItems();
-        const itemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
+        const cart = globalThis.cart || [];
         if (badge) {
+          const itemCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
           badge.textContent = itemCount;
           if (itemCount > 0) {
             badge.style.display = "flex";
@@ -413,10 +402,6 @@
           } else {
             badge.style.display = "none";
           }
-        }
-
-        if (cartIcon) {
-          cartIcon.style.display = itemCount > 0 ? "flex" : "none";
         }
       }
 
