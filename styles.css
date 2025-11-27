@@ -964,7 +964,7 @@ input[type="number"] {
 
 /* DIETARY OPTIONS */
 .dietary-section {
-  background: var(--bg-secondaryer);
+  background: var(--bg-secondary);
   border: 2px solid var(--color-primary);
   border-radius: 6px;
   padding: 12px;
@@ -1134,7 +1134,7 @@ input[type="number"] {
 
 .empty-items {
   text-align: center;
-  color: var(--text-secondaryer);
+  color: var(--text-secondary);
   padding: 30px;
 }
 
@@ -1214,7 +1214,7 @@ textarea {
   color: var(--text-secondary);
   margin-top: 10px;
   padding: 10px;
-  background: var(--bg-secondaryer);
+  background: var(--bg-secondary);
   border-radius: 4px;
   border-left: 3px solid var(--color-primary);
 }
@@ -1229,7 +1229,7 @@ textarea {
 
 /* DEPOSIT SECTION */
 .deposit-alert {
-  background: linear-gradient(135deg, var(--bg-secondaryest) 0%, var(--bg-secondaryer) 100%);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-secondary) 100%);
   border: 2px solid var(--color-primary);
   border-radius: 6px;
   padding: 20px;
@@ -1293,7 +1293,7 @@ textarea {
 
 .payment-option:hover {
   border-color: var(--color-primary);
-  background: var(--bg-secondaryer);
+  background: var(--bg-secondary);
 }
 
 .payment-option input[type="radio"] {
@@ -1349,7 +1349,7 @@ textarea {
   color: var(--text-secondary);
   margin-top: 15px;
   padding: 12px;
-  background: var(--bg-secondaryer);
+  background: var(--bg-secondary);
   border-left: 3px solid var(--color-primary);
   border-radius: 4px;
 }
@@ -1812,7 +1812,7 @@ textarea {
 /* DIETARY OPTIONS IN FORM */
 .dietary-options {
   grid-column: 1 / -1;
-  background: var(--bg-secondaryer);
+  background: var(--bg-secondary);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 12px;

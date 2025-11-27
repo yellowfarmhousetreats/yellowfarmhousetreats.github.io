@@ -513,33 +513,6 @@
     "dietaryNotes": "Cookie butter-stuffed cookies with signature Biscoff flavor."
   },
   {
-    "name": "Chocolate Cookies",
-    "sizes": [
-      "3 Pack",
-      "Half Dozen",
-      "Dozen"
-    ],
-    "sizePrice": {
-      "3_Pack": 12,
-      "Half_Dozen": 20,
-      "Dozen": 32
-    },
-    "canGlutenfree": false,
-    "canSugarfree": false,
-    "category": "Cookie",
-    "subcategory": "fancy",
-    "canShip": false,
-    "weight": 0,
-    "image": "images/chocolate-cookies.jpg",
-    "ingredients": "Flour, Cocoa Powder, Sugar, Butter, Eggs, Vanilla, Baking Soda, Salt",
-    "allergens": [
-      "Wheat",
-      "Dairy",
-      "Eggs"
-    ],
-    "dietaryNotes": "Rich decadent chocolate cookies for chocolate lovers."
-  },
-  {
     "name": "Oreo Cookies",
     "sizes": [
       "3 Pack",
@@ -621,34 +594,6 @@
       "Eggs"
     ],
     "dietaryNotes": "Velvety red cookies with cream cheese frosting."
-  },
-  {
-    "name": "Chocolate Chip Cookies",
-    "sizes": [
-      "3 Pack",
-      "Half Dozen",
-      "Dozen"
-    ],
-    "sizePrice": {
-      "3_Pack": 12,
-      "Half_Dozen": 20,
-      "Dozen": 32
-    },
-    "canGlutenfree": false,
-    "canSugarfree": false,
-    "category": "Cookie",
-    "subcategory": "fancy",
-    "canShip": false,
-    "weight": 0,
-    "image": "images/chocolate-chip-cookies.jpg",
-    "ingredients": "Flour, Butter, Sugar, Brown Sugar, Eggs, Chocolate Chips, Vanilla, Baking Soda, Salt",
-    "allergens": [
-      "Wheat",
-      "Dairy",
-      "Eggs",
-      "Soy"
-    ],
-    "dietaryNotes": "Classic soft and chewy cookies loaded with chocolate chips."
   },
   {
     "name": "Espresso Cookies",
