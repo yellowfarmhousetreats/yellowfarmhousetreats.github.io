@@ -290,6 +290,16 @@
         }
       }
 
+      // Close filters panel
+      function closeFilters() {
+        const panel = document.getElementById("headerFilters");
+        const toggle = document.querySelector(".filters-toggle");
+        if (panel && panel.classList.contains("open")) {
+          panel.classList.remove("open");
+          toggle.setAttribute("aria-expanded", "false");
+        }
+      }
+
       // Select category from header filters
       function selectHeaderCategory(category) {
         // Update header button states
@@ -311,6 +321,9 @@
         // Sync select dropdown
         const select = document.getElementById("categorySelect");
         if (select) select.value = category;
+
+        // Close filters after selection
+        setTimeout(closeFilters, 300);
       }
 
       // Sync dietary filters between header and main controls
@@ -327,6 +340,9 @@
         if (typeof filterAndDisplay === "function") {
           filterAndDisplay();
         }
+
+        // Close filters after dietary selection
+        setTimeout(closeFilters, 300);
       }
 
       // Initialize on page load
