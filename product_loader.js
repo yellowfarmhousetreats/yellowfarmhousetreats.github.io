@@ -229,67 +229,6 @@ function createProductThumbnail(item, index) {
   return thumb;
 }
 
-function createCategorySection(category, items, startIndex) {
-  if (category === "Cookie") {
-    return createCookieSections(items, startIndex);
-  }
-
-  // Normal category
-  const section = document.createElement("div");
-  section.className = "category-section";
-
-  const title = document.createElement("h2");
-  title.className = "category-title";
-  title.textContent = category;
-  section.appendChild(title);
-
-  const categoryGrid = document.createElement("div");
-  categoryGrid.className = "products-grid product-grid";
-
-  let index = startIndex;
-  for (const item of items) {
-    const card = createProductCard(item, index);
-    categoryGrid.appendChild(card);
-    index++;
-  }
-
-  section.appendChild(categoryGrid);
-  return { node: section, nextIndex: index };
-}
-
-function createCookieSections(items, startIndex) {
-  const section = document.createElement("div");
-  section.className = "category-section";
-
-  const title = document.createElement("h2");
-  title.className = "category-title";
-  title.textContent = "Cookies";
-  section.appendChild(title);
-
-  const subcategories = ["simple", "fancy", "complex"];
-  let index = startIndex;
-  for (const sub of subcategories) {
-    const subItems = items.filter((item) => item.subcategory === sub);
-    if (subItems.length > 0) {
-      const subTitle = document.createElement("h3");
-      subTitle.className = "subcategory-title";
-      subTitle.textContent = `${sub.charAt(0).toUpperCase() + sub.slice(1)} Cookies`;
-      section.appendChild(subTitle);
-
-      const subGrid = document.createElement("div");
-      subGrid.className = "products-grid product-grid";
-
-      for (const item of subItems) {
-        const card = createProductCard(item, index);
-        subGrid.appendChild(card);
-        index++;
-      }
-      section.appendChild(subGrid);
-    }
-  }
-  return { node: section, nextIndex: index };
-}
-
 function createProductCard(item, index) {
   const defaultPrice = getDefaultPrice(item);
 
@@ -364,35 +303,29 @@ function updatePrice(index) {
   priceDisplay.textContent = `from $${price.toFixed(2)}`;
 }
 
-function filterAndDisplay() {
-  let filtered = menuItems.slice(); // copy
+function applyCategoryFilter(items, category) {
+  if (category === "all") return items;
+  return items.filter((item) => item.category === category);
+}
 
-  // Category filter
-  const category = getCurrentCategory();
-  if (category !== "all") {
-    filtered = filtered.filter((item) => item.category === category);
-  }
+function applySearchFilter(items, searchQuery) {
+  if (!searchQuery) return items;
+  const query = searchQuery.toLowerCase();
+  return items.filter((item) => item.name.toLowerCase().includes(query));
+}
 
-  // Search filter
-  const searchQuery = document.getElementById("productSearch").value.toLowerCase();
-  if (searchQuery) {
-    filtered = filtered.filter((item) => item.name.toLowerCase().includes(searchQuery));
-  }
+function applyDietaryFilters(items, gfChecked, sfChecked) {
+  if (!gfChecked && !sfChecked) return items;
+  return items.filter((item) => {
+    if (gfChecked && item.canGlutenfree) return true;
+    if (sfChecked && item.canSugarfree) return true;
+    return false;
+  });
+}
 
-  // Dietary filters (use checkbox states directly)
-  const gfFilter = document.getElementById("filter-gf")?.checked;
-  const sfFilter = document.getElementById("filter-sf")?.checked;
-  if (gfFilter || sfFilter) {
-    filtered = filtered.filter((item) => {
-      if (gfFilter && item.canGlutenfree) return true;
-      if (sfFilter && item.canSugarfree) return true;
-      return false; // Only include if at least one filter matches
-    });
-  }
-
-  // Sort
-  const sortBy = document.getElementById("productSort").value;
-  filtered.sort((a, b) => {
+function sortProducts(items, sortBy) {
+  const sorted = items.slice();
+  sorted.sort((a, b) => {
     if (sortBy === "name") return a.name.localeCompare(b.name);
     const priceA = getDefaultPrice(a);
     const priceB = getDefaultPrice(b);
@@ -400,6 +333,24 @@ function filterAndDisplay() {
     if (sortBy === "price-high") return priceB - priceA;
     return 0;
   });
+  return sorted;
+}
+
+function filterAndDisplay() {
+  let filtered = menuItems.slice();
+
+  const category = getCurrentCategory();
+  filtered = applyCategoryFilter(filtered, category);
+
+  const searchQuery = document.getElementById("productSearch").value;
+  filtered = applySearchFilter(filtered, searchQuery);
+
+  const gfFilter = document.getElementById("filter-gf")?.checked;
+  const sfFilter = document.getElementById("filter-sf")?.checked;
+  filtered = applyDietaryFilters(filtered, gfFilter, sfFilter);
+
+  const sortBy = document.getElementById("productSort").value;
+  filtered = sortProducts(filtered, sortBy);
 
   displayProducts(filtered);
 }
@@ -408,6 +359,44 @@ function filterAndDisplay() {
 // Removed as replaced with badges and filters
 
 // ========== MODAL FUNCTIONS ==========
+function setupModalAccessibility(modal, modalContent) {
+  const nameEl = modalContent.querySelector(".product-name");
+  if (nameEl) nameEl.id = "modalTitle";
+  
+  setTimeout(() => {
+    const first = modalContent.querySelector("button, [href], input, select, textarea");
+    (first || modal).focus();
+  }, 0);
+}
+
+function createModalKeyHandler(modal, modalContent) {
+  return (e) => {
+    if (e.key === "Escape") {
+      closeProductModal();
+      return;
+    }
+    if (e.key === "Tab") {
+      handleModalTabKey(e, modalContent);
+    }
+  };
+}
+
+function handleModalTabKey(e, modalContent) {
+  const focusable = Array.from(
+    modalContent.querySelectorAll("button, [href], input, select, textarea")
+  );
+  if (!focusable.length) return;
+  
+  const idx = focusable.indexOf(document.activeElement);
+  if (e.shiftKey && idx === 0) {
+    e.preventDefault();
+    focusable.at(-1).focus();
+  } else if (!e.shiftKey && idx === focusable.length - 1) {
+    e.preventDefault();
+    focusable[0].focus();
+  }
+}
+
 function openProductModal(index) {
   globalThis.currentModalIndex = index;
   const item = menuItems[index];
@@ -422,37 +411,12 @@ function openProductModal(index) {
 
   const modal = document.getElementById("productModal");
   modal.addEventListener("click", handleBackdropClick);
-  // Accessibility: assign id for title reference
-  const nameEl = modalContent.querySelector(".product-name");
-  if (nameEl) nameEl.id = "modalTitle";
-  // Focus first interactive element
-  setTimeout(() => {
-    const first = modalContent.querySelector("button, [href], input, select, textarea");
-    (first || modal).focus();
-  }, 0);
-  // Simple focus trap & escape close
-  const keyHandler = (e) => {
-    if (e.key === "Escape") {
-      closeProductModal();
-      return;
-    }
-    if (e.key === "Tab") {
-      const focusable = Array.from(
-        modalContent.querySelectorAll("button, [href], input, select, textarea")
-      );
-      if (!focusable.length) return;
-      const idx = focusable.indexOf(document.activeElement);
-      if (e.shiftKey && idx === 0) {
-        e.preventDefault();
-        focusable.at(-1).focus();
-      } else if (!e.shiftKey && idx === focusable.length - 1) {
-        e.preventDefault();
-        focusable[0].focus();
-      }
-    }
-  };
+  
+  setupModalAccessibility(modal, modalContent);
+  
+  const keyHandler = createModalKeyHandler(modal, modalContent);
   modal.addEventListener("keydown", keyHandler);
-  modal._keyHandler = keyHandler; // Store reference for later removal
+  modal._keyHandler = keyHandler;
   modal.showModal();
 }
 
@@ -475,28 +439,27 @@ function stopModalPropagation(e) {
   e.stopPropagation();
 }
 
-function createModalContent(item, index) {
-  const defaultPrice = getDefaultPrice(item);
-
-  let html = "";
-
-  // Image
-  html += '<div class="product-image">';
+function createModalImage(item) {
+  let html = '<div class="product-image">';
   if (item.image) {
     html += `<img src="${item.image}" alt="${item.name || "Product Image"}" loading="lazy">`;
   } else {
     html += '<div class="image-placeholder">Image Coming Soon</div>';
   }
   html += "</div>";
+  return html;
+}
 
-  // Header
-  html += '<div class="product-header">';
+function createModalHeader(item, defaultPrice) {
+  let html = '<div class="product-header">';
   html += `<div class="product-name">${item.name}</div>`;
   html += `<div class="product-price">Starting at $${defaultPrice.toFixed(2)}</div>`;
   html += "</div>";
+  return html;
+}
 
-  // Badges
-  html += '<div class="dietary-badges">';
+function createModalBadges(item) {
+  let html = '<div class="dietary-badges">';
   if (item.canGlutenfree) {
     html += '<span class="badge gluten-free">Can be Gluten Free</span>';
   }
@@ -504,12 +467,11 @@ function createModalContent(item, index) {
     html += '<span class="badge sugar-free">Can be Sugar Free</span>';
   }
   html += "</div>";
+  return html;
+}
 
-  // Form
-  html += '<div class="product-form">';
-
-  // Size select
-  html += '<div class="form-group">';
+function createSizeSelector(item) {
+  let html = '<div class="form-group">';
   html += '<label for="modal-size">Size:</label>';
   html += '<select id="modal-size" class="size-select" onchange="updatePriceInModal()">';
   for (const size of item.sizes) {
@@ -517,54 +479,74 @@ function createModalContent(item, index) {
   }
   html += "</select>";
   html += "</div>";
+  return html;
+}
 
-  // Flavor select (optional)
-  if (item.flavors && item.flavors.length > 0) {
-    html += '<div class="form-group">';
-    html += '<label for="modal-flavor">Flavor:</label>';
-    html += '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
-    for (const flavor of item.flavors) {
-      html += `<option value="${flavor}">${flavor}</option>`;
-    }
-    html += "</select>";
-    html += "</div>";
+function createFlavorSelector(item) {
+  if (!item.flavors || item.flavors.length === 0) return "";
+  
+  let html = '<div class="form-group">';
+  html += '<label for="modal-flavor">Flavor:</label>';
+  html += '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
+  for (const flavor of item.flavors) {
+    html += `<option value="${flavor}">${flavor}</option>`;
   }
+  html += "</select>";
+  html += "</div>";
+  return html;
+}
 
-  // Flavor notes (optional)
-  if (item.flavorNotes) {
-    html += '<div class="form-group">';
-    html += '<label for="modal-notes">Flavor Notes:</label>';
-    html += '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
-    html += "</div>";
-  }
+function createFlavorNotes(item) {
+  if (!item.flavorNotes) return "";
+  
+  let html = '<div class="form-group">';
+  html += '<label for="modal-notes">Flavor Notes:</label>';
+  html += '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
+  html += "</div>";
+  return html;
+}
 
-  // Quantity
-  html += '<div class="form-group">';
+function createQuantityInput() {
+  let html = '<div class="form-group">';
   html += '<label for="modal-qty">Quantity:</label>';
   html += '<input type="number" id="modal-qty" class="quantity-input" min="1" value="1">';
   html += "</div>";
+  return html;
+}
 
-  // Dietary options and Gift Wrap
-  if (item.canGlutenfree || item.canSugarfree || item.canGiftWrap) {
-    html += '<div class="form-group dietary-options">';
-    html += "<label>Special Options:</label>";
-    if (item.canGlutenfree) {
-      html += '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
-    }
-    if (item.canSugarfree) {
-      html += '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
-    }
-    if (item.canGiftWrap) {
-      html += `<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$${item.giftWrapPrice}</label>`;
-    }
-    html += "</div>";
+function createSpecialOptions(item) {
+  if (!item.canGlutenfree && !item.canSugarfree && !item.canGiftWrap) return "";
+  
+  let html = '<div class="form-group dietary-options">';
+  html += "<label>Special Options:</label>";
+  if (item.canGlutenfree) {
+    html += '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
   }
-
-  // Add to Cart button
-  html += `<button class="add-to-cart-btn" onclick="addToCart(${index})">Add to Cart</button>`;
-
+  if (item.canSugarfree) {
+    html += '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+  }
+  if (item.canGiftWrap) {
+    html += `<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$${item.giftWrapPrice}</label>`;
+  }
   html += "</div>";
+  return html;
+}
 
+function createModalContent(item, index) {
+  const defaultPrice = getDefaultPrice(item);
+  
+  let html = createModalImage(item);
+  html += createModalHeader(item, defaultPrice);
+  html += createModalBadges(item);
+  html += '<div class="product-form">';
+  html += createSizeSelector(item);
+  html += createFlavorSelector(item);
+  html += createFlavorNotes(item);
+  html += createQuantityInput();
+  html += createSpecialOptions(item);
+  html += `<button class="add-to-cart-btn" onclick="addToCart(${index})">Add to Cart</button>`;
+  html += "</div>";
+  
   return html;
 }
 

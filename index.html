@@ -80,7 +80,6 @@
           <iframe
             src="https://snapwidget.com/embed/1113167"
             class="snapwidget-widget"
-            style="border:none; overflow:hidden; width:100%;"
             title="Posts from Instagram"
             allowfullscreen
           ></iframe>
@@ -180,7 +179,7 @@
       }
 
       function getCurrentCartItems() {
-        if (Array.isArray(globalThis.cart) && globalThis.cart.length >= 0) {
+        if (Array.isArray(globalThis.cart) && globalThis.cart.length > 0) {
           return globalThis.cart;
         }
         try {
@@ -236,26 +235,7 @@
       // Initialize on page load
       document.addEventListener("DOMContentLoaded", function () {
         updateCartBadge();
-        console.log("Page loaded, cart and filters available");
-      });
-
-      // Close filters when clicking outside
-      document.addEventListener("click", function (event) {
-        const panel = document.getElementById("headerFilters");
-        const toggle = document.querySelector(".filters-toggle");
-        const container = document.querySelector(".header-filters-container");
-
-        if (
-          panel &&
-          panel.classList.contains("open") &&
-          container &&
-          !container.contains(event.target)
-        ) {
-          panel.classList.remove("open");
-          if (toggle) {
-            toggle.setAttribute("aria-expanded", "false");
-          }
-        }
+        console.log("Page loaded, cart badge initialized");
       });
     </script>
   </body>
