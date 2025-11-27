@@ -103,14 +103,14 @@ function pluralizeCategoryName(category) {
 function createCookieSubAccordions(content, items, startIndex) {
   const subcategories = ["simple", "fancy", "complex"];
   let index = startIndex;
-  
+
   for (const sub of subcategories) {
     const subItems = items.filter((item) => item.subcategory === sub);
     if (subItems.length > 0) {
       // Create subcategory accordion
       const subAccordion = document.createElement("div");
       subAccordion.className = "sub-accordion-section";
-      
+
       const subHeader = document.createElement("button");
       subHeader.className = "sub-accordion-header";
       subHeader.setAttribute("aria-expanded", "false");
@@ -121,10 +121,10 @@ function createCookieSubAccordions(content, items, startIndex) {
           <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       `;
-      
+
       const subContent = document.createElement("div");
       subContent.className = "sub-accordion-content";
-      
+
       const grid = document.createElement("div");
       grid.className = "accordion-grid";
       for (const item of subItems) {
@@ -133,15 +133,15 @@ function createCookieSubAccordions(content, items, startIndex) {
         index++;
       }
       subContent.appendChild(grid);
-      
+
       subAccordion.appendChild(subHeader);
       subAccordion.appendChild(subContent);
       content.appendChild(subAccordion);
-      
+
       subHeader.onclick = () => toggleAccordion(subHeader, subContent);
     }
   }
-  
+
   return index;
 }
 
@@ -182,7 +182,7 @@ function createAccordionSection(category, items, startIndex, isFirstAccordion = 
   accordion.appendChild(header);
   accordion.appendChild(content);
   header.onclick = () => toggleAccordion(header, content);
-  
+
   return { node: accordion, nextIndex: index };
 }
 
@@ -362,7 +362,7 @@ function filterAndDisplay() {
 function setupModalAccessibility(modal, modalContent) {
   const nameEl = modalContent.querySelector(".product-name");
   if (nameEl) nameEl.id = "modalTitle";
-  
+
   setTimeout(() => {
     const first = modalContent.querySelector("button, [href], input, select, textarea");
     (first || modal).focus();
@@ -386,7 +386,7 @@ function handleModalTabKey(e, modalContent) {
     modalContent.querySelectorAll("button, [href], input, select, textarea")
   );
   if (!focusable.length) return;
-  
+
   const idx = focusable.indexOf(document.activeElement);
   if (e.shiftKey && idx === 0) {
     e.preventDefault();
@@ -411,9 +411,9 @@ function openProductModal(index) {
 
   const modal = document.getElementById("productModal");
   modal.addEventListener("click", handleBackdropClick);
-  
+
   setupModalAccessibility(modal, modalContent);
-  
+
   const keyHandler = createModalKeyHandler(modal, modalContent);
   modal.addEventListener("keydown", keyHandler);
   modal._keyHandler = keyHandler;
@@ -484,10 +484,11 @@ function createSizeSelector(item) {
 
 function createFlavorSelector(item) {
   if (!item.flavors || item.flavors.length === 0) return "";
-  
+
   let html = '<div class="form-group">';
   html += '<label for="modal-flavor">Flavor:</label>';
-  html += '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
+  html +=
+    '<select id="modal-flavor" class="flavor-select" onchange="updateDietaryOptionsInModal()">';
   for (const flavor of item.flavors) {
     html += `<option value="${flavor}">${flavor}</option>`;
   }
@@ -498,10 +499,11 @@ function createFlavorSelector(item) {
 
 function createFlavorNotes(item) {
   if (!item.flavorNotes) return "";
-  
+
   let html = '<div class="form-group">';
   html += '<label for="modal-notes">Flavor Notes:</label>';
-  html += '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
+  html +=
+    '<input type="text" id="modal-notes" class="flavor-notes" placeholder="Optional flavor preferences">';
   html += "</div>";
   return html;
 }
@@ -516,14 +518,16 @@ function createQuantityInput() {
 
 function createSpecialOptions(item) {
   if (!item.canGlutenfree && !item.canSugarfree && !item.canGiftWrap) return "";
-  
+
   let html = '<div class="form-group dietary-options">';
   html += "<label>Special Options:</label>";
   if (item.canGlutenfree) {
-    html += '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
+    html +=
+      '<label class="checkbox-label"><input type="checkbox" id="modal-gf" class="dietary-checkbox"> Gluten Free</label>';
   }
   if (item.canSugarfree) {
-    html += '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
+    html +=
+      '<label class="checkbox-label"><input type="checkbox" id="modal-sf" class="dietary-checkbox"> Sugar Free</label>';
   }
   if (item.canGiftWrap) {
     html += `<label class="checkbox-label"><input type="checkbox" id="modal-gift" class="gift-checkbox" onchange="updatePriceInModal()"> 🎁 Gift Wrap (Mason Jar) +$${item.giftWrapPrice}</label>`;
@@ -534,7 +538,7 @@ function createSpecialOptions(item) {
 
 function createModalContent(item, index) {
   const defaultPrice = getDefaultPrice(item);
-  
+
   let html = createModalImage(item);
   html += createModalHeader(item, defaultPrice);
   html += createModalBadges(item);
@@ -546,7 +550,7 @@ function createModalContent(item, index) {
   html += createSpecialOptions(item);
   html += `<button class="add-to-cart-btn" onclick="addToCart(${index})">Add to Cart</button>`;
   html += "</div>";
-  
+
   return html;
 }
 
@@ -559,12 +563,12 @@ function updatePriceInModal() {
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
   let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
-  
+
   // Add gift wrap price if checked
   if (giftCheckbox?.checked && currentItem.canGiftWrap) {
     price += currentItem.giftWrapPrice;
   }
-  
+
   priceDisplay.textContent = `$${price.toFixed(2)}`;
 }
 

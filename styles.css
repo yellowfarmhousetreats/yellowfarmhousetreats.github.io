@@ -6,26 +6,26 @@
 
 :root {
   /* === E-COMMERCE COLOR SYSTEM (60-30-10 RULE) === */
-  
+
   /* PRIMARY (60%) - Warm Brown: Brand identity, headers, main elements */
   --color-primary: #8b7355;
   --color-primary-dark: #6d5942;
   --color-primary-light: #a0826d;
-  
+
   /* SECONDARY (30%) - Golden: Gradients, highlights, visual interest */
   --color-secondary: #c99f3a;
   --color-secondary-dark: #b87220;
-  
+
   /* ACCENT (10%) - Green: CTAs, success states, conversion elements */
   --color-accent: #27ae60;
   --color-accent-dark: #1e8449;
   --color-accent-darker: #176a37;
-  
+
   /* UTILITY COLORS - Alerts & States */
   --color-danger: #e74c3c;
   --color-danger-dark: #c0392b;
   --color-warning: #ffc107;
-  
+
   /* NEUTRALS - Not counted in core colors */
   --color-white: #ffffff;
   --color-black: #000000;
@@ -36,7 +36,7 @@
   --color-gray-medium: #666666;
   --color-gray-dark: #3d3d3d;
   --color-gray-darker: #2c3e50;
-  
+
   /* SEMANTIC ALIASES - For clarity in usage */
   --bg-primary: var(--color-gray-lighter);
   --bg-secondary: var(--color-gray-lightest);
@@ -47,7 +47,7 @@
   --text-heading: var(--color-primary-dark);
   --border-color: var(--color-gray);
   --border-light: var(--color-gray-light);
-  
+
   /* STATE BACKGROUNDS - For alerts */
   --bg-success: #d4edda;
   --bg-danger: #f8d7da;
@@ -640,7 +640,9 @@ body {
 .accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+  transition:
+    max-height 0.4s ease-out,
+    padding 0.3s ease-out;
   padding: 0 25px;
 }
 
@@ -782,7 +784,9 @@ body {
 .sub-accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease-out, padding 0.3s ease-out;
+  transition:
+    max-height 0.4s ease-out,
+    padding 0.3s ease-out;
   padding: 0;
 }
 
@@ -1029,7 +1033,9 @@ input[type="number"] {
   font-weight: 700;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
@@ -1951,4 +1957,3 @@ dialog::backdrop {
     padding: 15px;
   }
 }
-
