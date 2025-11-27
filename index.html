@@ -82,6 +82,7 @@
             class="snapwidget-widget"
             style="border:none; overflow:hidden; width:100%;"
             title="Posts from Instagram"
+            allowfullscreen
           ></iframe>
         </div>
         <div class="instagram-follow">
@@ -172,7 +173,7 @@
 
       // Scroll to cart section
       function scrollToCart() {
-        const cartSection = document.getElementById("cartItems");
+        const cartSection = document.getElementById("orderItems");
         if (cartSection) {
           cartSection.scrollIntoView({ behavior: "smooth", block: "start" });
         }
@@ -230,73 +231,6 @@
           badge.classList.add("bounce");
           setTimeout(() => badge.classList.remove("bounce"), 600);
         }
-      }
-
-      // Toggle filters panel
-      function toggleFilters() {
-        const panel = document.getElementById("headerFilters");
-        const toggle = document.querySelector(".filters-toggle");
-        if (panel.classList.contains("open")) {
-          panel.classList.remove("open");
-          toggle.setAttribute("aria-expanded", "false");
-        } else {
-          panel.classList.add("open");
-          toggle.setAttribute("aria-expanded", "true");
-        }
-      }
-
-      // Close filters panel
-      function closeFilters() {
-        const panel = document.getElementById("headerFilters");
-        const toggle = document.querySelector(".filters-toggle");
-        if (panel && panel.classList.contains("open")) {
-          panel.classList.remove("open");
-          toggle.setAttribute("aria-expanded", "false");
-        }
-      }
-
-      // Select category from header filters
-      function selectHeaderCategory(category) {
-        for (const btn of document.querySelectorAll(".filter-cat-btn")) {
-          btn.classList.toggle("active", btn.dataset.filterCategory === category);
-        }
-
-        // Sync with main category tabs
-        const mainTabs = document.querySelectorAll(".tab-button");
-        mainTabs.forEach((tab) => {
-          if (tab.dataset.category === category) {
-            tab.classList.add("active");
-            tab.click();
-          } else {
-            tab.classList.remove("active");
-          }
-        });
-
-        // Sync select dropdown
-        const select = document.getElementById("categorySelect");
-        if (select) select.value = category;
-
-        // Close filters after selection
-        setTimeout(closeFilters, 300);
-      }
-
-      // Sync dietary filters between header and main controls
-      function syncDietaryFilters() {
-        const headerGF = document.getElementById("header-filter-gf");
-        const headerSF = document.getElementById("header-filter-sf");
-        const mainGF = document.getElementById("filter-gf");
-        const mainSF = document.getElementById("filter-sf");
-
-        if (mainGF) mainGF.checked = headerGF.checked;
-        if (mainSF) mainSF.checked = headerSF.checked;
-
-        // Trigger filter update
-        if (typeof filterAndDisplay === "function") {
-          filterAndDisplay();
-        }
-
-        // Close filters after dietary selection
-        setTimeout(closeFilters, 300);
       }
 
       // Initialize on page load

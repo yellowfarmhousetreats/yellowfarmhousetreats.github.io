@@ -100,6 +100,51 @@ function pluralizeCategoryName(category) {
   return pluralMap[category] || category;
 }
 
+function createCookieSubAccordions(content, items, startIndex) {
+  const subcategories = ["simple", "fancy", "complex"];
+  let index = startIndex;
+  
+  for (const sub of subcategories) {
+    const subItems = items.filter((item) => item.subcategory === sub);
+    if (subItems.length > 0) {
+      // Create subcategory accordion
+      const subAccordion = document.createElement("div");
+      subAccordion.className = "sub-accordion-section";
+      
+      const subHeader = document.createElement("button");
+      subHeader.className = "sub-accordion-header";
+      subHeader.setAttribute("aria-expanded", "false");
+      const subLabel = sub.charAt(0).toUpperCase() + sub.slice(1);
+      subHeader.innerHTML = `
+        <span class="sub-accordion-title">${subLabel} Cookies <span class="accordion-count">(${subItems.length})</span></span>
+        <svg class="accordion-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
+          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+      
+      const subContent = document.createElement("div");
+      subContent.className = "sub-accordion-content";
+      
+      const grid = document.createElement("div");
+      grid.className = "accordion-grid";
+      for (const item of subItems) {
+        const thumb = createProductThumbnail(item, index);
+        grid.appendChild(thumb);
+        index++;
+      }
+      subContent.appendChild(grid);
+      
+      subAccordion.appendChild(subHeader);
+      subAccordion.appendChild(subContent);
+      content.appendChild(subAccordion);
+      
+      subHeader.onclick = () => toggleAccordion(subHeader, subContent);
+    }
+  }
+  
+  return index;
+}
+
 function createAccordionSection(category, items, startIndex, isFirstAccordion = false) {
   const accordion = document.createElement("div");
   accordion.className = "accordion-section";
@@ -118,69 +163,26 @@ function createAccordionSection(category, items, startIndex, isFirstAccordion = 
   const content = document.createElement("div");
   content.className = isFirstAccordion ? "accordion-content open" : "accordion-content";
 
+  let index = startIndex;
+
   if (category === "Cookie") {
-    // Group cookies by subcategory with nested accordions
-    const subcategories = ["simple", "fancy", "complex"];
-    let index = startIndex;
-    
-    for (const sub of subcategories) {
-      const subItems = items.filter((item) => item.subcategory === sub);
-      if (subItems.length > 0) {
-        // Create subcategory accordion
-        const subAccordion = document.createElement("div");
-        subAccordion.className = "sub-accordion-section";
-        
-        const subHeader = document.createElement("button");
-        subHeader.className = "sub-accordion-header";
-        subHeader.setAttribute("aria-expanded", "false");
-        const subLabel = sub.charAt(0).toUpperCase() + sub.slice(1);
-        subHeader.innerHTML = `
-          <span class="sub-accordion-title">${subLabel} Cookies <span class="accordion-count">(${subItems.length})</span></span>
-          <svg class="accordion-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
-            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        `;
-        
-        const subContent = document.createElement("div");
-        subContent.className = "sub-accordion-content";
-        
-        const grid = document.createElement("div");
-        grid.className = "accordion-grid";
-        for (const item of subItems) {
-          const thumb = createProductThumbnail(item, index);
-          grid.appendChild(thumb);
-          index++;
-        }
-        subContent.appendChild(grid);
-        
-        subAccordion.appendChild(subHeader);
-        subAccordion.appendChild(subContent);
-        content.appendChild(subAccordion);
-        
-        subHeader.onclick = () => toggleAccordion(subHeader, subContent);
-      }
+    index = createCookieSubAccordions(content, items, startIndex);
+  } else {
+    // Regular category
+    const grid = document.createElement("div");
+    grid.className = "accordion-grid";
+    for (const item of items) {
+      const thumb = createProductThumbnail(item, index);
+      grid.appendChild(thumb);
+      index++;
     }
-    accordion.appendChild(header);
-    accordion.appendChild(content);
-    
-    header.onclick = () => toggleAccordion(header, content);
-    return { node: accordion, nextIndex: index };
+    content.appendChild(grid);
   }
 
-  // Regular category
-  const grid = document.createElement("div");
-  grid.className = "accordion-grid";
-  let index = startIndex;
-  for (const item of items) {
-    const thumb = createProductThumbnail(item, index);
-    grid.appendChild(thumb);
-    index++;
-  }
-  content.appendChild(grid);
   accordion.appendChild(header);
   accordion.appendChild(content);
-
   header.onclick = () => toggleAccordion(header, content);
+  
   return { node: accordion, nextIndex: index };
 }
 
