@@ -8,11 +8,17 @@
     "build:js": "terser product_loader.js -o product_loader.min.js && terser cart.js -o cart.min.js",
     "build:css": "csso styles.css --output styles.min.css",
     "build": "npm run build:js && npm run build:css && npm run postbuild",
-    "postbuild": "node scripts/cacheBust.js && node scripts/update-sitemap.js"
+    "postbuild": "node scripts/cacheBust.js && node scripts/update-sitemap.js",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,html,json}": "prettier --write"
   },
   "devDependencies": {
     "csso": "^5.0.5",
     "csso-cli": "^4.0.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.2.5",
     "terser": "^5.27.0"
   }
