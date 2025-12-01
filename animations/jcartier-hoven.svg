@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:cc="http://web.resource.org/cc/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    id="svg3804"
+    sodipodi:docname="hoven.svg"
+    viewBox="0 0 21 31"
+    sodipodi:version="0.32"
+    version="1.0"
+    inkscape:output_extension="org.inkscape.output.svg.inkscape"
+    inkscape:version="0.45.1"
+    sodipodi:docbase="/home/jean/Desktop"
+  >
+  <sodipodi:namedview
+      id="base"
+      bordercolor="#666666"
+      inkscape:pageshadow="2"
+      inkscape:window-y="24"
+      pagecolor="#ffffff"
+      inkscape:window-height="629"
+      inkscape:zoom="0.35"
+      inkscape:window-x="0"
+      borderopacity="1.0"
+      inkscape:current-layer="layer1"
+      inkscape:cx="375"
+      inkscape:cy="520"
+      inkscape:window-width="910"
+      inkscape:pageopacity="0.0"
+      inkscape:document-units="px"
+  />
+  <g
+      id="layer1"
+      inkscape:label="Calque 1"
+      inkscape:groupmode="layer"
+      transform="translate(-343.79 -236.86)"
+    >
+    <g
+        id="g27551"
+        transform="translate(25.286 -217)"
+      >
+      <path
+          id="path12609"
+          style="fill-rule:evenodd;fill:#edd400"
+          d="m319 459.36v20c0 1 10 6 10 5v-20c0-1-10-6-10-5z"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path12611"
+          style="fill-rule:evenodd;fill:#fce94f"
+          d="m329 464.36c0-1 10-6 10-5v20c0 1-10 6-10 5v-20z"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path12613"
+          style="fill-rule:evenodd;fill:#c4a000"
+          d="m319 459.36c0-1 9-5 10-5s10 4 10 5-9 5-10 5-10-4-10-5z"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path12673"
+          sodipodi:rx="1.5"
+          sodipodi:ry="1.5"
+          style="stroke:#000000;stroke-width:.88562;fill:#d3d7cf"
+          sodipodi:type="arc"
+          d="m78 263.86a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 1 1 3 0z"
+          transform="matrix(.51584 0 0 .61793 295.99 301.14)"
+          sodipodi:cy="263.86218"
+          sodipodi:cx="76.5"
+      />
+      <path
+          id="path12621"
+          sodipodi:rx="1.5"
+          sodipodi:ry="1.5"
+          style="stroke:#000000;stroke-width:.88562;fill:#d3d7cf"
+          sodipodi:type="arc"
+          d="m78 263.86a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 1 1 3 0z"
+          transform="matrix(.51584 0 0 .61793 291.56 303.14)"
+          sodipodi:cy="263.86218"
+          sodipodi:cx="76.5"
+      />
+      <path
+          id="path12675"
+          sodipodi:rx="1.5"
+          sodipodi:ry="1.5"
+          style="stroke:#000000;stroke-width:.88562;fill:#d3d7cf"
+          sodipodi:type="arc"
+          d="m78 263.86a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 1 1 3 0z"
+          transform="matrix(.51584 0 0 .61793 298.05 300.14)"
+          sodipodi:cy="263.86218"
+          sodipodi:cx="76.5"
+      />
+      <path
+          id="path12623"
+          sodipodi:rx="1.5"
+          sodipodi:ry="1.5"
+          style="stroke:#000000;stroke-width:.88562;fill:#d3d7cf"
+          sodipodi:type="arc"
+          d="m78 263.86a1.5 1.5 0 1 1 -3 0 1.5 1.5 0 1 1 3 0z"
+          transform="matrix(.51584 0 0 .61793 293.65 302)"
+          sodipodi:cy="263.86218"
+          sodipodi:cx="76.5"
+      />
+      <path
+          id="path12677"
+          style="fill-rule:evenodd;stroke:#000000;stroke-width:.5;fill:#c4a000"
+          d="m330 469.36l8-4v11l-8 4v-11z"
+      />
+      <path
+          id="path12679"
+          d="m332 470.36l4-2"
+          style="stroke:#000000;stroke-width:1px;fill:none"
+          sodipodi:nodetypes="cc"
+      />
+      <path
+          id="path12685"
+          d="m323.01 461.86l11-5.45"
+          style="stroke:#000000;stroke-width:1px;fill:none"
+          sodipodi:nodetypes="cc"
+      />
+      <path
+          id="path12687"
+          d="m324 456.36l11 5.51"
+          style="stroke:#000000;stroke-width:1px;fill:none"
+          sodipodi:nodetypes="cc"
+      />
+      <path
+          id="path5947"
+          style="fill-rule:evenodd;stroke:#000000;stroke-width:.5;fill:#fce94f"
+          d="m320.75 459.61c0-1 2-2 3-2s2 0 2 1-1.9 2-3 2c-1 0-2 0-2-1z"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path5949"
+          style="fill-rule:evenodd;stroke:#000000;stroke-width:.21947;fill:#555753"
+          d="m328.11 456.83c0-0.43 0.9-0.86 1.35-0.86 0.46 0 0.91 0 0.91 0.43s-0.86 0.85-1.36 0.85c-0.45 0-0.9 0-0.9-0.42z"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path5951"
+          style="fill-rule:evenodd;stroke:#000000;stroke-width:.21947;fill:#555753"
+          d="m333.63 459.33c0-0.43 0.91-0.86 1.36-0.86s0.9 0 0.9 0.43-0.86 0.85-1.35 0.85c-0.46 0-0.91 0-0.91-0.42z"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path4976"
+          d="m328.11 461.83c0-0.43 0.9-0.86 1.35-0.86 0.46 0 0.91 0 0.91 0.43s-0.86 0.85-1.36 0.85c-0.45 0-0.9 0-0.9-0.42z"
+          style="fill-rule:evenodd;stroke:#000000;stroke-width:.21947;fill:#555753"
+          sodipodi:nodetypes="czzzz"
+      />
+      <path
+          id="path24629"
+          d="m319 459.36v20c0 1 9 5 10 5s10-4 10-5v-20c0-1-9-5-10-5s-10 4-10 5z"
+          style="color:#000000;stroke:#000000;stroke-width:1px;fill:none"
+          sodipodi:nodetypes="czzzzzz"
+      />
+    </g
+    >
+  </g
+  >
+  <metadata
+    >
+    <rdf:RDF
+      >
+      <cc:Work
+        >
+        <dc:format
+          >image/svg+xml</dc:format
+        >
+        <dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        />
+        <cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        />
+        <dc:publisher
+          >
+          <cc:Agent
+              rdf:about="http://openclipart.org/"
+            >
+            <dc:title
+              >Openclipart</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:publisher
+        >
+        <dc:title
+          >hoven</dc:title
+        >
+        <dc:date
+          >2008-05-12T20:52:02</dc:date
+        >
+        <dc:description
+        />
+        <dc:source
+          >https://openclipart.org/detail/16721/hoven-by-jcartier</dc:source
+        >
+        <dc:creator
+          >
+          <cc:Agent
+            >
+            <dc:title
+              >jcartier</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:creator
+        >
+        <dc:subject
+          >
+          <rdf:Bag
+            >
+            <rdf:li
+              >appliance</rdf:li
+            >
+            <rdf:li
+              >cuisine</rdf:li
+            >
+            <rdf:li
+              >four</rdf:li
+            >
+            <rdf:li
+              >hoven</rdf:li
+            >
+            <rdf:li
+              >oven</rdf:li
+            >
+          </rdf:Bag
+          >
+        </dc:subject
+        >
+      </cc:Work
+      >
+      <cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        >
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        />
+      </cc:License
+      >
+    </rdf:RDF
+    >
+  </metadata
+  >
+</svg
+>
