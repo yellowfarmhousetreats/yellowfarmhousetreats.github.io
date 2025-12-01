@@ -2420,6 +2420,49 @@ dialog::backdrop {
   transform: scale(0.95);
 }
 
+/* TREAT MATCHER PROMO */
+.matcher-promo {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, rgba(232, 197, 71, 0.15) 0%, rgba(232, 197, 71, 0.25) 100%);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.matcher-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--color-white);
+  border: 2px solid var(--wheat);
+  border-radius: 24px;
+  text-decoration: none;
+  color: var(--charcoal);
+  font-size: 0.9rem;
+  font-family: var(--font-ui);
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.matcher-link:hover {
+  background: var(--wheat);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 197, 71, 0.3);
+}
+
+.matcher-link:active {
+  transform: scale(0.98);
+}
+
+.matcher-icon {
+  font-size: 1.2rem;
+}
+
+.matcher-arrow {
+  margin-left: auto;
+  opacity: 0.6;
+}
+
 /* CATEGORY FILTER CHIPS */
 .category-filter-mobile {
   display: flex;
