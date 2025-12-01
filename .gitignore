@@ -14,3 +14,11 @@ yarn-error.log*
 
 # Misc
 *.zip
+
+# macOS
+.DS_Store
+
+# Backup files
+*.bak
+*.bak2
+*.backup
