@@ -33,8 +33,18 @@ OPUS TASKS:
 1. Create /components/treat_matcher.js (swipe logic, card stack, gestures)
 2. Create /styles/treat_matcher.css (full-screen cards, animations)
 3. Add link from index.html: "Not sure? Try our Treat Matcher!"
+3.5: Add a progress indicator subltly showing how many items left.
 4. Test on mobile and desktop
-
+5. SIZE SELECTION FLOW (Option 2):
+   - User taps ❤️ button → Show size picker modal (slide up from bottom)
+   - User MUST select size before item added to cart
+   - Size picker shows all available sizes from product_data
+   - Clicking size pill → Adds to cart with celebration → Next card
+   - Dismiss modal → Returns to card (no add)
+6. CART EDIT FUNCTIONALITY (REQUIRED):
+   - Check if cart.html/cart.js has "Edit" or "Change Size" option
+   - If not, add "Change Size" button to each cart item
+   - Allow users to update size/quantity in cart before checkout
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -83,7 +93,17 @@ OPUS TASKS:
     </div>
   </div>
 
-  <!-- "All done!" end screen -->
+    <!-- Size picker modal - REQUIRED after heart tap -->
+  <div id="sizePicker" class="size-picker-modal hidden">
+    <div class="size-picker-overlay" onclick="closeSizePicker()"></div>
+    <div class="size-picker-content">
+      <h3>Select Size</h3>
+      <div id="sizeOptions" class="size-options">
+        <!-- Size pills injected here by JS from product_data -->
+      </div>
+      <p class="size-picker-note">You can change size later in cart</p>
+    </div>
+  </div><!-- "All done!" end screen -->
   <div id="endScreen" class="end-screen hidden">
     <h2>You've seen all our treats!</h2>
     <p id="finalCartCount">0 items in your cart</p>
