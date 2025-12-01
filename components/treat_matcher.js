@@ -9,6 +9,7 @@ let products = [];
 let currentIndex = 0;
 let cartItems = [];
 let cartTotal = 0;
+let pendingProduct = null; // Product waiting for size selection
 
 // Touch/drag state
 let isDragging = false;
@@ -101,6 +102,9 @@ function renderCards() {
   if (currentCard) {
     setupCardGestures(currentCard);
   }
+
+  // Update progress indicator
+  updateProgress();
 }
 
 function createCard(product, isTop) {
@@ -282,14 +286,14 @@ function swipeCard(direction) {
 
   const product = products[currentIndex];
 
-  // Add animation class
-  currentCard.classList.add(direction === "right" ? "swipe-right" : "swipe-left");
-
-  // If liked, add to cart
+  // If liked, show size picker instead of direct add
   if (direction === "right") {
-    addToCart(product);
-    showAddedOverlay();
+    showSizePicker(product);
+    return; // Don't advance yet - wait for size selection
   }
+
+  // Pass - just animate and move to next
+  currentCard.classList.add("swipe-left");
 
   // Hide instructions after first swipe
   document.getElementById("instructions")?.classList.add("hidden");
@@ -301,12 +305,12 @@ function swipeCard(direction) {
   }, 400);
 }
 
-function addToCart(product) {
-  const prices = getPrices(product);
-  const price = prices.min; // Use lowest price for quick add
-
-  // Check if already in cart
-  const existingIndex = cartItems.findIndex((item) => item.uuid === product.uuid);
+function addToCart(product, selectedSize, price) {
+  // Check if already in cart with same size
+  const cartKey = `${product.uuid}-${selectedSize}`;
+  const existingIndex = cartItems.findIndex(
+    (item) => item.uuid === product.uuid && item.size === selectedSize
+  );
 
   if (existingIndex >= 0) {
     cartItems[existingIndex].quantity++;
@@ -314,6 +318,7 @@ function addToCart(product) {
     cartItems.push({
       uuid: product.uuid,
       name: product.name,
+      size: selectedSize,
       price: price,
       quantity: 1,
       image: product.image,
@@ -372,3 +377,106 @@ function shuffleArray(array) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+
+// ========== SIZE PICKER ==========
+function showSizePicker(product) {
+  pendingProduct = product;
+  const modal = document.getElementById("sizePicker");
+  const optionsContainer = document.getElementById("sizeOptions");
+
+  // Build size options from product.sizePrice
+  const sizePrice = product.sizePrice || {};
+  const sizes = Object.entries(sizePrice).filter(
+    ([_, price]) => typeof price === "number" && price > 0
+  );
+
+  if (sizes.length === 0) {
+    // No sizes available, use default
+    selectSize("Default", 0);
+    return;
+  }
+
+  optionsContainer.innerHTML = sizes
+    .map(
+      ([size, price]) => `
+    <button class="size-option" onclick="selectSize('${size}', ${price})">
+      <span class="size-name">${formatSizeLabel(size)}</span>
+      <span class="size-price">$${price.toFixed(2)}</span>
+    </button>
+  `
+    )
+    .join("");
+
+  modal.classList.remove("hidden");
+}
+
+function closeSizePicker() {
+  const modal = document.getElementById("sizePicker");
+  modal.classList.add("hidden");
+  pendingProduct = null;
+  // Reset card position since they didn't complete the add
+  resetCardPosition();
+}
+
+function selectSize(size, price) {
+  if (!pendingProduct) return;
+
+  const product = pendingProduct;
+  pendingProduct = null;
+
+  // Close modal
+  document.getElementById("sizePicker").classList.add("hidden");
+
+  // Add to cart with selected size
+  addToCart(product, size, price);
+
+  // Now animate the card away
+  if (currentCard) {
+    currentCard.classList.add("swipe-right");
+  }
+
+  // Show celebration
+  showAddedOverlay();
+
+  // Hide instructions
+  document.getElementById("instructions")?.classList.add("hidden");
+
+  // Move to next card
+  setTimeout(() => {
+    currentIndex++;
+    renderCards();
+  }, 400);
+}
+
+function formatSizeLabel(key) {
+  if (!key || typeof key !== "string") return "";
+  // Convert underscores to spaces and title case
+  return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+// ========== PROGRESS INDICATOR ==========
+function updateProgress() {
+  let progressEl = document.getElementById("progressIndicator");
+
+  // Create if doesn't exist
+  if (!progressEl) {
+    progressEl = document.createElement("div");
+    progressEl.id = "progressIndicator";
+    progressEl.className = "progress-indicator";
+    document.querySelector(".matcher-header").appendChild(progressEl);
+  }
+
+  const remaining = products.length - currentIndex;
+  const percent = ((currentIndex / products.length) * 100).toFixed(0);
+
+  progressEl.innerHTML = `
+    <span class="progress-text">${remaining} left</span>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: ${percent}%"></div>
+    </div>
+  `;
+}
+
+// Make closeSizePicker available globally for onclick
+window.closeSizePicker = closeSizePicker;
+window.selectSize = selectSize;
