@@ -20,10 +20,10 @@ function normalizeKey(str) {
   return str
     .toLowerCase()
     .trim()
-    .replace(/-/g, "_") // hyphens to underscores
-    .replace(/\s+/g, "_") // spaces to underscores
-    .replace(/_+/g, "_") // collapse multiple underscores
-    .replace(/^_|_$/g, ""); // trim leading/trailing underscores
+    .replaceAll("-", "_") // hyphens to underscores
+    .replaceAll(/\s+/g, "_") // spaces to underscores
+    .replaceAll(/_+/g, "_") // collapse multiple underscores
+    .replaceAll(/(?:^_)|(?:_$)/g, ""); // trim leading/trailing underscores
 }
 
 /**
@@ -121,7 +121,7 @@ function computeComplexity(product) {
  * @returns {number} - Price for the size, or fallback to first available price
  */
 function getPrice(product, selectedSize) {
-  if (!product || !product.sizePrice) {
+  if (!product?.sizePrice) {
     console.warn("getPrice: product missing sizePrice", product?.name);
     return 0;
   }
@@ -146,7 +146,7 @@ function getPrice(product, selectedSize) {
   }
 
   // Try variations: with spaces instead of underscores
-  const spaceVersion = selectedSize.replace(/_/g, " ");
+  const spaceVersion = selectedSize.replaceAll("_", " ");
   const normalizedSpace = normalizeKey(spaceVersion);
   if (normalizedSpace in prices) {
     return prices[normalizedSpace];
@@ -185,7 +185,7 @@ function getSizeDisplayName(product, sizeKey) {
   }
 
   // Fallback: convert key to title case
-  return sizeKey.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
+  return sizeKey.replaceAll("_", " ").replaceAll(/\b\w/g, (char) => char.toUpperCase());
 }
 
 // Expose functions globally for non-module usage

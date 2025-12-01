@@ -1,14 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Treat Matcher | Yellow Farmhouse Treats</title>
-  <link rel="stylesheet" href="/styles/treat_matcher.css">
-</head>
-<body>
-
-<!--
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Treat Matcher | Yellow Farmhouse Treats</title>
+    <link rel="stylesheet" href="/styles/treat_matcher.css" />
+  </head>
+  <body>
+    <!--
 ══════════════════════════════════════════════════════════════════════════════
   TREAT MATCHER - TINDER FOR TREATS
 ══════════════════════════════════════════════════════════════════════════════
@@ -57,104 +56,104 @@ OPUS TASKS:
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
-<div id="matcherContainer" class="matcher-container">
-  
-  <!-- Header with cart count -->
-  <header class="matcher-header">
-    <a href="/index.html" class="back-btn">← Back</a>
-    <h1>Treat Matcher</h1>
-    <a href="/cart.html" class="cart-btn">
-      🛒 <span id="cartCount">0</span>
-    </a>
-  </header>
+    <div id="matcherContainer" class="matcher-container">
+      <!-- Header with cart count -->
+      <header class="matcher-header">
+        <a href="/index.html" class="back-btn">← Back</a>
+        <h1>Treat Matcher</h1>
+        <a href="/cart.html" class="cart-btn"> 🛒 <span id="cartCount">0</span> </a>
+      </header>
 
-  <!-- Instructions (hide after first swipe) -->
-  <div id="instructions" class="instructions">
-    <p>Swipe through our treats!</p>
-    <p>❤️ Right = Add to cart • ✕ Left = Pass</p>
-  </div>
-
-  <!-- Card stack (populated by JS) -->
-  <div id="cardStack" class="card-stack">
-    <!-- Cards injected here -->
-  </div>
-
-  <!-- Action buttons -->
-  <div class="action-buttons">
-    <button id="passBtn" class="action-btn pass-btn" aria-label="Pass">✕</button>
-    <button id="likeBtn" class="action-btn like-btn" aria-label="Add to cart">❤️</button>
-  </div>
-
-  <!-- Cart total footer -->
-  <footer class="matcher-footer">
-    <div class="cart-total">
-      <span>Cart Total:</span>
-      <span id="cartTotal" class="total-amount">$0.00</span>
-    </div>
-    <button id="doneBtn" class="done-btn">Done Shopping →</button>
-  </footer>
-
-  <!-- "Added!" overlay animation -->
-  <div id="addedOverlay" class="added-overlay hidden">
-    <div class="added-content">
-      <span class="added-icon">✓</span>
-      <span class="added-text">Added to Cart!</span>
-    </div>
-  </div>
-
-    <!-- Size picker modal - REQUIRED after heart tap -->
-  <div id="sizePicker" class="size-picker-modal hidden">
-    <div class="size-picker-overlay" onclick="closeSizePicker()"></div>
-    <div class="size-picker-content">
-      <h3>Select Size</h3>
-      <div id="sizeOptions" class="size-options">
-        <!-- Size pills injected here by JS from product_data -->
+      <!-- Instructions (hide after first swipe) -->
+      <div id="instructions" class="instructions">
+        <p>Swipe through our treats!</p>
+        <p>❤️ Right = Add to cart • ✕ Left = Pass</p>
       </div>
-      <p class="size-picker-note">You can change size later in cart</p>
-    </div>
 
-      <!-- Drag & Drop Customization Builder ("Have It Your Way") -->
-  <div id="customBuilder" class="custom-builder-overlay hidden">
-    <div class="custom-builder-content">
-      <h2>Build Your <span id="customProductName">Box</span></h2>
-      <p class="custom-subtitle">Drag treats into your box</p>
-      
-      <!-- Available options to drag -->
-      <div class="custom-available">
-        <h4>Available Treats:</h4>
-        <div id="customOptions" class="custom-options-grid">
-          <!-- Draggable treat icons injected here -->
+      <!-- Card stack (populated by JS) -->
+      <div id="cardStack" class="card-stack">
+        <!-- Cards injected here -->
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-buttons">
+        <button id="passBtn" class="action-btn pass-btn" aria-label="Pass">✕</button>
+        <button id="likeBtn" class="action-btn like-btn" aria-label="Add to cart">❤️</button>
+      </div>
+
+      <!-- Cart total footer -->
+      <footer class="matcher-footer">
+        <div class="cart-total">
+          <span>Cart Total:</span>
+          <span id="cartTotal" class="total-amount">$0.00</span>
+        </div>
+        <button id="doneBtn" class="done-btn">Done Shopping →</button>
+      </footer>
+
+      <!-- "Added!" overlay animation -->
+      <div id="addedOverlay" class="added-overlay hidden">
+        <div class="added-content">
+          <span class="added-icon">✓</span>
+          <span class="added-text">Added to Cart!</span>
         </div>
       </div>
-      
-      <!-- Drop target slots -->
-      <div class="custom-target">
-        <h4>Your Box (<span id="filledSlots">0</span>/<span id="totalSlots">12</span>):</h4>
-        <div id="customSlots" class="custom-slots-grid">
-          <!-- Drop target slots injected here based on size -->
+
+      <!-- Size picker modal - REQUIRED after heart tap -->
+      <div id="sizePicker" class="size-picker-modal hidden">
+        <div
+          class="size-picker-overlay"
+          role="button"
+          tabindex="0"
+          aria-label="Close size picker"
+          onclick="closeSizePicker()"
+          onkeydown="if(event.key==='Enter'||event.key===' ')closeSizePicker()"
+        ></div>
+        <div class="size-picker-content">
+          <h3>Select Size</h3>
+          <div id="sizeOptions" class="size-options">
+            <!-- Size pills injected here by JS from product_data -->
+          </div>
+          <p class="size-picker-note">You can change size later in cart</p>
+        </div>
+
+        <!-- Drag & Drop Customization Builder ("Have It Your Way") -->
+        <div id="customBuilder" class="custom-builder-overlay hidden">
+          <div class="custom-builder-content">
+            <h2>Build Your <span id="customProductName">Box</span></h2>
+            <p class="custom-subtitle">Drag treats into your box</p>
+
+            <!-- Available options to drag -->
+            <div class="custom-available">
+              <h4>Available Treats:</h4>
+              <div id="customOptions" class="custom-options-grid">
+                <!-- Draggable treat icons injected here -->
+              </div>
+            </div>
+
+            <!-- Drop target slots -->
+            <div class="custom-target">
+              <h4>Your Box (<span id="filledSlots">0</span>/<span id="totalSlots">12</span>):</h4>
+              <div id="customSlots" class="custom-slots-grid">
+                <!-- Drop target slots injected here based on size -->
+              </div>
+            </div>
+
+            <div class="custom-actions">
+              <button id="customCancel" class="custom-cancel-btn">Cancel</button>
+              <button id="customDone" class="custom-done-btn" disabled>Add to Cart →</button>
+            </div>
+          </div>
         </div>
       </div>
-      
-      <div class="custom-actions">
-        <button id="customCancel" class="custom-cancel-btn">Cancel</button>
-        <button id="customDone" class="custom-done-btn" disabled>Add to Cart →</button>
+      <!-- "All done!" end screen -->
+      <div id="endScreen" class="end-screen hidden">
+        <h2>You've seen all our treats!</h2>
+        <p id="finalCartCount">0 items in your cart</p>
+        <button onclick="window.location.href='/cart.html'" class="checkout-btn">Checkout →</button>
+        <button onclick="location.reload()" class="restart-btn">Start Over</button>
       </div>
     </div>
-  </div>
-  </div><!-- "All done!" end screen -->
-  <div id="endScreen" class="end-screen hidden">
-    <h2>You've seen all our treats!</h2>
-    <p id="finalCartCount">0 items in your cart</p>
-    <button onclick="window.location.href='/cart.html'" class="checkout-btn">
-      Checkout →
-    </button>
-    <button onclick="location.reload()" class="restart-btn">
-      Start Over
-    </button>
-  </div>
 
-</div>
-
-<script src="/components/treat_matcher.js"></script>
-</body>
+    <script src="/components/treat_matcher.js"></script>
+  </body>
 </html>

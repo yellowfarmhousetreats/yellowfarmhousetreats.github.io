@@ -223,7 +223,7 @@ function setupEventListeners() {
   document.getElementById("passBtn").addEventListener("click", () => swipeCard("left"));
   document.getElementById("likeBtn").addEventListener("click", () => swipeCard("right"));
   document.getElementById("doneBtn").addEventListener("click", () => {
-    window.location.href = "/cart.html";
+    globalThis.location.href = "/cart.html";
   });
 
   // Keyboard shortcuts
@@ -431,7 +431,7 @@ function showEndScreen() {
   const finalCount = document.getElementById("finalCartCount");
 
   const itemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  finalCount.textContent = `${itemCount} item${itemCount !== 1 ? "s" : ""} in your cart`;
+  finalCount.textContent = `${itemCount} item${itemCount === 1 ? "" : "s"} in your cart`;
 
   endScreen.classList.remove("hidden");
 }
@@ -460,11 +460,20 @@ function showSizePicker(product) {
   const modal = document.getElementById("sizePicker");
   const optionsContainer = document.getElementById("sizeOptions");
 
-  // Build size options from product.sizePrice
+  // Build size options from product.sizePrice, deduplicating normalized keys
   const sizePrice = product.sizePrice || {};
-  const sizes = Object.entries(sizePrice).filter(
-    ([_, price]) => typeof price === "number" && price > 0
-  );
+  const seen = new Set();
+  const sizes = [];
+
+  for (const [size, price] of Object.entries(sizePrice)) {
+    if (typeof price !== "number" || price <= 0) continue;
+    // Normalize: lowercase and replace underscores with spaces
+    const normalized = size.toLowerCase().replaceAll("_", " ");
+    if (!seen.has(normalized)) {
+      seen.add(normalized);
+      sizes.push([size, price]);
+    }
+  }
 
   if (sizes.length === 0) {
     // No sizes available, use default
@@ -500,8 +509,7 @@ function selectSize(size, price) {
   const product = pendingProduct;
 
   // Check if product has customization options
-  const hasCustomOptions =
-    product.customizations && product.customizations.some((c) => c.options && c.options.length > 1);
+  const hasCustomOptions = product.customizations?.some((c) => c.options?.length > 1);
 
   if (hasCustomOptions) {
     // Store pending info and show customization picker
@@ -550,7 +558,7 @@ function completeAddToCart(product, size, price, customization = null) {
 function formatSizeLabel(key) {
   if (!key || typeof key !== "string") return "";
   // Convert underscores to spaces and title case
-  return key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  return key.replaceAll("_", " ").replaceAll(/\b\w/g, (c) => c.toUpperCase());
 }
 
 // ========== PROGRESS INDICATOR ==========
@@ -583,7 +591,6 @@ function showCustomizationPicker(product) {
   const builder = document.getElementById("customBuilder");
   const productNameEl = document.getElementById("customProductName");
   const optionsGrid = document.getElementById("customOptions");
-  const slotsGrid = document.getElementById("customSlots");
   const subtitle = builder.querySelector(".custom-subtitle");
   const targetSection = builder.querySelector(".custom-target");
   const doneBtn = document.getElementById("customDone");
@@ -752,6 +759,7 @@ function addToCartWithFlavor(product, selectedSize, unitPrice, flavor) {
 // ========== BUILD YOUR OWN BOX ==========
 
 function showBoxTierPicker() {
+  console.log("showBoxTierPicker called");
   const builder = document.getElementById("customBuilder");
   const productNameEl = document.getElementById("customProductName");
   const optionsGrid = document.getElementById("customOptions");
@@ -766,7 +774,12 @@ function showBoxTierPicker() {
   subtitle.textContent = "Choose your cookie tier";
   targetSection.style.display = "none";
 
-  // Get cookie counts per tier
+  // Get cookie counts per tier - debug what we're filtering
+  console.log(
+    "Products sample:",
+    products.slice(0, 3).map((p) => ({ name: p.name, cat: p.category, sub: p.subcategory }))
+  );
+
   const simpleCookies = products.filter(
     (p) => p.subcategory === "simple" && p.category === "Cookie"
   );
@@ -775,23 +788,29 @@ function showBoxTierPicker() {
     (p) => p.subcategory === "complex" && p.category === "Cookie"
   );
 
-  // Build tier buttons
+  console.log("Cookie counts:", {
+    simple: simpleCookies.length,
+    fancy: fancyCookies.length,
+    complex: complexCookies.length,
+  });
+
+  // Build tier buttons - use unique class to avoid conflicts
   optionsGrid.innerHTML = `
-    <button type="button" class="custom-option-btn tier-btn" data-tier="simple">
+    <button type="button" class="box-tier-btn" data-tier="simple">
       <div class="tier-info">
         <span class="tier-name">🍪 Simple Cookies</span>
         <span class="tier-desc">${simpleCookies.length} varieties • Classic favorites</span>
       </div>
       <span class="tier-price">from $12</span>
     </button>
-    <button type="button" class="custom-option-btn tier-btn" data-tier="fancy">
+    <button type="button" class="box-tier-btn" data-tier="fancy">
       <div class="tier-info">
         <span class="tier-name">✨ Fancy Cookies</span>
         <span class="tier-desc">${fancyCookies.length} varieties • Special recipes</span>
       </div>
       <span class="tier-price">from $18</span>
     </button>
-    <button type="button" class="custom-option-btn tier-btn" data-tier="complex">
+    <button type="button" class="box-tier-btn" data-tier="complex">
       <div class="tier-info">
         <span class="tier-name">🎂 Complex Cookies</span>
         <span class="tier-desc">${complexCookies.length} varieties • Premium creations</span>
@@ -800,42 +819,51 @@ function showBoxTierPicker() {
     </button>
   `;
 
-  // Add click handlers
-  for (const btn of optionsGrid.querySelectorAll(".tier-btn")) {
-    btn.addEventListener("click", () => {
+  // Add click handlers with unique selector
+  for (const btn of optionsGrid.querySelectorAll(".box-tier-btn")) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
       boxTier = btn.dataset.tier;
       showBoxSizePicker();
     });
   }
 
   doneBtn.style.display = "none";
+  doneBtn.onclick = null; // Clear any old handlers
   document.getElementById("customCancel").onclick = cancelBoxBuilder;
 
   builder.classList.remove("hidden");
 }
 
 function showBoxSizePicker() {
+  console.log("showBoxSizePicker called, tier:", boxTier);
   const optionsGrid = document.getElementById("customOptions");
   const subtitle = document.querySelector(".custom-subtitle");
+  const doneBtn = document.getElementById("customDone");
   const tierPrices = BOX_PRICES[boxTier];
 
   subtitle.textContent = `Choose box size`;
 
-  const tierLabel = boxTier.charAt(0).toUpperCase() + boxTier.slice(1);
+  // Keep done button hidden during size selection
+  doneBtn.style.display = "none";
+  doneBtn.onclick = null; // Clear any old handlers
 
   optionsGrid.innerHTML = `
-    <button type="button" class="custom-option-btn size-btn" data-size="Half Dozen">
+    <button type="button" class="box-size-btn" data-size="Half Dozen">
       <span class="option-name">Half Dozen (6 cookies)</span>
       <span class="option-price">$${tierPrices["Half Dozen"].toFixed(2)}</span>
     </button>
-    <button type="button" class="custom-option-btn size-btn" data-size="Dozen">
+    <button type="button" class="box-size-btn" data-size="Dozen">
       <span class="option-name">Dozen (12 cookies)</span>
       <span class="option-price">$${tierPrices["Dozen"].toFixed(2)}</span>
     </button>
   `;
 
-  for (const btn of optionsGrid.querySelectorAll(".size-btn")) {
-    btn.addEventListener("click", () => {
+  // Use unique class to avoid conflicts with customization picker
+  for (const btn of optionsGrid.querySelectorAll(".box-size-btn")) {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      console.log("Size button clicked:", btn.dataset.size);
       boxSize = btn.dataset.size;
       boxSlotCount = boxSize === "Dozen" ? 12 : 6;
       showBoxBuilder();
@@ -844,60 +872,79 @@ function showBoxSizePicker() {
 }
 
 function showBoxBuilder() {
-  const optionsGrid = document.getElementById("customOptions");
-  const slotsGrid = document.getElementById("customSlots");
-  const subtitle = document.querySelector(".custom-subtitle");
-  const targetSection = document.querySelector(".custom-target");
-  const doneBtn = document.getElementById("customDone");
-  const filledEl = document.getElementById("filledSlots");
-  const totalEl = document.getElementById("totalSlots");
+  console.log("showBoxBuilder called");
+  try {
+    const optionsGrid = document.getElementById("customOptions");
+    const slotsGrid = document.getElementById("customSlots");
+    const subtitle = document.querySelector(".custom-subtitle");
+    const targetSection = document.querySelector(".custom-target");
+    const doneBtn = document.getElementById("customDone");
+    const filledEl = document.getElementById("filledSlots");
+    const totalEl = document.getElementById("totalSlots");
 
-  // Get cookies for this tier
-  availableCookies = products.filter((p) => p.subcategory === boxTier && p.category === "Cookie");
+    console.log("Elements found:", {
+      optionsGrid: !!optionsGrid,
+      slotsGrid: !!slotsGrid,
+      targetSection: !!targetSection,
+    });
 
-  // Reset slots
-  boxSlots = Array.from({ length: boxSlotCount }, () => null);
+    // Get cookies for this tier
+    availableCookies = products.filter((p) => p.subcategory === boxTier && p.category === "Cookie");
+    console.log(
+      `Box Builder: tier=${boxTier}, found ${availableCookies.length} cookies`,
+      availableCookies.map((c) => c.name)
+    );
 
-  const tierLabel = boxTier.charAt(0).toUpperCase() + boxTier.slice(1);
-  subtitle.textContent = `Drag ${tierLabel} cookies into your box`;
+    // Reset slots
+    boxSlots = Array.from({ length: boxSlotCount }, () => null);
 
-  // Show target section
-  targetSection.style.display = "";
-  totalEl.textContent = boxSlotCount;
-  filledEl.textContent = "0";
+    const tierLabel = boxTier.charAt(0).toUpperCase() + boxTier.slice(1);
+    subtitle.textContent = `Drag ${tierLabel} cookies into your box`;
 
-  // Build draggable cookie options
-  optionsGrid.innerHTML = availableCookies
-    .map(
-      (cookie, idx) => `
-    <div class="custom-option box-cookie" 
-         draggable="true" 
-         data-cookie-index="${idx}"
-         data-cookie-name="${cookie.name}">
-      <span class="option-icon">🍪</span>
-      <span class="option-name">${cookie.name.replace(" Cookies", "")}</span>
-    </div>
-  `
-    )
-    .join("");
+    // Show target section
+    targetSection.style.display = "";
+    totalEl.textContent = boxSlotCount;
+    filledEl.textContent = "0";
 
-  // Build drop slots
-  slotsGrid.innerHTML = Array.from(
-    { length: boxSlotCount },
-    (_, idx) => `
-    <div class="custom-slot box-slot" data-slot-index="${idx}">
-      <span class="slot-number">${idx + 1}</span>
-    </div>
-  `
-  ).join("");
+    // Build draggable cookie options
+    const cookieHTML = availableCookies
+      .map(
+        (cookie, idx) => `
+      <div class="custom-option box-cookie" 
+           draggable="true" 
+           data-cookie-index="${idx}"
+           data-cookie-name="${cookie.name}">
+        <span class="option-icon">🍪</span>
+        <span class="option-name">${cookie.name.replace(" Cookies", "")}</span>
+      </div>
+    `
+      )
+      .join("");
+    console.log("Cookie HTML length:", cookieHTML.length);
+    optionsGrid.innerHTML = cookieHTML;
 
-  // Setup drag and drop
-  setupBoxDragAndDrop();
+    // Build drop slots
+    slotsGrid.innerHTML = Array.from(
+      { length: boxSlotCount },
+      (_, idx) => `
+      <div class="custom-slot box-slot" data-slot-index="${idx}">
+        <span class="slot-number">${idx + 1}</span>
+      </div>
+    `
+    ).join("");
 
-  // Setup done button
-  doneBtn.style.display = "";
-  doneBtn.disabled = true;
-  doneBtn.onclick = finishBoxBuilder;
+    // Setup drag and drop
+    setupBoxDragAndDrop();
+
+    // Setup done button
+    doneBtn.style.display = "";
+    doneBtn.disabled = true;
+    doneBtn.onclick = finishBoxBuilder;
+
+    console.log("showBoxBuilder completed successfully");
+  } catch (err) {
+    console.error("showBoxBuilder error:", err);
+  }
 }
 
 function setupBoxDragAndDrop() {
