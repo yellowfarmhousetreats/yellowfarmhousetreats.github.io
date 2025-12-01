@@ -188,7 +188,11 @@ function displayProducts(products) {
 function createProductCardMobile(item) {
   const card = document.createElement("div");
   card.className = "product-card-mobile";
-  card.onclick = () => openProductModal(menuItems.indexOf(item));
+  // Use findIndex with uuid to avoid reference mismatch from normalized data
+  card.onclick = () => {
+    const idx = menuItems.findIndex((m) => m.uuid === item.uuid || m.name === item.name);
+    openProductModal(idx);
+  };
 
   // Image container
   const imgWrap = document.createElement("div");
@@ -284,7 +288,9 @@ function createProductCard(item, index) {
 
   const card = document.createElement("div");
   card.className = "product-grid-card";
-  card.onclick = () => openProductModal(menuItems.indexOf(item));
+  // Use findIndex with uuid to avoid reference mismatch from normalized data
+  card.onclick = () =>
+    openProductModal(menuItems.findIndex((m) => m.uuid === item.uuid || m.name === item.name));
 
   const imgWrap = document.createElement("div");
   imgWrap.className = "product-image";
@@ -458,6 +464,10 @@ function handleModalTabKey(e, modalContent) {
 }
 
 function openProductModal(index) {
+  if (index < 0) {
+    console.error("Invalid index - item not found in menuItems");
+    return;
+  }
   globalThis.currentModalIndex = index;
   const item = menuItems[index];
   const modalContent = document.getElementById("modalContent");
