@@ -405,8 +405,11 @@ function openProductModal(index) {
   const modalContent = document.getElementById("modalContent");
   modalContent.innerHTML = createModalContent(item, index);
 
+  // Initialize option button click handlers
+  initializeOptionButtons();
+
   // Lazy load modal image
-  const modalImg = modalContent.querySelector(".product-image img");
+  const modalImg = modalContent.querySelector(".product-preview img");
   if (modalImg?.dataset?.src) {
     modalImg.src = modalImg.dataset.src;
   }
@@ -571,59 +574,45 @@ function createSpecialOptions(item) {
 function createCustomizations(item) {
   if (!item.customizations || item.customizations.length === 0) return "";
 
-  let html = '<div class="customizations-section">';
+  let html = '<div class="customization-options-container">';
 
   for (let i = 0; i < item.customizations.length; i++) {
     const customization = item.customizations[i];
     const groupId = `customization-${i}`;
+    const isRadio = customization.selectionType === "single";
 
-    html += `<div class="form-group customization-group" data-customization-index="${i}">`;
-    html += `<label class="customization-label">${customization.label}${customization.required ? ' <span class="required">*</span>' : ' <span class="optional">(optional)</span>'}</label>`;
+    html += `<div class="option-group" data-customization-index="${i}" data-selection-type="${customization.selectionType}">`;
+    html += `<label class="option-label">${customization.label}${customization.required ? ' <span class="required">*</span>' : ' <span class="optional">(optional)</span>'}</label>`;
 
-    if (customization.selectionType === "single") {
-      // Radio buttons for single selection
-      html += '<div class="customization-options radio-group">';
+    // Add "None" option if not required and single selection
+    if (!customization.required && isRadio) {
+      html += `<button type="button" class="option-btn active" data-option="none" data-price="0" data-group="${groupId}">
+        <div class="option-icon">⭕</div>
+        <div class="option-text">
+          <span class="option-name">None</span>
+          <span class="option-price">No charge</span>
+        </div>
+        <div class="option-check">✓</div>
+      </button>`;
+    }
 
-      // Add "None" option if not required
-      if (!customization.required) {
-        html += `<label class="radio-label">
-          <input type="radio" name="${groupId}" value="" checked onchange="updatePriceInModal()">
-          <span class="radio-text">None</span>
-        </label>`;
-      }
+    for (let j = 0; j < customization.options.length; j++) {
+      const option = customization.options[j];
+      const isDefault = option.default === true;
+      const priceText = option.price > 0 ? `+$${option.price.toFixed(2)}` : "Included";
+      const activeClass = isDefault && customization.required ? " active" : "";
 
-      for (let j = 0; j < customization.options.length; j++) {
-        const option = customization.options[j];
-        const isDefault = option.default === true;
-        const priceModifier = option.price > 0 ? ` (+$${option.price.toFixed(2)})` : "";
+      // Use emoji based on option name or default
+      const icon = getOptionIcon(option.name);
 
-        html += `<label class="radio-label">
-          <input type="radio" name="${groupId}" value="${option.name}" 
-            data-price="${option.price || 0}"
-            ${isDefault && customization.required ? "checked" : ""}
-            onchange="updatePriceInModal()">
-          <span class="radio-text">${option.name}${priceModifier}</span>
-        </label>`;
-      }
-      html += "</div>";
-    } else if (customization.selectionType === "multiple") {
-      // Checkboxes for multiple selection
-      html += '<div class="customization-options checkbox-group">';
-
-      for (let j = 0; j < customization.options.length; j++) {
-        const option = customization.options[j];
-        const isDefault = option.default === true;
-        const priceModifier = option.price > 0 ? ` (+$${option.price.toFixed(2)})` : "";
-
-        html += `<label class="checkbox-label">
-          <input type="checkbox" name="${groupId}" value="${option.name}"
-            data-price="${option.price || 0}"
-            ${isDefault ? "checked" : ""}
-            onchange="updatePriceInModal()">
-          <span class="checkbox-text">${option.name}${priceModifier}</span>
-        </label>`;
-      }
-      html += "</div>";
+      html += `<button type="button" class="option-btn${activeClass}" data-option="${option.name}" data-price="${option.price || 0}" data-group="${groupId}">
+        <div class="option-icon">${icon}</div>
+        <div class="option-text">
+          <span class="option-name">${option.name}</span>
+          <span class="option-price">${priceText}</span>
+        </div>
+        <div class="option-check">✓</div>
+      </button>`;
     }
 
     html += "</div>";
@@ -633,24 +622,110 @@ function createCustomizations(item) {
   return html;
 }
 
+function getOptionIcon(optionName) {
+  const iconMap = {
+    "cream cheese": "🧀",
+    cinnamon: "🌀",
+    sugar: "✨",
+    chocolate: "🍫",
+    vanilla: "🍦",
+    caramel: "🍯",
+    nuts: "🥜",
+    sprinkles: "🎉",
+    frosting: "🎂",
+    glaze: "💧",
+  };
+
+  const lowerName = optionName.toLowerCase();
+  for (const [key, icon] of Object.entries(iconMap)) {
+    if (lowerName.includes(key)) return icon;
+  }
+  return "✨"; // Default icon
+}
+
+function initializeOptionButtons() {
+  document.querySelectorAll(".option-btn").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Get option group (for radio behavior)
+      const group = this.closest(".option-group");
+      const isRadio = group.dataset.selectionType === "single";
+
+      if (isRadio) {
+        // Deselect all in group
+        group.querySelectorAll(".option-btn").forEach((b) => b.classList.remove("active"));
+        // Select this one
+        this.classList.add("active");
+      } else {
+        // Toggle this option for multiple selection
+        this.classList.toggle("active");
+      }
+
+      // Update price
+      updatePriceInModal();
+
+      // Haptic feedback (mobile)
+      if (navigator.vibrate) {
+        navigator.vibrate(10);
+      }
+    });
+  });
+}
+
 function createModalContent(item, index) {
   const defaultPrice = getDefaultPrice(item);
 
-  let html = createModalImage(item);
-  html += createModalHeader(item, defaultPrice);
+  // Mobile-first vertical layout
+  let html = '<div class="product-customizer">';
+
+  // Product Preview Section
+  html += '<div class="product-preview">';
+  if (item.image) {
+    const imagePath = item.image.replace(/\\/g, "/");
+    html += `<img src="${imagePath}" alt="${item.name || "Product Image"}" loading="lazy">`;
+  } else {
+    html += '<div class="image-placeholder">Image Coming Soon</div>';
+  }
+  html += "</div>";
+
+  // Product Info Section
+  html += '<div class="product-info-section">';
+  html += `<h2 class="product-name">${item.name}</h2>`;
   html += createModalBadges(item);
   html += createDietaryNotes(item);
   html += createAllergenWarnings(item);
   html += createDepositMessage(item);
-  html += '<div class="product-form">';
+  html += "</div>";
+
+  // Options Section
+  html += '<div class="product-options-section">';
   html += createSizeSelector(item);
   html += createCustomizations(item);
   html += createFlavorSelector(item);
   html += createFlavorNotes(item);
   html += createQuantityInput();
   html += createSpecialOptions(item);
-  html += `<button class="add-to-cart-btn" onclick="addToCart(${index})">Add to Cart</button>`;
   html += "</div>";
+
+  // Sticky Price Bar
+  html += '<div class="price-sticky">';
+  html += '<div class="price-breakdown">';
+  html += "<span>Base Price:</span>";
+  html += `<span class="base-price">$${defaultPrice.toFixed(2)}</span>`;
+  html += "</div>";
+  html += '<div class="price-breakdown">';
+  html += "<span>Customizations:</span>";
+  html += '<span class="customization-total">+$0.00</span>';
+  html += "</div>";
+  html += '<div class="price-total">';
+  html += "<span>Total:</span>";
+  html += `<span class="total-amount">$${defaultPrice.toFixed(2)}</span>`;
+  html += "</div>";
+  html += `<button class="add-to-cart-btn-large" onclick="addToCart(${index})">Add to Cart - $${defaultPrice.toFixed(2)}</button>`;
+  html += "</div>";
+
+  html += "</div>"; // Close product-customizer
 
   return html;
 }
@@ -658,42 +733,43 @@ function createModalContent(item, index) {
 function updatePriceInModal() {
   const sizeSelect = document.getElementById("modal-size");
   const giftCheckbox = document.getElementById("modal-gift");
-  const priceDisplay = document.querySelector("#modalContent .product-price");
-  if (!sizeSelect || !priceDisplay) return;
+  const basePriceDisplay = document.querySelector(".base-price");
+  const customizationDisplay = document.querySelector(".customization-total");
+  const totalDisplay = document.querySelector(".total-amount");
+  const addToCartBtn = document.querySelector(".add-to-cart-btn-large");
+
+  if (!sizeSelect) return;
 
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice || 0;
+  let basePrice = currentItem.sizePrice[selectedSize] || currentItem.basePrice || 0;
+
+  // Add deposit amount to base if applicable
+  if (currentItem.hasDeposit && currentItem.depositAmount) {
+    basePrice += currentItem.depositAmount;
+  }
+
+  let customizationTotal = 0;
 
   // Add gift wrap price if checked
   if (giftCheckbox?.checked && currentItem.canGiftWrap) {
-    price += currentItem.giftWrapPrice;
+    customizationTotal += currentItem.giftWrapPrice;
   }
 
-  // Add deposit amount if applicable
-  if (currentItem.hasDeposit && currentItem.depositAmount) {
-    price += currentItem.depositAmount;
+  // Add customization prices from option buttons
+  const activeOptions = document.querySelectorAll(".option-btn.active");
+  for (const btn of activeOptions) {
+    const price = parseFloat(btn.dataset.price) || 0;
+    customizationTotal += price;
   }
 
-  // Add customization prices
-  const customizationGroups = document.querySelectorAll(".customization-group");
-  for (const group of customizationGroups) {
-    // Check for selected radio button
-    const selectedRadio = group.querySelector('input[type="radio"]:checked');
-    if (selectedRadio && selectedRadio.dataset.price) {
-      price += parseFloat(selectedRadio.dataset.price) || 0;
-    }
+  const total = basePrice + customizationTotal;
 
-    // Check for selected checkboxes
-    const selectedCheckboxes = group.querySelectorAll('input[type="checkbox"]:checked');
-    for (const checkbox of selectedCheckboxes) {
-      if (checkbox.dataset.price) {
-        price += parseFloat(checkbox.dataset.price) || 0;
-      }
-    }
-  }
-
-  priceDisplay.textContent = `$${price.toFixed(2)}`;
+  // Update displays
+  if (basePriceDisplay) basePriceDisplay.textContent = `$${basePrice.toFixed(2)}`;
+  if (customizationDisplay) customizationDisplay.textContent = `+$${customizationTotal.toFixed(2)}`;
+  if (totalDisplay) totalDisplay.textContent = `$${total.toFixed(2)}`;
+  if (addToCartBtn) addToCartBtn.textContent = `Add to Cart - $${total.toFixed(2)}`;
 }
 
 function updateDietaryOptionsInModal() {
