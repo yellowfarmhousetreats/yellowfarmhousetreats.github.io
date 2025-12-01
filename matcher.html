@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Treat Matcher | Yellow Farmhouse Treats</title>
+  <link rel="stylesheet" href="/styles/treat_matcher.css">
+</head>
+<body>
+
+<!--
+══════════════════════════════════════════════════════════════════════════════
+  TREAT MATCHER - TINDER FOR TREATS
+══════════════════════════════════════════════════════════════════════════════
+
+CONCEPT:
+Swipe-based product browsing that makes shopping FUN and FAST.
+Swipe RIGHT (or tap ❤️) = Add to cart
+Swipe LEFT (or tap ✕) = Next item
+Gamified, mobile-first, entertaining.
+
+FEATURES:
+✓ Full-screen product cards with big photos
+✓ Touch/swipe gesture detection
+✓ Visual feedback animations
+✓ Running cart total at bottom
+✓ "Added!" celebration animation
+✓ Integrates with existing localStorage cart
+✓ Shows all 38 products in randomized order
+✓ "Done Shopping" button to checkout
+
+OPUS TASKS:
+1. Create /components/treat_matcher.js (swipe logic, card stack, gestures)
+2. Create /styles/treat_matcher.css (full-screen cards, animations)
+3. Add link from index.html: "Not sure? Try our Treat Matcher!"
+4. Test on mobile and desktop
+
+══════════════════════════════════════════════════════════════════════════════
+-->
+
+<div id="matcherContainer" class="matcher-container">
+  
+  <!-- Header with cart count -->
+  <header class="matcher-header">
+    <a href="/index.html" class="back-btn">← Back</a>
+    <h1>Treat Matcher</h1>
+    <a href="/cart.html" class="cart-btn">
+      🛒 <span id="cartCount">0</span>
+    </a>
+  </header>
+
+  <!-- Instructions (hide after first swipe) -->
+  <div id="instructions" class="instructions">
+    <p>Swipe through our treats!</p>
+    <p>❤️ Right = Add to cart • ✕ Left = Pass</p>
+  </div>
+
+  <!-- Card stack (populated by JS) -->
+  <div id="cardStack" class="card-stack">
+    <!-- Cards injected here -->
+  </div>
+
+  <!-- Action buttons -->
+  <div class="action-buttons">
+    <button id="passBtn" class="action-btn pass-btn" aria-label="Pass">✕</button>
+    <button id="likeBtn" class="action-btn like-btn" aria-label="Add to cart">❤️</button>
+  </div>
+
+  <!-- Cart total footer -->
+  <footer class="matcher-footer">
+    <div class="cart-total">
+      <span>Cart Total:</span>
+      <span id="cartTotal" class="total-amount">$0.00</span>
+    </div>
+    <button id="doneBtn" class="done-btn">Done Shopping →</button>
+  </footer>
+
+  <!-- "Added!" overlay animation -->
+  <div id="addedOverlay" class="added-overlay hidden">
+    <div class="added-content">
+      <span class="added-icon">✓</span>
+      <span class="added-text">Added to Cart!</span>
+    </div>
+  </div>
+
+  <!-- "All done!" end screen -->
+  <div id="endScreen" class="end-screen hidden">
+    <h2>You've seen all our treats!</h2>
+    <p id="finalCartCount">0 items in your cart</p>
+    <button onclick="window.location.href='/cart.html'" class="checkout-btn">
+      Checkout →
+    </button>
+    <button onclick="location.reload()" class="restart-btn">
+      Start Over
+    </button>
+  </div>
+
+</div>
+
+<script src="/components/treat_matcher.js"></script>
+</body>
+</html>
