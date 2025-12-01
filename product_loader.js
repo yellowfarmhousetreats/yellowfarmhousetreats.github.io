@@ -755,7 +755,7 @@ function createModalContent(item, index) {
   html += "<span>Total:</span>";
   html += `<span class="total-amount">$${defaultPrice.toFixed(2)}</span>`;
   html += "</div>";
-  html += `<button class="add-to-cart-btn-large" onclick="addToCart(${index})">Add to Cart - $${defaultPrice.toFixed(2)}</button>`;
+  html += `<button class="add-to-cart-btn-large" onclick="addToCart(${index})">Add to Cart $${defaultPrice.toFixed(2)}</button>`;
   html += "</div>";
 
   html += "</div>"; // Close product-customizer
@@ -812,7 +812,7 @@ function updatePriceInModal() {
   if (basePriceDisplay) basePriceDisplay.textContent = `$${basePrice.toFixed(2)}`;
   if (customizationDisplay) customizationDisplay.textContent = `+$${customizationTotal.toFixed(2)}`;
   if (totalDisplay) totalDisplay.textContent = `$${total.toFixed(2)}`;
-  if (addToCartBtn) addToCartBtn.textContent = `Add to Cart - $${total.toFixed(2)}`;
+  if (addToCartBtn) addToCartBtn.textContent = `Add to Cart $${total.toFixed(2)}`;
 }
 
 function updateDietaryOptionsInModal() {

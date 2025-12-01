@@ -190,13 +190,14 @@ function injectStyles() {
     .size-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
       margin: 12px 0;
     }
 
     .size-pill {
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
       min-height: 44px;
       padding: 8px 16px;
       background: var(--color-white, #fff);
@@ -206,6 +207,7 @@ function injectStyles() {
       transition: all 0.2s ease;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
+      flex: 0 0 auto; /* Don't stretch */
     }
 
     .size-pill:hover {
@@ -234,9 +236,9 @@ function injectStyles() {
       font-weight: 600;
     }
 
-    /* Focus state for accessibility */
+    /* Focus state for accessibility - match brand colors */
     .size-pill:has(.size-radio:focus-visible) {
-      outline: 3px solid var(--color-accent, #27ae60);
+      outline: 3px solid var(--warm-brown, #8b6f47);
       outline-offset: 2px;
     }
 
