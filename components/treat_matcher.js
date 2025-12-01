@@ -876,6 +876,8 @@ function showBoxTierPicker() {
   document.getElementById("customCancel").onclick = cancelBoxBuilder;
 
   console.log("About to show builder, current classes:", builder.className);
+  console.log("optionsGrid innerHTML:", optionsGrid.innerHTML);
+  console.log("Builder content HTML:", builder.innerHTML);
   builder.classList.remove("hidden");
   console.log("Builder shown, new classes:", builder.className);
 }
