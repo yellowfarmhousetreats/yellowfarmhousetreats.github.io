@@ -192,6 +192,8 @@ function injectStyles() {
       flex-wrap: wrap;
       gap: 10px;
       margin: 12px 0;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .size-pill {
@@ -207,7 +209,9 @@ function injectStyles() {
       transition: all 0.2s ease;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-      flex: 0 0 auto; /* Don't stretch */
+      flex: 0 1 auto; /* Allow shrinking but not growing */
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .size-pill:hover {
@@ -247,6 +251,7 @@ function injectStyles() {
       flex-direction: column;
       align-items: center;
       gap: 2px;
+      min-width: 0;
     }
 
     .size-label {
@@ -254,6 +259,9 @@ function injectStyles() {
       font-size: 14px;
       font-weight: 600;
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .size-price {
@@ -270,6 +278,27 @@ function injectStyles() {
       color: var(--text-secondary, #666);
       font-style: italic;
       padding: 12px;
+    }
+
+    /* Mobile: equal-width pills that wrap nicely */
+    @media (max-width: 480px) {
+      .size-pills {
+        gap: 8px;
+      }
+      
+      .size-pill {
+        flex: 1 1 calc(50% - 4px);
+        min-width: 0;
+        padding: 8px 12px;
+      }
+      
+      .size-label {
+        font-size: 13px;
+      }
+      
+      .size-price {
+        font-size: 12px;
+      }
     }
 
     /* Fallback for browsers without :has() support */
