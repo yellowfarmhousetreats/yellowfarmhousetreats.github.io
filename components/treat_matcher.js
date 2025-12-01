@@ -125,15 +125,20 @@ function renderCards() {
     return;
   }
 
-  // Render cards in reverse order so first card is on top
-  for (let i = cardsToShow - 1; i >= 0; i--) {
+  // Render cards: first child = top card = currentIndex
+  // nth-child(1) has highest z-index in CSS, so render current card first
+  for (let i = 0; i < cardsToShow; i++) {
     const product = products[currentIndex + i];
     const card = createCard(product, i === 0);
+    // Mark the top card so we can find it
+    if (i === 0) {
+      card.classList.add("top-card");
+    }
     stack.appendChild(card);
   }
 
-  // Setup touch/drag on top card
-  currentCard = stack.querySelector(".treat-card");
+  // Setup touch/drag on top card (first child, which is currentIndex)
+  currentCard = stack.querySelector(".top-card");
   if (currentCard) {
     setupCardGestures(currentCard);
   }
@@ -343,11 +348,24 @@ function swipeCard(direction) {
   if (!currentCard) return;
 
   const product = products[currentIndex];
+  console.log(
+    "%c SWIPE " +
+      direction +
+      " on index " +
+      currentIndex +
+      ": " +
+      product.name +
+      " (isBuildBox: " +
+      product.isBuildBox +
+      ")",
+    "background: cyan; color: black; font-size: 14px"
+  );
 
   // If liked, handle based on product type
   if (direction === "right") {
     if (product.isBuildBox) {
       // Show tier selection for Build Your Own Box
+      console.log("Triggering showBoxTierPicker for Build Box");
       showBoxTierPicker();
     } else {
       // Normal product - show size picker
@@ -456,6 +474,10 @@ function shuffleArray(array) {
 
 // ========== SIZE PICKER ==========
 function showSizePicker(product) {
+  console.log(
+    "%c REGULAR SIZE PICKER for: " + product.name,
+    "background: yellow; color: black; font-size: 16px"
+  );
   pendingProduct = product;
   const modal = document.getElementById("sizePicker");
   const optionsContainer = document.getElementById("sizeOptions");
@@ -504,9 +526,17 @@ function closeSizePicker() {
 }
 
 function selectSize(size, price) {
-  if (!pendingProduct) return;
+  console.log(
+    "%c selectSize called: " + size + " @ $" + price,
+    "background: orange; color: black; font-size: 16px"
+  );
+  if (!pendingProduct) {
+    console.log("No pending product - returning early");
+    return;
+  }
 
   const product = pendingProduct;
+  console.log("Adding product:", product.name);
 
   // Check if product has customization options
   const hasCustomOptions = product.customizations?.some((c) => c.options?.length > 1);
@@ -760,6 +790,12 @@ function addToCartWithFlavor(product, selectedSize, unitPrice, flavor) {
 
 function showBoxTierPicker() {
   console.log("showBoxTierPicker called");
+  // DEBUG: Alert to confirm we're in box builder flow
+  console.log("%c BOX TIER PICKER STARTED", "background: blue; color: white; font-size: 16px");
+
+  // Hide the regular size picker just in case
+  document.getElementById("sizePicker")?.classList.add("hidden");
+
   const builder = document.getElementById("customBuilder");
   const productNameEl = document.getElementById("customProductName");
   const optionsGrid = document.getElementById("customOptions");
@@ -837,6 +873,11 @@ function showBoxTierPicker() {
 
 function showBoxSizePicker() {
   console.log("showBoxSizePicker called, tier:", boxTier);
+  console.log(
+    "%c BOX SIZE PICKER - tier: " + boxTier,
+    "background: green; color: white; font-size: 16px"
+  );
+
   const optionsGrid = document.getElementById("customOptions");
   const subtitle = document.querySelector(".custom-subtitle");
   const doneBtn = document.getElementById("customDone");
@@ -873,6 +914,10 @@ function showBoxSizePicker() {
 
 function showBoxBuilder() {
   console.log("showBoxBuilder called");
+  console.log(
+    "%c SHOW BOX BUILDER - about to show cookie selection",
+    "background: purple; color: white; font-size: 16px"
+  );
   try {
     const optionsGrid = document.getElementById("customOptions");
     const slotsGrid = document.getElementById("customSlots");
@@ -1116,6 +1161,8 @@ function cancelBoxBuilder() {
 }
 
 function finishBoxBuilder() {
+  console.log("%c FINISH BOX BUILDER CALLED", "background: red; color: white; font-size: 16px");
+  console.log("boxSlots:", boxSlots);
   const builder = document.getElementById("customBuilder");
   builder.classList.add("hidden");
 
