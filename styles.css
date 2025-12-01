@@ -1634,6 +1634,88 @@ textarea {
   gap: 15px;
 }
 
+/* ========== SIZE PILLS (Modal Size Selector) ========== */
+.size-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.size-pill {
+  position: relative;
+}
+
+.size-pill input.size-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.size-pill-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  min-width: 80px;
+  background: var(--color-white);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.size-pill-content:hover {
+  border-color: var(--warm-brown);
+  background: var(--cream);
+}
+
+.size-pill input:checked + .size-pill-content {
+  border-color: var(--warm-brown);
+  background: var(--warm-brown);
+  color: var(--color-white);
+}
+
+.size-pill input:checked + .size-pill-content .size-label,
+.size-pill input:checked + .size-pill-content .size-price {
+  color: var(--color-white);
+}
+
+.size-pill .size-label {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--charcoal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70px;
+}
+
+.size-pill .size-price {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Quantity Input */
+.quantity-input {
+  width: 80px;
+  padding: 12px 16px;
+  font-size: 1.1em;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--color-white);
+}
+
+.quantity-input:focus {
+  border-color: var(--warm-brown);
+  outline: none;
+}
+
 /* ========== MOBILE-FIRST TAP-TO-CUSTOMIZE ========== */
 .product-customizer {
   display: flex;
@@ -1674,7 +1756,7 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding-bottom: 200px; /* Space for sticky bar */
+  padding-bottom: 16px;
 }
 
 /* Option Groups */
@@ -1767,15 +1849,16 @@ textarea {
 
 /* Sticky Price Bar */
 .price-sticky {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
   background: #fff;
   padding: 16px;
-  border-top: 2px solid #e0e0e0;
+  border-top: 2px solid var(--border-color);
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  margin-top: auto;
 }
 
 .price-breakdown {
@@ -2042,47 +2125,68 @@ dialog {
   border: none;
   padding: 0;
   background: transparent;
-  max-width: 90vw;
+  max-width: 95vw;
   max-height: 90vh;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
+  width: 100%;
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 9998;
 }
 
 .modal-content {
   background: var(--color-white);
-  border-radius: 8px;
-  max-width: 600px;
+  border-radius: 12px;
+  max-width: 420px;
   width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 85vh;
+  overflow: hidden;
   position: relative;
-  padding: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  font-size: 24px;
+  font-size: 28px;
   cursor: pointer;
-  color: var(--text-primary);
+  color: var(--charcoal);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
 }
 
-@media (max-width: 768px) {
+.modal-close:hover {
+  background: var(--color-white);
+  transform: scale(1.1);
+}
+
+@media (min-width: 768px) {
+  dialog {
+    max-width: 500px;
+  }
+
   .modal-content {
-    width: 95%;
-    padding: 15px;
+    max-width: 480px;
   }
 }
 

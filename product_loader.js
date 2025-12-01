@@ -664,12 +664,17 @@ function createCustomizations(item) {
     const groupId = `customization-${i}`;
     const isRadio = customization.selectionType === "single";
 
+    // Check if any option is marked as default
+    const hasDefaultOption = customization.options.some((opt) => opt.default === true);
+    // Default to first option if none specified, not "None"
+    const defaultToFirst = !hasDefaultOption && customization.options.length > 0;
+
     html += `<div class="option-group" data-customization-index="${i}" data-selection-type="${customization.selectionType}">`;
     html += `<label class="option-label">${customization.label}${customization.required ? ' <span class="required">*</span>' : ' <span class="optional">(optional)</span>'}</label>`;
 
     // Add "None" option if not required and single selection
     if (!customization.required && isRadio) {
-      html += `<button type="button" class="option-btn active" data-option="none" data-price="0" data-group="${groupId}">
+      html += `<button type="button" class="option-btn" data-option="none" data-price="0" data-group="${groupId}">
         <div class="option-icon">⭕</div>
         <div class="option-text">
           <span class="option-name">None</span>
@@ -681,9 +686,9 @@ function createCustomizations(item) {
 
     for (let j = 0; j < customization.options.length; j++) {
       const option = customization.options[j];
-      const isDefault = option.default === true;
+      const isDefault = option.default === true || (defaultToFirst && j === 0);
       const priceText = option.price > 0 ? `+$${option.price.toFixed(2)}` : "Included";
-      const activeClass = isDefault && customization.required ? " active" : "";
+      const activeClass = isDefault ? " active" : "";
 
       // Use emoji based on option name or default
       const icon = getOptionIcon(option.name);

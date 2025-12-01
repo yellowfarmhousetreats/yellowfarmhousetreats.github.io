@@ -205,6 +205,12 @@ function handleCategoryClick(category, subcategory) {
 
   // Update active state
   updateActiveState(category, subcategory);
+
+  // Scroll to the product grid so user sees the filtered results
+  const productsGrid = document.getElementById("productsGrid");
+  if (productsGrid) {
+    productsGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 /**
