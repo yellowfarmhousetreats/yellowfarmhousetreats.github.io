@@ -30,7 +30,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.505611" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.189210" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -131,7 +131,10 @@
             </a>
           </div>
 
-          <!-- CATEGORY FILTER CHIPS -->
+          <!-- VISUAL CATEGORY NAVIGATION -->
+          <div id="visualCategoryNav" class="visual-category-nav-container"></div>
+
+          <!-- CATEGORY FILTER CHIPS (fallback/mobile) -->
           <div class="category-filter-mobile" id="categoryFilter">
             <!-- Generated dynamically -->
           </div>
@@ -202,8 +205,9 @@
     <!-- Load component scripts before product_loader -->
     <script src="scripts/data_normalizer.js?v=1.0.0.066630"></script>
     <script src="components/size_selector.js?v=1.0.0.066630"></script>
-    <script src="product_loader.min.js?v=1.0.0.505611"></script>
-    <script src="cart.min.js?v=1.0.0.505611"></script>
+    <script src="components/visual_category_nav.js"></script>
+    <script src="product_loader.min.js?v=1.0.0.189210"></script>
+    <script src="cart.min.js?v=1.0.0.189210"></script>
 
     <!-- Navigation JavaScript -->
     <script>

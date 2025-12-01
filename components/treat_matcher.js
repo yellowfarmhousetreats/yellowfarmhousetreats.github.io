@@ -82,8 +82,6 @@ async function loadProducts() {
     // Insert at random position in first half of deck
     const insertPos = Math.floor(Math.random() * Math.min(10, products.length / 2));
     products.splice(insertPos, 0, buildBoxCard);
-
-    console.log(`Loaded ${products.length} products (including Build Box)`);
   } catch (error) {
     console.error("Error loading products:", error);
     showError("Couldn't load treats. Please refresh.");
@@ -348,24 +346,11 @@ function swipeCard(direction) {
   if (!currentCard) return;
 
   const product = products[currentIndex];
-  console.log(
-    "%c SWIPE " +
-      direction +
-      " on index " +
-      currentIndex +
-      ": " +
-      product.name +
-      " (isBuildBox: " +
-      product.isBuildBox +
-      ")",
-    "background: cyan; color: black; font-size: 14px"
-  );
 
   // If liked, handle based on product type
   if (direction === "right") {
     if (product.isBuildBox) {
       // Show tier selection for Build Your Own Box
-      console.log("Triggering showBoxTierPicker for Build Box");
       showBoxTierPicker();
     } else {
       // Normal product - show size picker
@@ -474,10 +459,6 @@ function shuffleArray(array) {
 
 // ========== SIZE PICKER ==========
 function showSizePicker(product) {
-  console.log(
-    "%c REGULAR SIZE PICKER for: " + product.name,
-    "background: yellow; color: black; font-size: 16px"
-  );
   pendingProduct = product;
   const modal = document.getElementById("sizePicker");
   const optionsContainer = document.getElementById("sizeOptions");
@@ -526,17 +507,11 @@ function closeSizePicker() {
 }
 
 function selectSize(size, price) {
-  console.log(
-    "%c selectSize called: " + size + " @ $" + price,
-    "background: orange; color: black; font-size: 16px"
-  );
   if (!pendingProduct) {
-    console.log("No pending product - returning early");
     return;
   }
 
   const product = pendingProduct;
-  console.log("Adding product:", product.name);
 
   // Check if product has customization options
   const hasCustomOptions = product.customizations?.some((c) => c.options?.length > 1);
@@ -789,13 +764,17 @@ function addToCartWithFlavor(product, selectedSize, unitPrice, flavor) {
 // ========== BUILD YOUR OWN BOX ==========
 
 function showBoxTierPicker() {
-  console.log("showBoxTierPicker called");
-
   // MUST hide size picker first - it can block the custom builder
   const sizePicker = document.getElementById("sizePicker");
   if (sizePicker) {
     sizePicker.classList.add("hidden");
     sizePicker.style.display = "none";
+  }
+
+  // Hide the card stack so the modal is visible
+  const cardStack = document.getElementById("cardStack");
+  if (cardStack) {
+    cardStack.style.visibility = "hidden";
   }
 
   const builder = document.getElementById("customBuilder");
@@ -817,12 +796,7 @@ function showBoxTierPicker() {
   subtitle.textContent = "Choose your cookie tier";
   targetSection.style.display = "none";
 
-  // Get cookie counts per tier - debug what we're filtering
-  console.log(
-    "Products sample:",
-    products.slice(0, 3).map((p) => ({ name: p.name, cat: p.category, sub: p.subcategory }))
-  );
-
+  // Get cookie counts per tier
   const simpleCookies = products.filter(
     (p) => p.subcategory === "simple" && p.category === "Cookie"
   );
@@ -830,12 +804,6 @@ function showBoxTierPicker() {
   const complexCookies = products.filter(
     (p) => p.subcategory === "complex" && p.category === "Cookie"
   );
-
-  console.log("Cookie counts:", {
-    simple: simpleCookies.length,
-    fancy: fancyCookies.length,
-    complex: complexCookies.length,
-  });
 
   // Build tier buttons - use unique class to avoid conflicts
   optionsGrid.innerHTML = `
@@ -875,20 +843,10 @@ function showBoxTierPicker() {
   doneBtn.onclick = null; // Clear any old handlers
   document.getElementById("customCancel").onclick = cancelBoxBuilder;
 
-  console.log("About to show builder, current classes:", builder.className);
-  console.log("optionsGrid innerHTML:", optionsGrid.innerHTML);
-  console.log("Builder content HTML:", builder.innerHTML);
   builder.classList.remove("hidden");
-  console.log("Builder shown, new classes:", builder.className);
 }
 
 function showBoxSizePicker() {
-  console.log("showBoxSizePicker called, tier:", boxTier);
-  console.log(
-    "%c BOX SIZE PICKER - tier: " + boxTier,
-    "background: green; color: white; font-size: 16px"
-  );
-
   const optionsGrid = document.getElementById("customOptions");
   const subtitle = document.querySelector(".custom-subtitle");
   const doneBtn = document.getElementById("customDone");
@@ -915,7 +873,6 @@ function showBoxSizePicker() {
   for (const btn of optionsGrid.querySelectorAll(".box-size-btn")) {
     btn.addEventListener("click", (e) => {
       e.stopPropagation(); // Prevent event bubbling
-      console.log("Size button clicked:", btn.dataset.size);
       boxSize = btn.dataset.size;
       boxSlotCount = boxSize === "Dozen" ? 12 : 6;
       showBoxBuilder();
@@ -924,11 +881,6 @@ function showBoxSizePicker() {
 }
 
 function showBoxBuilder() {
-  console.log("showBoxBuilder called");
-  console.log(
-    "%c SHOW BOX BUILDER - about to show cookie selection",
-    "background: purple; color: white; font-size: 16px"
-  );
   try {
     const optionsGrid = document.getElementById("customOptions");
     const slotsGrid = document.getElementById("customSlots");
@@ -938,18 +890,8 @@ function showBoxBuilder() {
     const filledEl = document.getElementById("filledSlots");
     const totalEl = document.getElementById("totalSlots");
 
-    console.log("Elements found:", {
-      optionsGrid: !!optionsGrid,
-      slotsGrid: !!slotsGrid,
-      targetSection: !!targetSection,
-    });
-
     // Get cookies for this tier
     availableCookies = products.filter((p) => p.subcategory === boxTier && p.category === "Cookie");
-    console.log(
-      `Box Builder: tier=${boxTier}, found ${availableCookies.length} cookies`,
-      availableCookies.map((c) => c.name)
-    );
 
     // Reset slots
     boxSlots = Array.from({ length: boxSlotCount }, () => null);
@@ -976,7 +918,6 @@ function showBoxBuilder() {
     `
       )
       .join("");
-    console.log("Cookie HTML length:", cookieHTML.length);
     optionsGrid.innerHTML = cookieHTML;
 
     // Build drop slots
@@ -996,8 +937,6 @@ function showBoxBuilder() {
     doneBtn.style.display = "";
     doneBtn.disabled = true;
     doneBtn.onclick = finishBoxBuilder;
-
-    console.log("showBoxBuilder completed successfully");
   } catch (err) {
     console.error("showBoxBuilder error:", err);
   }
@@ -1158,6 +1097,12 @@ function cancelBoxBuilder() {
   const builder = document.getElementById("customBuilder");
   builder.classList.add("hidden");
 
+  // Show card stack again
+  const cardStack = document.getElementById("cardStack");
+  if (cardStack) {
+    cardStack.style.visibility = "visible";
+  }
+
   // Reset state
   boxBuilderActive = false;
   boxTier = null;
@@ -1172,8 +1117,6 @@ function cancelBoxBuilder() {
 }
 
 function finishBoxBuilder() {
-  console.log("%c FINISH BOX BUILDER CALLED", "background: red; color: white; font-size: 16px");
-  console.log("boxSlots:", boxSlots);
   const builder = document.getElementById("customBuilder");
   builder.classList.add("hidden");
 

@@ -115,33 +115,33 @@ OPUS TASKS:
           </div>
           <p class="size-picker-note">You can change size later in cart</p>
         </div>
+      </div>
 
-        <!-- Drag & Drop Customization Builder ("Have It Your Way") -->
-        <div id="customBuilder" class="custom-builder-overlay hidden">
-          <div class="custom-builder-content">
-            <h2>Build Your <span id="customProductName">Box</span></h2>
-            <p class="custom-subtitle">Drag treats into your box</p>
+      <!-- Drag & Drop Customization Builder ("Have It Your Way") - MUST be sibling, not nested! -->
+      <div id="customBuilder" class="custom-builder-overlay hidden">
+        <div class="custom-builder-content">
+          <h2>Build Your <span id="customProductName">Box</span></h2>
+          <p class="custom-subtitle">Drag treats into your box</p>
 
-            <!-- Available options to drag -->
-            <div class="custom-available">
-              <h4>Available Treats:</h4>
-              <div id="customOptions" class="custom-options-grid">
-                <!-- Draggable treat icons injected here -->
-              </div>
+          <!-- Available options to drag -->
+          <div class="custom-available">
+            <h4>Available Treats:</h4>
+            <div id="customOptions" class="custom-options-grid">
+              <!-- Draggable treat icons injected here -->
             </div>
+          </div>
 
-            <!-- Drop target slots -->
-            <div class="custom-target">
-              <h4>Your Box (<span id="filledSlots">0</span>/<span id="totalSlots">12</span>):</h4>
-              <div id="customSlots" class="custom-slots-grid">
-                <!-- Drop target slots injected here based on size -->
-              </div>
+          <!-- Drop target slots -->
+          <div class="custom-target">
+            <h4>Your Box (<span id="filledSlots">0</span>/<span id="totalSlots">12</span>):</h4>
+            <div id="customSlots" class="custom-slots-grid">
+              <!-- Drop target slots injected here based on size -->
             </div>
+          </div>
 
-            <div class="custom-actions">
-              <button id="customCancel" class="custom-cancel-btn">Cancel</button>
-              <button id="customDone" class="custom-done-btn" disabled>Add to Cart →</button>
-            </div>
+          <div class="custom-actions">
+            <button id="customCancel" class="custom-cancel-btn">Cancel</button>
+            <button id="customDone" class="custom-done-btn" disabled>Add to Cart →</button>
           </div>
         </div>
       </div>

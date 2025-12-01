@@ -5,6 +5,7 @@
 let menuItems = [];
 let activeFilters = {
   category: "all",
+  subcategory: null,
   gf: false,
   sf: false,
   ship: false,
@@ -41,11 +42,22 @@ async function initializeProducts() {
 
   if (spinner) spinner.style.display = "none";
 
-  // Generate category chips
+  // Initialize visual category navigation
+  if (typeof initVisualCategoryNav === "function") {
+    initVisualCategoryNav(products);
+  }
+
+  // Generate category chips (fallback/mobile)
   generateCategoryChips(products);
 
   // Display products in flat grid
   displayProducts(products);
+
+  // Listen for category filter events from visual nav
+  document.addEventListener("categoryFilter", (event) => {
+    const { category, subcategory } = event.detail;
+    filterProductsByVisualNav(category, subcategory);
+  });
 
   console.log("Products initialized");
 }
@@ -94,11 +106,37 @@ function generateCategoryChips(products) {
 
 function selectCategory(category) {
   activeFilters.category = category;
+  activeFilters.subcategory = null; // Clear subcategory when using chip nav
 
   // Update active chip styling
-  document.querySelectorAll(".category-chip").forEach((chip) => {
+  for (const chip of document.querySelectorAll(".category-chip")) {
     chip.classList.toggle("active", chip.dataset.category === category);
-  });
+  }
+
+  filterAndDisplay();
+}
+
+// Filter by visual category nav (supports subcategory)
+function filterProductsByVisualNav(category, subcategory) {
+  // Map visual nav category names to product data category names
+  const categoryMap = {
+    cookies: "Cookie",
+    cakes: "Cake",
+    pies: "Pie",
+    candy: "Candy",
+    bread: "Bread",
+    brownies: "Brownie",
+    muffins: "Muffin",
+    pastries: "Pastry",
+  };
+
+  activeFilters.category = categoryMap[category] || category;
+  activeFilters.subcategory = subcategory || null;
+
+  // Update category chips to match
+  for (const chip of document.querySelectorAll(".category-chip")) {
+    chip.classList.toggle("active", chip.dataset.category === activeFilters.category);
+  }
 
   filterAndDisplay();
 }
@@ -319,10 +357,20 @@ function updatePrice(index) {
 function applyCategoryFilter(items, category) {
   if (category === "all") return items;
   // Handle "Cakes" vs "Cake" inconsistency
-  return items.filter((item) => {
+  let filtered = items.filter((item) => {
     const itemCat = item.category === "Cakes" ? "Cake" : item.category;
     return itemCat === category;
   });
+
+  // Apply subcategory filter if set (for cookies: simple/fancy/complex)
+  if (activeFilters.subcategory) {
+    filtered = filtered.filter((item) => {
+      const itemSubcat = item.subcategory?.toLowerCase() || item.complexity?.toLowerCase();
+      return itemSubcat === activeFilters.subcategory.toLowerCase();
+    });
+  }
+
+  return filtered;
 }
 
 function applySearchFilter(items, searchQuery) {
