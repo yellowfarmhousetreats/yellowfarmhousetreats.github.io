@@ -1856,6 +1856,145 @@ textarea {
   color: var(--color-black);
 }
 
+.shippable {
+  background: var(--color-secondary);
+  color: var(--color-black);
+}
+
+/* DIETARY NOTES */
+.dietary-notes {
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: var(--cream);
+  border-left: 3px solid var(--warm-brown);
+  border-radius: 0 4px 4px 0;
+}
+
+.notes-text {
+  font-size: 0.9em;
+  color: var(--charcoal);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ALLERGEN WARNINGS */
+.allergen-warnings {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+.allergen-label {
+  font-weight: 600;
+  color: #856404;
+}
+
+.allergen-list {
+  color: #856404;
+}
+
+/* DEPOSIT MESSAGE */
+.deposit-message {
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: #e7f3ff;
+  border: 1px solid #b8daff;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: #004085;
+}
+
+.deposit-icon {
+  margin-right: 5px;
+}
+
+/* CUSTOMIZATIONS */
+.customizations-section {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.customization-group {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 15px;
+}
+
+.customization-label {
+  display: block;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 10px;
+  font-size: 0.95em;
+}
+
+.customization-label .required {
+  color: var(--color-danger);
+}
+
+.customization-label .optional {
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 0.85em;
+}
+
+.customization-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio-label,
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--color-white);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.radio-label:hover,
+.checkbox-label:hover {
+  border-color: var(--wheat);
+  background: var(--cream);
+}
+
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--warm-brown);
+}
+
+.radio-label input[type="radio"]:checked + .radio-text,
+.checkbox-label input[type="checkbox"]:checked + .checkbox-text {
+  font-weight: 600;
+  color: var(--warm-brown);
+}
+
+.radio-text,
+.checkbox-text {
+  font-size: 0.9em;
+  color: var(--charcoal);
+}
+
 /* DIETARY OPTIONS IN FORM */
 .dietary-options {
   grid-column: 1 / -1;

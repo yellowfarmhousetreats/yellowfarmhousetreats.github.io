@@ -3,7 +3,7 @@ let menuItems = [];
 
 async function loadProducts() {
   try {
-    const response = await fetch("products.json");
+    const response = await fetch("product_data.json");
     if (!response.ok) {
       throw new Error("Failed to load products");
     }
@@ -206,7 +206,8 @@ function createProductThumbnail(item, index) {
   imgWrap.className = "thumbnail-image";
   if (item.image) {
     const img = document.createElement("img");
-    img.src = item.image;
+    // Normalize path separators for web
+    img.src = item.image.replace(/\\/g, "/");
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
     imgWrap.appendChild(img);
@@ -240,7 +241,8 @@ function createProductCard(item, index) {
   imgWrap.className = "product-image";
   if (item.image) {
     const img = document.createElement("img");
-    img.src = item.image;
+    // Normalize path separators for web
+    img.src = item.image.replace(/\\/g, "/");
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
     imgWrap.appendChild(img);
@@ -442,7 +444,9 @@ function stopModalPropagation(e) {
 function createModalImage(item) {
   let html = '<div class="product-image">';
   if (item.image) {
-    html += `<img src="${item.image}" alt="${item.name || "Product Image"}" loading="lazy">`;
+    // Normalize path separators for web
+    const imagePath = item.image.replace(/\\/g, "/");
+    html += `<img src="${imagePath}" alt="${item.name || "Product Image"}" loading="lazy">`;
   } else {
     html += '<div class="image-placeholder">Image Coming Soon</div>';
   }
@@ -466,6 +470,34 @@ function createModalBadges(item) {
   if (item.canSugarfree) {
     html += '<span class="badge sugar-free">Can be Sugar Free</span>';
   }
+  if (item.canShip) {
+    html += '<span class="badge shippable">📦 Shippable</span>';
+  }
+  html += "</div>";
+  return html;
+}
+
+function createDietaryNotes(item) {
+  if (!item.dietaryNotes) return "";
+  let html = '<div class="dietary-notes">';
+  html += `<p class="notes-text">${item.dietaryNotes}</p>`;
+  html += "</div>";
+  return html;
+}
+
+function createAllergenWarnings(item) {
+  if (!item.allergens || item.allergens.length === 0) return "";
+  let html = '<div class="allergen-warnings">';
+  html += '<span class="allergen-label">⚠️ Contains: </span>';
+  html += `<span class="allergen-list">${item.allergens.join(", ")}</span>`;
+  html += "</div>";
+  return html;
+}
+
+function createDepositMessage(item) {
+  if (!item.hasDeposit || !item.depositAmount) return "";
+  let html = '<div class="deposit-message">';
+  html += `<span class="deposit-icon">🍽️</span> Includes $${item.depositAmount.toFixed(2)} refundable dish deposit`;
   html += "</div>";
   return html;
 }
@@ -536,14 +568,83 @@ function createSpecialOptions(item) {
   return html;
 }
 
+function createCustomizations(item) {
+  if (!item.customizations || item.customizations.length === 0) return "";
+
+  let html = '<div class="customizations-section">';
+
+  for (let i = 0; i < item.customizations.length; i++) {
+    const customization = item.customizations[i];
+    const groupId = `customization-${i}`;
+
+    html += `<div class="form-group customization-group" data-customization-index="${i}">`;
+    html += `<label class="customization-label">${customization.label}${customization.required ? ' <span class="required">*</span>' : ' <span class="optional">(optional)</span>'}</label>`;
+
+    if (customization.selectionType === "single") {
+      // Radio buttons for single selection
+      html += '<div class="customization-options radio-group">';
+
+      // Add "None" option if not required
+      if (!customization.required) {
+        html += `<label class="radio-label">
+          <input type="radio" name="${groupId}" value="" checked onchange="updatePriceInModal()">
+          <span class="radio-text">None</span>
+        </label>`;
+      }
+
+      for (let j = 0; j < customization.options.length; j++) {
+        const option = customization.options[j];
+        const isDefault = option.default === true;
+        const priceModifier = option.price > 0 ? ` (+$${option.price.toFixed(2)})` : "";
+
+        html += `<label class="radio-label">
+          <input type="radio" name="${groupId}" value="${option.name}" 
+            data-price="${option.price || 0}"
+            ${isDefault && customization.required ? "checked" : ""}
+            onchange="updatePriceInModal()">
+          <span class="radio-text">${option.name}${priceModifier}</span>
+        </label>`;
+      }
+      html += "</div>";
+    } else if (customization.selectionType === "multiple") {
+      // Checkboxes for multiple selection
+      html += '<div class="customization-options checkbox-group">';
+
+      for (let j = 0; j < customization.options.length; j++) {
+        const option = customization.options[j];
+        const isDefault = option.default === true;
+        const priceModifier = option.price > 0 ? ` (+$${option.price.toFixed(2)})` : "";
+
+        html += `<label class="checkbox-label">
+          <input type="checkbox" name="${groupId}" value="${option.name}"
+            data-price="${option.price || 0}"
+            ${isDefault ? "checked" : ""}
+            onchange="updatePriceInModal()">
+          <span class="checkbox-text">${option.name}${priceModifier}</span>
+        </label>`;
+      }
+      html += "</div>";
+    }
+
+    html += "</div>";
+  }
+
+  html += "</div>";
+  return html;
+}
+
 function createModalContent(item, index) {
   const defaultPrice = getDefaultPrice(item);
 
   let html = createModalImage(item);
   html += createModalHeader(item, defaultPrice);
   html += createModalBadges(item);
+  html += createDietaryNotes(item);
+  html += createAllergenWarnings(item);
+  html += createDepositMessage(item);
   html += '<div class="product-form">';
   html += createSizeSelector(item);
+  html += createCustomizations(item);
   html += createFlavorSelector(item);
   html += createFlavorNotes(item);
   html += createQuantityInput();
@@ -562,11 +663,34 @@ function updatePriceInModal() {
 
   const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice;
+  let price = currentItem.sizePrice[selectedSize] || currentItem.basePrice || 0;
 
   // Add gift wrap price if checked
   if (giftCheckbox?.checked && currentItem.canGiftWrap) {
     price += currentItem.giftWrapPrice;
+  }
+
+  // Add deposit amount if applicable
+  if (currentItem.hasDeposit && currentItem.depositAmount) {
+    price += currentItem.depositAmount;
+  }
+
+  // Add customization prices
+  const customizationGroups = document.querySelectorAll(".customization-group");
+  for (const group of customizationGroups) {
+    // Check for selected radio button
+    const selectedRadio = group.querySelector('input[type="radio"]:checked');
+    if (selectedRadio && selectedRadio.dataset.price) {
+      price += parseFloat(selectedRadio.dataset.price) || 0;
+    }
+
+    // Check for selected checkboxes
+    const selectedCheckboxes = group.querySelectorAll('input[type="checkbox"]:checked');
+    for (const checkbox of selectedCheckboxes) {
+      if (checkbox.dataset.price) {
+        price += parseFloat(checkbox.dataset.price) || 0;
+      }
+    }
   }
 
   priceDisplay.textContent = `$${price.toFixed(2)}`;
