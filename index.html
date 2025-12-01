@@ -110,8 +110,41 @@
             Loading products...
           </div>
 
-          <!-- PRODUCT CARDS GRID -->
-          <div class="products-grid" id="productsGrid">
+          <!-- SEARCH BAR -->
+          <div class="search-container-mobile">
+            <input
+              type="search"
+              placeholder="Search cookies, cakes, pies..."
+              class="search-input-mobile"
+              id="productSearch"
+              oninput="filterAndDisplay()"
+            />
+            <button class="search-btn-mobile" aria-label="Search">🔍</button>
+          </div>
+
+          <!-- CATEGORY FILTER CHIPS -->
+          <div class="category-filter-mobile" id="categoryFilter">
+            <!-- Generated dynamically -->
+          </div>
+
+          <!-- QUICK DIETARY/SHIPPING FILTERS -->
+          <div class="quick-filters" id="quickFilters">
+            <button class="filter-toggle" data-filter="gf" onclick="toggleQuickFilter(this)">
+              <span class="filter-icon">🌾</span>
+              <span>Gluten-Free</span>
+            </button>
+            <button class="filter-toggle" data-filter="sf" onclick="toggleQuickFilter(this)">
+              <span class="filter-icon">🍬</span>
+              <span>Sugar-Free</span>
+            </button>
+            <button class="filter-toggle" data-filter="ship" onclick="toggleQuickFilter(this)">
+              <span class="filter-icon">📦</span>
+              <span>Shippable</span>
+            </button>
+          </div>
+
+          <!-- FLAT PRODUCT GRID (replaces accordions) -->
+          <div class="products-grid-mobile" id="productsGrid">
             <!-- Product cards will be generated here -->
           </div>
 

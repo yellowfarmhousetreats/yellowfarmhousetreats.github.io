@@ -1,5 +1,12 @@
 // ========== PRODUCT DATA LOADER ==========
 let menuItems = [];
+let activeFilters = {
+  category: "all",
+  gf: false,
+  sf: false,
+  ship: false,
+  search: "",
+};
 
 async function loadProducts() {
   try {
@@ -25,65 +32,175 @@ async function initializeProducts() {
   console.log("Loaded products:", products.length);
 
   if (spinner) spinner.style.display = "none";
+
+  // Generate category chips
+  generateCategoryChips(products);
+
+  // Display products in flat grid
   displayProducts(products);
 
   console.log("Products initialized");
 }
 
-function generateCategoryTabs() {
-  // Category tabs removed - using header dropdown only
+// ========== CATEGORY CHIPS GENERATION ==========
+function generateCategoryChips(products) {
+  const container = document.getElementById("categoryFilter");
+  if (!container) return;
+
+  // Count products by category
+  const categoryCounts = {};
+  let total = 0;
+  for (const item of products) {
+    // Normalize "Cakes" to "Cake" for consistency
+    const cat = item.category === "Cakes" ? "Cake" : item.category;
+    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+    total++;
+  }
+
+  // Category order with emojis
+  const categoryConfig = [
+    { key: "all", label: "All", emoji: "", count: total },
+    { key: "Cookie", label: "Cookies", emoji: "🍪", count: categoryCounts["Cookie"] || 0 },
+    { key: "Cake", label: "Cakes", emoji: "🎂", count: categoryCounts["Cake"] || 0 },
+    { key: "Pie", label: "Pies", emoji: "🥧", count: categoryCounts["Pie"] || 0 },
+    { key: "Candy", label: "Candy", emoji: "🍬", count: categoryCounts["Candy"] || 0 },
+    { key: "Bread", label: "Bread", emoji: "🍞", count: categoryCounts["Bread"] || 0 },
+    { key: "Brownie", label: "Brownies", emoji: "🟫", count: categoryCounts["Brownie"] || 0 },
+    { key: "Muffin", label: "Muffins", emoji: "🧁", count: categoryCounts["Muffin"] || 0 },
+    { key: "Pastry", label: "Pastries", emoji: "🥐", count: categoryCounts["Pastry"] || 0 },
+  ];
+
+  container.innerHTML = "";
+
+  for (const cat of categoryConfig) {
+    if (cat.count === 0 && cat.key !== "all") continue; // Skip empty categories
+
+    const chip = document.createElement("button");
+    chip.className = "category-chip" + (cat.key === "all" ? " active" : "");
+    chip.dataset.category = cat.key;
+    chip.innerHTML = `${cat.emoji ? cat.emoji + " " : ""}${cat.label} <span class="count">${cat.count}</span>`;
+    chip.onclick = () => selectCategory(cat.key);
+    container.appendChild(chip);
+  }
 }
 
-function setActiveTab(event) {
-  for (const btn of document.querySelectorAll(".tab-button")) {
-    btn.classList.remove("active");
-  }
-  event.target.classList.add("active");
-  // Sync select
-  const category = event.target.dataset.category;
-  const select = document.getElementById("categorySelect");
-  if (select) select.value = category;
+function selectCategory(category) {
+  activeFilters.category = category;
+
+  // Update active chip styling
+  document.querySelectorAll(".category-chip").forEach((chip) => {
+    chip.classList.toggle("active", chip.dataset.category === category);
+  });
+
+  filterAndDisplay();
+}
+
+function toggleQuickFilter(btn) {
+  const filter = btn.dataset.filter;
+  btn.classList.toggle("active");
+
+  if (filter === "gf") activeFilters.gf = btn.classList.contains("active");
+  if (filter === "sf") activeFilters.sf = btn.classList.contains("active");
+  if (filter === "ship") activeFilters.ship = btn.classList.contains("active");
+
   filterAndDisplay();
 }
 
 function getCurrentCategory() {
-  const activeBtn = document.querySelector(".filter-cat-btn.active");
-  return activeBtn?.dataset?.filterCategory ?? "all";
+  return activeFilters.category;
 }
 
+// ========== FLAT PRODUCT GRID ==========
 function displayProducts(products) {
   console.log("Displaying products:", products.length);
   const grid = document.getElementById("productsGrid");
-  console.log("Grid found:", !!grid);
+  if (!grid) {
+    console.log("Grid not found!");
+    return;
+  }
   grid.innerHTML = "";
 
-  // Group by category
-  const productsByCategory = {};
-  for (const item of products) {
-    if (!productsByCategory[item.category]) productsByCategory[item.category] = [];
-    productsByCategory[item.category].push(item);
+  if (products.length === 0) {
+    grid.innerHTML = '<div class="no-results">No products found. Try adjusting your filters.</div>';
+    return;
   }
 
-  // Sort categories with Cookie first
-  const categoryOrder = ["Cookie"];
-  const otherCategories = Object.keys(productsByCategory)
-    .filter((cat) => cat !== "Cookie")
-    .sort((a, b) => a.localeCompare(b));
-  const sortedCategories = [...categoryOrder, ...otherCategories];
+  // Sort: Cookies first, then alphabetically
+  const sorted = [...products].sort((a, b) => {
+    if (a.category === "Cookie" && b.category !== "Cookie") return -1;
+    if (a.category !== "Cookie" && b.category === "Cookie") return 1;
+    return a.name.localeCompare(b.name);
+  });
 
-  let globalIndex = 0;
-  let isFirstAccordion = true;
-
-  for (const category of sortedCategories) {
-    const items = productsByCategory[category];
-    if (items && items.length > 0) {
-      const accordion = createAccordionSection(category, items, globalIndex, isFirstAccordion);
-      grid.appendChild(accordion.node);
-      globalIndex = accordion.nextIndex;
-      isFirstAccordion = false;
-    }
+  for (const item of sorted) {
+    const card = createProductCardMobile(item);
+    grid.appendChild(card);
   }
   console.log("Products displayed");
+}
+
+function createProductCardMobile(item) {
+  const card = document.createElement("div");
+  card.className = "product-card-mobile";
+  card.onclick = () => openProductModal(menuItems.indexOf(item));
+
+  // Image container
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "product-image";
+  if (item.image) {
+    const img = document.createElement("img");
+    img.src = item.image.replace(/\\/g, "/");
+    img.alt = item.name || "Product Image";
+    img.loading = "lazy";
+    imgWrap.appendChild(img);
+  } else {
+    imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
+  }
+
+  // Badges overlay
+  const badges = document.createElement("div");
+  badges.className = "product-badges";
+  if (item.canGlutenfree) {
+    const gfBadge = document.createElement("span");
+    gfBadge.className = "badge-gf";
+    gfBadge.textContent = "GF";
+    gfBadge.title = "Can be Gluten-Free";
+    badges.appendChild(gfBadge);
+  }
+  if (item.canSugarfree) {
+    const sfBadge = document.createElement("span");
+    sfBadge.className = "badge-sf";
+    sfBadge.textContent = "SF";
+    sfBadge.title = "Can be Sugar-Free";
+    badges.appendChild(sfBadge);
+  }
+  if (item.canShip) {
+    const shipBadge = document.createElement("span");
+    shipBadge.className = "badge-ship";
+    shipBadge.textContent = "📦";
+    shipBadge.title = "Shippable";
+    badges.appendChild(shipBadge);
+  }
+  imgWrap.appendChild(badges);
+  card.appendChild(imgWrap);
+
+  // Product info
+  const info = document.createElement("div");
+  info.className = "product-info";
+
+  const nameDiv = document.createElement("h3");
+  nameDiv.className = "product-name";
+  nameDiv.textContent = item.name;
+  info.appendChild(nameDiv);
+
+  const priceDiv = document.createElement("p");
+  priceDiv.className = "product-price";
+  const defaultPrice = getDefaultPrice(item);
+  priceDiv.textContent = `from $${defaultPrice.toFixed(2)}`;
+  info.appendChild(priceDiv);
+
+  card.appendChild(info);
+  return card;
 }
 
 function pluralizeCategoryName(category) {
@@ -100,134 +217,10 @@ function pluralizeCategoryName(category) {
   return pluralMap[category] || category;
 }
 
-function createCookieSubAccordions(content, items, startIndex) {
-  const subcategories = ["simple", "fancy", "complex"];
-  let index = startIndex;
-
-  for (const sub of subcategories) {
-    const subItems = items.filter((item) => item.subcategory === sub);
-    if (subItems.length > 0) {
-      // Create subcategory accordion
-      const subAccordion = document.createElement("div");
-      subAccordion.className = "sub-accordion-section";
-
-      const subHeader = document.createElement("button");
-      subHeader.className = "sub-accordion-header";
-      subHeader.setAttribute("aria-expanded", "false");
-      const subLabel = sub.charAt(0).toUpperCase() + sub.slice(1);
-      subHeader.innerHTML = `
-        <span class="sub-accordion-title">${subLabel} Cookies <span class="accordion-count">(${subItems.length})</span></span>
-        <svg class="accordion-icon" width="16" height="16" viewBox="0 0 20 20" fill="none">
-          <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      `;
-
-      const subContent = document.createElement("div");
-      subContent.className = "sub-accordion-content";
-
-      const grid = document.createElement("div");
-      grid.className = "accordion-grid";
-      for (const item of subItems) {
-        const thumb = createProductThumbnail(item, index);
-        grid.appendChild(thumb);
-        index++;
-      }
-      subContent.appendChild(grid);
-
-      subAccordion.appendChild(subHeader);
-      subAccordion.appendChild(subContent);
-      content.appendChild(subAccordion);
-
-      subHeader.onclick = () => toggleAccordion(subHeader, subContent);
-    }
-  }
-
-  return index;
-}
-
-function createAccordionSection(category, items, startIndex, isFirstAccordion = false) {
-  const accordion = document.createElement("div");
-  accordion.className = "accordion-section";
-
-  const header = document.createElement("button");
-  header.className = "accordion-header";
-  header.setAttribute("aria-expanded", isFirstAccordion ? "true" : "false");
-  const pluralCategory = pluralizeCategoryName(category);
-  header.innerHTML = `
-    <span class="accordion-title">${pluralCategory} <span class="accordion-count">(${items.length})</span></span>
-    <svg class="accordion-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  `;
-
-  const content = document.createElement("div");
-  content.className = isFirstAccordion ? "accordion-content open" : "accordion-content";
-
-  let index = startIndex;
-
-  if (category === "Cookie") {
-    index = createCookieSubAccordions(content, items, startIndex);
-  } else {
-    // Regular category
-    const grid = document.createElement("div");
-    grid.className = "accordion-grid";
-    for (const item of items) {
-      const thumb = createProductThumbnail(item, index);
-      grid.appendChild(thumb);
-      index++;
-    }
-    content.appendChild(grid);
-  }
-
-  accordion.appendChild(header);
-  accordion.appendChild(content);
-  header.onclick = () => toggleAccordion(header, content);
-
-  return { node: accordion, nextIndex: index };
-}
-
-function toggleAccordion(header, content) {
-  const isOpen = content.classList.contains("open");
-  if (isOpen) {
-    content.classList.remove("open");
-    header.setAttribute("aria-expanded", "false");
-  } else {
-    content.classList.add("open");
-    header.setAttribute("aria-expanded", "true");
-  }
-}
-
+// Legacy functions kept for compatibility but no longer used
 function createProductThumbnail(item, index) {
-  const thumb = document.createElement("div");
-  thumb.className = "product-thumbnail";
-  thumb.onclick = () => openProductModal(menuItems.indexOf(item));
-
-  const imgWrap = document.createElement("div");
-  imgWrap.className = "thumbnail-image";
-  if (item.image) {
-    const img = document.createElement("img");
-    // Normalize path separators for web
-    img.src = item.image.replace(/\\/g, "/");
-    img.alt = item.name || "Product Image";
-    img.loading = "lazy";
-    imgWrap.appendChild(img);
-  } else {
-    imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
-  }
-  thumb.appendChild(imgWrap);
-
-  const nameDiv = document.createElement("div");
-  nameDiv.className = "thumbnail-name";
-  nameDiv.textContent = item.name;
-  thumb.appendChild(nameDiv);
-
-  const priceDiv = document.createElement("div");
-  priceDiv.className = "thumbnail-price";
-  const defaultPrice = getDefaultPrice(item);
-  priceDiv.textContent = `Starting at $${defaultPrice.toFixed(2)}`;
-  thumb.appendChild(priceDiv);
-
-  return thumb;
+  // Redirects to new card format
+  return createProductCardMobile(item);
 }
 
 function createProductCard(item, index) {
@@ -307,21 +300,34 @@ function updatePrice(index) {
 
 function applyCategoryFilter(items, category) {
   if (category === "all") return items;
-  return items.filter((item) => item.category === category);
+  // Handle "Cakes" vs "Cake" inconsistency
+  return items.filter((item) => {
+    const itemCat = item.category === "Cakes" ? "Cake" : item.category;
+    return itemCat === category;
+  });
 }
 
 function applySearchFilter(items, searchQuery) {
   if (!searchQuery) return items;
   const query = searchQuery.toLowerCase();
-  return items.filter((item) => item.name.toLowerCase().includes(query));
+  return items.filter((item) => {
+    // Search name, category, and dietary notes
+    return (
+      item.name.toLowerCase().includes(query) ||
+      item.category.toLowerCase().includes(query) ||
+      (item.dietaryNotes && item.dietaryNotes.toLowerCase().includes(query))
+    );
+  });
 }
 
-function applyDietaryFilters(items, gfChecked, sfChecked) {
-  if (!gfChecked && !sfChecked) return items;
+function applyQuickFilters(items, gf, sf, ship) {
+  if (!gf && !sf && !ship) return items;
   return items.filter((item) => {
-    if (gfChecked && item.canGlutenfree) return true;
-    if (sfChecked && item.canSugarfree) return true;
-    return false;
+    // All active filters must match (AND logic)
+    if (gf && !item.canGlutenfree) return false;
+    if (sf && !item.canSugarfree) return false;
+    if (ship && !item.canShip) return false;
+    return true;
   });
 }
 
@@ -341,18 +347,16 @@ function sortProducts(items, sortBy) {
 function filterAndDisplay() {
   let filtered = menuItems.slice();
 
-  const category = getCurrentCategory();
-  filtered = applyCategoryFilter(filtered, category);
+  // Category filter
+  filtered = applyCategoryFilter(filtered, activeFilters.category);
 
-  const searchQuery = document.getElementById("productSearch").value;
+  // Search filter
+  const searchInput = document.getElementById("productSearch");
+  const searchQuery = searchInput ? searchInput.value : "";
   filtered = applySearchFilter(filtered, searchQuery);
 
-  const gfFilter = document.getElementById("filter-gf")?.checked;
-  const sfFilter = document.getElementById("filter-sf")?.checked;
-  filtered = applyDietaryFilters(filtered, gfFilter, sfFilter);
-
-  const sortBy = document.getElementById("productSort").value;
-  filtered = sortProducts(filtered, sortBy);
+  // Quick filters (GF, SF, Ship)
+  filtered = applyQuickFilters(filtered, activeFilters.gf, activeFilters.sf, activeFilters.ship);
 
   displayProducts(filtered);
 }
@@ -781,6 +785,8 @@ globalThis.openProductModal = openProductModal;
 globalThis.closeProductModal = closeProductModal;
 globalThis.updatePriceInModal = updatePriceInModal;
 globalThis.updateDietaryOptionsInModal = updateDietaryOptionsInModal;
+globalThis.toggleQuickFilter = toggleQuickFilter;
+globalThis.selectCategory = selectCategory;
 
 // ========== INITIALIZE ON PAGE LOAD ==========
 
