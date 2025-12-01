@@ -687,3 +687,343 @@ body {
   border-radius: 2px;
   transition: width 0.3s ease;
 }
+
+/* ========== CUSTOMIZATION PICKER ========== */
+.custom-builder-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(250, 247, 242, 0.98);
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.custom-builder-overlay.hidden {
+  display: none;
+}
+
+.custom-builder-content {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  width: 100%;
+}
+
+.custom-builder-content h2 {
+  font-family: var(--font-display, "Pacifico", cursive);
+  font-size: 1.8rem;
+  color: var(--charcoal, #2c2c2c);
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+
+.custom-subtitle {
+  text-align: center;
+  color: #666;
+  margin: 0 0 24px 0;
+  font-size: 1rem;
+}
+
+.custom-available,
+.custom-target {
+  margin-bottom: 24px;
+}
+
+.custom-available h4,
+.custom-target h4 {
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 0;
+}
+
+/* Option buttons grid */
+.custom-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Clickable option button (for single/multi select) */
+.custom-option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: white;
+  border: 2px solid #e8e0d5;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.custom-option-btn:hover {
+  border-color: var(--wheat, #e8c547);
+  background: rgba(232, 197, 71, 0.1);
+}
+
+.custom-option-btn.selected {
+  border-color: #4caf50;
+  background: #e8f5e9;
+}
+
+.custom-option-btn .option-name {
+  font-weight: 600;
+  color: var(--charcoal, #2c2c2c);
+  font-size: 1.05rem;
+}
+
+.custom-option-btn .default-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  background: rgba(232, 197, 71, 0.3);
+  border-radius: 8px;
+  color: var(--warm-brown, #8b6f47);
+  font-weight: 500;
+}
+
+/* Drop target slots grid (kept for future "build your box" feature) */
+.custom-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 400px) {
+  .custom-slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.custom-slot {
+  aspect-ratio: 1;
+  background: white;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-slot .slot-number {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.custom-slot.drag-over {
+  border-color: var(--wheat, #e8c547);
+  background: rgba(232, 197, 71, 0.15);
+  transform: scale(1.05);
+}
+
+.custom-slot.filled {
+  border-style: solid;
+  border-color: #4caf50;
+  background: #e8f5e9;
+  cursor: pointer;
+}
+
+.custom-slot.filled:hover {
+  background: #ffebee;
+  border-color: #f44336;
+}
+
+.custom-slot.filled:hover::after {
+  content: "✕";
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 0.8rem;
+  color: #f44336;
+  font-weight: bold;
+}
+
+.slot-filled-icon {
+  font-size: 1.5rem;
+}
+
+.slot-filled-name {
+  font-size: 0.65rem;
+  color: var(--charcoal, #2c2c2c);
+  text-align: center;
+  line-height: 1.2;
+  padding: 0 4px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Action buttons */
+.custom-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px 0;
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(250, 247, 242, 1) 80%, transparent);
+  padding-top: 24px;
+}
+
+.custom-cancel-btn {
+  flex: 1;
+  padding: 14px 20px;
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.custom-cancel-btn:hover {
+  border-color: #999;
+  color: #333;
+}
+
+.custom-done-btn {
+  flex: 2;
+  padding: 14px 20px;
+  background: #ccc;
+  border: none;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  cursor: not-allowed;
+  transition: all 0.2s;
+}
+
+.custom-done-btn:not(:disabled) {
+  background: #4caf50;
+  cursor: pointer;
+}
+
+.custom-done-btn:not(:disabled):hover {
+  background: #43a047;
+  transform: translateY(-2px);
+}
+
+.custom-done-btn.ready {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* ========== BUILD YOUR OWN BOX CARD ========== */
+.build-box-card .build-box-image {
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.build-box-icon {
+  font-size: 5rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.badge.custom {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+/* ========== TIER PICKER ========== */
+.tier-btn {
+  flex-direction: column;
+  align-items: flex-start !important;
+  gap: 8px;
+  padding: 20px !important;
+}
+
+.tier-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tier-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--charcoal, #2c2c2c);
+}
+
+.tier-desc {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.tier-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--warm-brown, #8b6f47);
+  align-self: flex-end;
+}
+
+/* ========== BOX BUILDER COOKIES ========== */
+.box-cookie {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: white;
+  border: 2px solid #e8e0d5;
+  border-radius: 12px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: all 0.2s;
+  touch-action: none;
+}
+
+.box-cookie:hover {
+  border-color: var(--wheat, #e8c547);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.box-cookie.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.box-cookie.touch-dragging {
+  background: var(--wheat, #e8c547);
+  border-color: var(--warm-brown, #8b6f47);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
