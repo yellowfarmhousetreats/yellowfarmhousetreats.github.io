@@ -109,7 +109,7 @@ function updateCart() {
   } else {
     orderItemsDiv.innerHTML = cart
       .map(
-        (item) => `
+        (item, idx) => `
       <div class="order-item">
         <div class="order-item-details">
           <div>
@@ -119,7 +119,8 @@ function updateCart() {
           <div class="order-item-price">$${item.price.toFixed(2)}</div>
         </div>
         <div class="order-item-actions">
-          <button type="button" class="btn btn-remove btn-small" onclick="removeFromCart(${cart.indexOf(item)})">Remove</button>
+          <button type="button" class="btn btn-edit btn-small" onclick="editCartItem(${idx})">Change Size</button>
+          <button type="button" class="btn btn-remove btn-small" onclick="removeFromCart(${idx})">Remove</button>
         </div>
       </div>
     `
@@ -153,6 +154,111 @@ function removeFromCart(index) {
 function clearCart() {
   cart = [];
   updateCart();
+}
+
+// ========== CART EDIT FUNCTIONALITY ==========
+let editingItemIndex = null;
+let productDataCache = null;
+
+async function editCartItem(index) {
+  editingItemIndex = index;
+  const item = cart[index];
+
+  // Fetch product data if not cached
+  if (!productDataCache) {
+    try {
+      const response = await fetch("product_data.json");
+      productDataCache = await response.json();
+    } catch (e) {
+      console.error("Failed to load product data:", e);
+      showError("Unable to load product options. Please try again.");
+      return;
+    }
+  }
+
+  // Find the product in product_data.json
+  const product = productDataCache.find((p) => p.name === item.name);
+
+  if (!product) {
+    showError("Product not found. Cannot edit this item.");
+    return;
+  }
+
+  // Build size options
+  const modal = document.getElementById("editItemModal");
+  const sizeContainer = document.getElementById("editSizeOptions");
+  const itemName = document.getElementById("editItemName");
+
+  if (!modal || !sizeContainer || !itemName) {
+    console.error("Edit modal elements not found");
+    return;
+  }
+
+  itemName.textContent = item.name;
+
+  // Create size radio buttons
+  sizeContainer.innerHTML = product.sizes
+    .map((size, idx) => {
+      const sizeKey = size.replaceAll(" ", "_");
+      const price = product.sizePrice[sizeKey];
+      const checked = size === item.size ? "checked" : "";
+      return `
+      <label class="size-option ${checked ? "selected" : ""}">
+        <input type="radio" name="editSize" value="${size}" data-price="${price}" ${checked}>
+        <span class="size-label">${size}</span>
+        <span class="size-price">$${price.toFixed(2)}</span>
+      </label>
+    `;
+    })
+    .join("");
+
+  // Add click handlers for visual selection
+  for (const option of sizeContainer.querySelectorAll(".size-option")) {
+    option.addEventListener("click", () => {
+      for (const o of sizeContainer.querySelectorAll(".size-option")) {
+        o.classList.remove("selected");
+      }
+      option.classList.add("selected");
+      option.querySelector("input").checked = true;
+    });
+  }
+
+  modal.showModal();
+}
+
+function saveEditedItem() {
+  const modal = document.getElementById("editItemModal");
+  const selectedRadio = document.querySelector('input[name="editSize"]:checked');
+
+  if (!selectedRadio || editingItemIndex === null) {
+    modal.close();
+    return;
+  }
+
+  const newSize = selectedRadio.value;
+  const newUnitPrice = Number.parseFloat(selectedRadio.dataset.price);
+  const item = cart[editingItemIndex];
+
+  // Update item with new size and recalculate price
+  item.size = newSize;
+  item.price = newUnitPrice * item.quantity;
+
+  // If item has unitPrice (from Treat Matcher), update it too
+  if (item.unitPrice !== undefined) {
+    item.unitPrice = newUnitPrice;
+  }
+
+  updateCart();
+  modal.close();
+  editingItemIndex = null;
+
+  showSuccess("Item updated!");
+}
+
+function cancelEdit() {
+  const modal = document.getElementById("editItemModal");
+  modal.close();
+  editingItemIndex = null;
 }
 
 // ========== SHIPPING AVAILABILITY ==========

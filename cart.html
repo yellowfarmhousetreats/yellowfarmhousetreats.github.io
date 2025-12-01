@@ -22,7 +22,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.644774" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.458160" />
   </head>
   <body>
     <div class="container">
@@ -375,9 +375,23 @@
       <!-- Alerts -->
       <div class="alert alert-success" id="successAlert"></div>
       <div class="alert alert-error" id="errorAlert"></div>
+
+      <!-- Edit Item Modal -->
+      <dialog id="editItemModal" class="edit-modal">
+        <div class="edit-modal-content">
+          <h3 id="editItemName">Change Size</h3>
+          <div class="edit-size-options" id="editSizeOptions">
+            <!-- Size options populated by JavaScript -->
+          </div>
+          <div class="edit-modal-actions">
+            <button type="button" class="btn btn-save" onclick="saveEditedItem()">Save</button>
+            <button type="button" class="btn btn-cancel" onclick="cancelEdit()">Cancel</button>
+          </div>
+        </div>
+      </dialog>
     </div>
 
-    <script src="cart.min.js?v=1.0.0.644774"></script>
+    <script src="cart.min.js?v=1.0.0.458160"></script>
 
     <!-- Navigation JavaScript -->
     <script>

@@ -305,27 +305,39 @@ function swipeCard(direction) {
   }, 400);
 }
 
-function addToCart(product, selectedSize, price) {
+function addToCart(product, selectedSize, unitPrice) {
   // Check if already in cart with same size
-  const cartKey = `${product.uuid}-${selectedSize}`;
   const existingIndex = cartItems.findIndex(
-    (item) => item.uuid === product.uuid && item.size === selectedSize
+    (item) => item.name === product.name && item.size === selectedSize
   );
 
   if (existingIndex >= 0) {
+    // Increment quantity and update total price
     cartItems[existingIndex].quantity++;
+    cartItems[existingIndex].price = unitPrice * cartItems[existingIndex].quantity;
   } else {
+    // Add new item with cart.js compatible format
     cartItems.push({
-      uuid: product.uuid,
       name: product.name,
       size: selectedSize,
-      price: price,
+      flavor: "Standard",
       quantity: 1,
+      price: unitPrice, // Total price (unit × qty)
+      glutenFree: false,
+      sugarFree: false,
+      giftWrap: false,
+      canShip: product.canShip || false,
+      weight: product.weight || 0,
+      hasDeposit: product.hasDeposit || false,
+      depositAmount: product.depositAmount || 0,
+      // Keep these for Treat Matcher internal use
+      uuid: product.uuid,
       image: product.image,
+      unitPrice: unitPrice,
     });
   }
 
-  cartTotal += price;
+  cartTotal += unitPrice;
   saveCart();
   updateCartDisplay();
 }

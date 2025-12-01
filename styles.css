@@ -1179,6 +1179,105 @@ input[type="number"] {
   background: var(--color-danger-dark);
 }
 
+.btn-edit {
+  background: var(--color-secondary);
+  color: var(--color-black);
+}
+
+.btn-edit:hover {
+  background: var(--color-secondary-dark, #d4a853);
+}
+
+/* ========== EDIT ITEM MODAL ========== */
+.edit-modal {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.edit-modal::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.edit-modal-content {
+  padding: 24px;
+}
+
+.edit-modal-content h3 {
+  margin: 0 0 20px 0;
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  font-size: 1.3em;
+  text-align: center;
+}
+
+.edit-size-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.edit-size-options .size-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--bg-primary);
+}
+
+.edit-size-options .size-option:hover {
+  border-color: var(--color-secondary);
+  background: var(--bg-secondary);
+}
+
+.edit-size-options .size-option.selected {
+  border-color: var(--color-primary);
+  background: rgba(77, 93, 83, 0.1);
+}
+
+.edit-size-options .size-option input {
+  margin-right: 12px;
+  accent-color: var(--color-primary);
+}
+
+.edit-size-options .size-label {
+  flex: 1;
+  font-weight: 500;
+}
+
+.edit-size-options .size-price {
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.edit-modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.edit-modal-actions .btn-save {
+  background: var(--color-primary);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.edit-modal-actions .btn-cancel {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: 10px 24px;
+  border-radius: 6px;
+}
+
 .empty-items {
   text-align: center;
   color: var(--text-secondary);
