@@ -78,35 +78,24 @@ function computeComplexity(product) {
   let score = 0;
 
   // Size options add complexity
-  if (product.sizes && product.sizes.length > 1) {
-    score += product.sizes.length - 1;
-  }
+  const sizeCount = product.sizes?.length || 0;
+  score += Math.max(0, sizeCount - 1);
 
   // Customizations add significant complexity
-  if (Array.isArray(product.customizations)) {
-    score += product.customizations.length * 2;
-
-    // Required customizations add extra complexity
-    for (const custom of product.customizations) {
-      if (custom.required) score += 1;
-      if (custom.options && custom.options.length > 3) score += 1;
-    }
-  }
+  const customizations = product.customizations || [];
+  score += customizations.length * 2;
+  score += customizations.filter((c) => c.required).length;
+  score += customizations.filter((c) => c.options?.length > 3).length;
 
   // Dietary options add some complexity
-  if (product.canGlutenfree) score += 1;
-  if (product.canSugarfree) score += 1;
+  score += (product.canGlutenfree ? 1 : 0) + (product.canSugarfree ? 1 : 0);
 
   // Flavors add complexity
-  if (product.flavors && product.flavors.length > 1) {
-    score += product.flavors.length - 1;
-  }
+  const flavorCount = product.flavors?.length || 0;
+  score += Math.max(0, flavorCount - 1);
 
-  // Gift wrap adds minor complexity
-  if (product.canGiftWrap) score += 1;
-
-  // Deposit handling adds complexity
-  if (product.hasDeposit) score += 1;
+  // Additional features add minor complexity
+  score += (product.canGiftWrap ? 1 : 0) + (product.hasDeposit ? 1 : 0);
 
   // Classify based on score
   if (score <= 2) return "simple";

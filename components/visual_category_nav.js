@@ -1,33 +1,75 @@
 /**
  * Visual Category Navigation Component
- * Displays award-winning cookies first with subcategory tiles
+ * Dynamically reads categories from product data
+ * Displays Cookies first with subcategory tiles, then other categories
  * Clean, professional image-based browsing (NO EMOJIS)
- *
- * Hierarchy:
- * 1. Featured: Award-Winning Cookies (Simple/Fancy/Complex)
- * 2. Other Categories: Cakes, Pies, Candy, Bread, etc.
  */
 
 // Cache DOM elements
 let navContainer = null;
 let productData = [];
 
-// Category configuration with display order
-const CATEGORIES = {
-  cookies: {
-    name: "Cookies",
-    featured: true,
-    subcategories: ["simple", "fancy", "complex"],
-    badge: "Award-Winning",
-  },
-  cakes: { name: "Cakes", featured: false },
-  pies: { name: "Pies", featured: false },
-  candy: { name: "Candy", featured: false },
-  bread: { name: "Bread", featured: false },
-  brownies: { name: "Brownies", featured: false },
-  muffins: { name: "Muffins", featured: false },
-  pastries: { name: "Pastries", featured: false },
-};
+// Cookie subcategories for featured section
+const COOKIE_SUBCATEGORIES = ["simple", "fancy", "complex"];
+
+/**
+ * Pluralize a category name for display
+ */
+function pluralize(word) {
+  if (!word) return word;
+  const lower = word.toLowerCase();
+
+  // Already plural or uncountable
+  if (lower.endsWith("s") || lower === "candy" || lower === "bread") {
+    return word;
+  }
+
+  // Special cases
+  if (lower === "pastry") return "Pastries";
+  if (lower === "cookie") return "Cookies";
+  if (lower === "brownie") return "Brownies";
+  if (lower === "pie") return "Pies";
+  if (lower === "muffin") return "Muffins";
+  if (lower === "cupcake") return "Cupcakes";
+  if (lower === "cake") return "Cakes";
+
+  // Default: add 's'
+  return word + "s";
+}
+
+/**
+ * Normalize category name for comparison
+ */
+function normalizeCategory(cat) {
+  if (!cat) return "";
+  return cat.toLowerCase().replace(/s$/, ""); // Remove trailing 's' for comparison
+}
+
+/**
+ * Get unique categories from product data
+ */
+function getUniqueCategories() {
+  const categoryMap = new Map();
+
+  for (const product of productData) {
+    if (!product.category) continue;
+    const normalized = normalizeCategory(product.category);
+    // Store original category name (first occurrence)
+    if (!categoryMap.has(normalized)) {
+      categoryMap.set(normalized, product.category);
+    }
+  }
+
+  return categoryMap;
+}
+
+/**
+ * Check if a category is the cookies category
+ */
+function isCookiesCategory(category) {
+  const normalized = normalizeCategory(category);
+  return normalized === "cookie";
+}
 
 /**
  * Initialize the visual navigation component
@@ -50,19 +92,30 @@ function initVisualCategoryNav(products) {
 function renderVisualNav() {
   navContainer.innerHTML = "";
 
-  // Render featured cookies section first
-  const cookiesSection = renderFeaturedCookies();
-  navContainer.appendChild(cookiesSection);
+  const categories = getUniqueCategories();
+
+  // Find and render cookies section first (if exists)
+  let cookiesKey = null;
+  for (const [normalized, original] of categories) {
+    if (isCookiesCategory(original)) {
+      cookiesKey = normalized;
+      const cookiesSection = renderFeaturedCookies(original);
+      navContainer.appendChild(cookiesSection);
+      break;
+    }
+  }
 
   // Render other categories
-  const otherCategories = renderOtherCategories();
-  navContainer.appendChild(otherCategories);
+  const otherCategories = renderOtherCategories(categories, cookiesKey);
+  if (otherCategories.children.length > 0) {
+    navContainer.appendChild(otherCategories);
+  }
 }
 
 /**
  * Render the featured cookies section with subcategories
  */
-function renderFeaturedCookies() {
+function renderFeaturedCookies(originalCategoryName) {
   const section = document.createElement("div");
   section.className = "visual-nav-featured";
 
@@ -71,7 +124,7 @@ function renderFeaturedCookies() {
   header.className = "visual-nav-header";
   header.innerHTML = `
     <span class="nav-badge">Award-Winning</span>
-    <h2>Cookies</h2>
+    <h2>${pluralize(originalCategoryName)}</h2>
   `;
   section.appendChild(header);
 
@@ -79,8 +132,8 @@ function renderFeaturedCookies() {
   const tilesContainer = document.createElement("div");
   tilesContainer.className = "visual-nav-tiles";
 
-  for (const subcat of CATEGORIES.cookies.subcategories) {
-    const tile = createCategoryTile("cookies", subcat, true);
+  for (const subcat of COOKIE_SUBCATEGORIES) {
+    const tile = createCategoryTile(originalCategoryName, subcat, true);
     tilesContainer.appendChild(tile);
   }
 
@@ -89,20 +142,21 @@ function renderFeaturedCookies() {
 }
 
 /**
- * Render other category tiles
+ * Render other category tiles (dynamically from data)
  */
-function renderOtherCategories() {
+function renderOtherCategories(categories, excludeKey) {
   const section = document.createElement("div");
   section.className = "visual-nav-other";
 
   const tilesContainer = document.createElement("div");
   tilesContainer.className = "visual-nav-tiles-small";
 
-  for (const [key, config] of Object.entries(CATEGORIES)) {
-    if (!config.featured) {
-      const tile = createCategoryTile(key, null, false);
-      tilesContainer.appendChild(tile);
-    }
+  for (const [normalized, original] of categories) {
+    // Skip the featured cookies category
+    if (normalized === excludeKey) continue;
+
+    const tile = createCategoryTile(original, null, false);
+    tilesContainer.appendChild(tile);
   }
 
   section.appendChild(tilesContainer);
@@ -120,18 +174,19 @@ function createCategoryTile(category, subcategory, isFeatured) {
 
   // Get representative products for this category
   const products = getProductsForCategory(category, subcategory);
-  const imageUrl = products.length > 0 ? products[0].image : "/images/placeholder.jpg";
+  const imageProduct = products.find((p) => p.image) || products[0];
+  const imageUrl = imageProduct?.image?.replaceAll("\\", "/") || "images/placeholder.svg";
 
   // Build tile HTML
   tile.innerHTML = `
     <div class="tile-image-wrapper">
-      <img src="${imageUrl}" alt="${getCategoryLabel(category, subcategory)}" class="tile-image" loading="lazy">
+      <img src="${imageUrl}" alt="${getDisplayLabel(category, subcategory)}" class="tile-image" loading="lazy" onerror="this.src='images/placeholder.svg'">
       <div class="tile-overlay">
-        <span class="tile-count">${products.length} items</span>
+        <span class="tile-count">${products.length} item${products.length === 1 ? "" : "s"}</span>
       </div>
     </div>
     <div class="tile-label">
-      <h3>${getCategoryLabel(category, subcategory)}</h3>
+      <h3>${getDisplayLabel(category, subcategory)}</h3>
       ${isFeatured ? `<span class="tile-price">${getPriceRange(products)}</span>` : ""}
     </div>
   `;
@@ -146,13 +201,14 @@ function createCategoryTile(category, subcategory, isFeatured) {
  * Get products for a specific category/subcategory
  */
 function getProductsForCategory(category, subcategory) {
+  const targetNormalized = normalizeCategory(category);
+
   return productData.filter((product) => {
-    // Handle category name variations (Cookie vs Cookies, Cake vs Cakes)
-    const productCat = (product.category || "").toLowerCase();
-    const targetCat = category.toLowerCase();
-    const matchesCategory =
-      productCat === targetCat || productCat === targetCat + "s" || productCat + "s" === targetCat;
+    const productNormalized = normalizeCategory(product.category);
+    const matchesCategory = productNormalized === targetNormalized;
+
     if (!subcategory) return matchesCategory;
+
     // Check subcategory field (simple/fancy/complex for cookies)
     const productSubcat = (product.subcategory || "").toLowerCase();
     return matchesCategory && productSubcat === subcategory.toLowerCase();
@@ -160,13 +216,14 @@ function getProductsForCategory(category, subcategory) {
 }
 
 /**
- * Get display label for category
+ * Get display label for category (pluralized)
  */
-function getCategoryLabel(category, subcategory) {
+function getDisplayLabel(category, subcategory) {
   if (subcategory) {
+    // Capitalize first letter of subcategory
     return subcategory.charAt(0).toUpperCase() + subcategory.slice(1);
   }
-  return CATEGORIES[category]?.name || category;
+  return pluralize(category);
 }
 
 /**
@@ -177,8 +234,7 @@ function getPriceRange(products) {
 
   const prices = products
     .map((p) => {
-      // Handle different price field names
-      const sizes = p.sizePrice || p.sizes || p.item_sizes || {};
+      const sizes = p.sizePrice || {};
       const priceValues = Object.values(sizes).filter((val) => typeof val === "number" && val > 0);
       return priceValues.length > 0 ? Math.min(...priceValues) : 0;
     })

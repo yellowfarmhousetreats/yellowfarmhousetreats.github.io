@@ -2342,7 +2342,7 @@ dialog::backdrop {
 
 .nav-badge {
   background: linear-gradient(135deg, var(--color-secondary) 0%, #d4b976 100%);
-  color: white;
+  color: #1a1a1a;
   padding: 0.5rem 1rem;
   border-radius: 24px;
   font-size: 0.875rem;
@@ -2674,6 +2674,7 @@ dialog::backdrop {
   color: var(--charcoal);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
