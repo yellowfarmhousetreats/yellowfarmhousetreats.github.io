@@ -790,13 +790,20 @@ function addToCartWithFlavor(product, selectedSize, unitPrice, flavor) {
 
 function showBoxTierPicker() {
   console.log("showBoxTierPicker called");
-  // DEBUG: Alert to confirm we're in box builder flow
-  console.log("%c BOX TIER PICKER STARTED", "background: blue; color: white; font-size: 16px");
 
-  // Hide the regular size picker just in case
-  document.getElementById("sizePicker")?.classList.add("hidden");
+  // MUST hide size picker first - it can block the custom builder
+  const sizePicker = document.getElementById("sizePicker");
+  if (sizePicker) {
+    sizePicker.classList.add("hidden");
+    sizePicker.style.display = "none";
+  }
 
   const builder = document.getElementById("customBuilder");
+  if (!builder) {
+    console.error("customBuilder element not found!");
+    return;
+  }
+
   const productNameEl = document.getElementById("customProductName");
   const optionsGrid = document.getElementById("customOptions");
   const subtitle = builder.querySelector(".custom-subtitle");
@@ -868,7 +875,9 @@ function showBoxTierPicker() {
   doneBtn.onclick = null; // Clear any old handlers
   document.getElementById("customCancel").onclick = cancelBoxBuilder;
 
+  console.log("About to show builder, current classes:", builder.className);
   builder.classList.remove("hidden");
+  console.log("Builder shown, new classes:", builder.className);
 }
 
 function showBoxSizePicker() {
