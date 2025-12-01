@@ -15,7 +15,11 @@ function loadCart() {
   const saved = localStorage.getItem("cart");
   if (saved) {
     try {
-      cart = JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      // Filter out invalid items (missing name or price)
+      cart = Array.isArray(parsed)
+        ? parsed.filter((item) => item && item.name && typeof item.price === "number")
+        : [];
       globalThis.cart = cart;
     } catch (e) {
       console.error("Failed to load cart from localStorage:", e);
@@ -34,32 +38,43 @@ function addToCart(index) {
   }
 
   const item = menuItems[index];
-  let size, flavor, qty, glutenFree, sugarFree, giftWrap;
+  let size, sizePrice, flavor, qty, glutenFree, sugarFree, giftWrap;
 
   const modal = document.getElementById("productModal");
   const modalOpen = modal?.open;
 
   if (modalOpen) {
-    size = document.getElementById("modal-size").value;
+    // Get size and price from size pills
+    const sizePillsContainer = document.getElementById("size-pills-container");
+    if (sizePillsContainer && typeof getSelectedSize === "function") {
+      const selected = getSelectedSize(sizePillsContainer);
+      size = selected?.size || item.sizes?.[0] || "";
+      sizePrice = selected?.price || 0;
+    } else {
+      // Fallback to first size
+      size = item.sizes?.[0] || "";
+      sizePrice = item.sizePrice?.[size] || item.sizePrice?.[size.replaceAll(" ", "_")] || 0;
+    }
     flavor = document.getElementById("modal-flavor")?.value || "Standard";
-    qty = Number.parseInt(document.getElementById("modal-qty").value) || 1;
+    qty = Number.parseInt(document.getElementById("modal-qty")?.value) || 1;
     glutenFree = document.getElementById("modal-gf")?.checked || false;
     sugarFree = document.getElementById("modal-sf")?.checked || false;
     giftWrap = document.getElementById("modal-gift")?.checked || false;
   } else {
-    size = document.getElementById(`size-${index}`).value;
+    size = document.getElementById(`size-${index}`)?.value || item.sizes?.[0] || "";
+    sizePrice = item.sizePrice?.[size] || item.sizePrice?.[size.replaceAll(" ", "_")] || 0;
     flavor = document.getElementById(`flavor-${index}`)?.value || "Standard";
-    qty = Number.parseInt(document.getElementById(`qty-${index}`).value) || 1;
+    qty = Number.parseInt(document.getElementById(`qty-${index}`)?.value) || 1;
     glutenFree = document.getElementById(`gf-${index}`)?.checked || false;
     sugarFree = document.getElementById(`sf-${index}`)?.checked || false;
     giftWrap = document.getElementById(`gift-${index}`)?.checked || false;
   }
 
-  let price = item.sizePrice[size.replaceAll(" ", "_")];
+  let price = sizePrice;
 
   // Add gift wrap price if selected
   if (giftWrap && item.canGiftWrap) {
-    price += item.giftWrapPrice;
+    price += item.giftWrapPrice || 0;
   }
 
   let totalPrice = price * qty;
@@ -82,10 +97,9 @@ function addToCart(index) {
   cart.push(cartItem);
   updateCart();
 
-  if (modalOpen) {
+  // Always close modal after adding to cart
+  if (modalOpen && typeof closeProductModal === "function") {
     closeProductModal();
-  } else {
-    document.getElementById(`qty-${index}`).value = 1;
   }
 
   showSuccess(`Added ${qty}x ${item.name} to order!`);
@@ -97,10 +111,18 @@ function addToCart(index) {
 }
 
 function updateCart() {
+  // Always save cart first, regardless of which page we're on
+  saveCart();
+
+  // Update navigation cart badge
+  if (typeof updateCartBadge === "function") {
+    updateCartBadge();
+  }
+
   const orderItemsDiv = document.getElementById("orderItems");
 
+  // If we're not on the cart page, just return after saving
   if (!orderItemsDiv) {
-    console.warn("orderItems div not found");
     return;
   }
 
@@ -113,13 +135,18 @@ function updateCart() {
       <div class="order-item">
         <div class="order-item-details">
           <div>
-            <div class="order-item-name">${item.name}</div>
-            <div class="order-item-specs">${item.quantity}x - ${item.size}${item.flavor === "Standard" ? "" : ` - ${item.flavor}`}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}${item.giftWrap ? " 🎁 [Gift Wrap]" : ""}</div>
+            <div class="order-item-name">${item.name || "Unknown Item"}</div>
+            <div class="order-item-specs">${item.size || ""}${item.flavor === "Standard" ? "" : ` - ${item.flavor || ""}`}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}${item.giftWrap ? " 🎁 [Gift Wrap]" : ""}</div>
           </div>
-          <div class="order-item-price">$${item.price.toFixed(2)}</div>
+          <div class="order-item-qty">
+            <button type="button" class="qty-btn" onclick="changeCartQty(${idx}, -1)" aria-label="Decrease quantity">−</button>
+            <span class="qty-value">${item.quantity || 1}</span>
+            <button type="button" class="qty-btn" onclick="changeCartQty(${idx}, 1)" aria-label="Increase quantity">+</button>
+          </div>
+          <div class="order-item-price">$${(item.price || 0).toFixed(2)}</div>
         </div>
         <div class="order-item-actions">
-          <button type="button" class="btn btn-edit btn-small" onclick="editCartItem(${idx})">Change Size</button>
+          <button type="button" class="btn btn-edit btn-small" onclick="editCartItem(${idx})">Size</button>
           <button type="button" class="btn btn-remove btn-small" onclick="removeFromCart(${idx})">Remove</button>
         </div>
       </div>
@@ -128,13 +155,6 @@ function updateCart() {
       .join("");
   }
 
-  // Persist cart before updating badges so global state is current
-  saveCart();
-
-  // Update navigation cart badge
-  if (typeof updateCartBadge === "function") {
-    updateCartBadge();
-  }
   checkShippingAvailability();
   calculateTotals();
 
@@ -148,6 +168,20 @@ function updateCart() {
 
 function removeFromCart(index) {
   cart.splice(index, 1);
+  updateCart();
+}
+
+function changeCartQty(index, delta) {
+  if (!cart[index]) return;
+
+  const item = cart[index];
+  const currentQty = item.quantity || 1;
+  const unitPrice = item.price / currentQty;
+  const newQty = Math.max(1, currentQty + delta);
+
+  item.quantity = newQty;
+  item.price = unitPrice * newQty;
+
   updateCart();
 }
 
