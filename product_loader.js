@@ -1,4 +1,7 @@
 // ========== PRODUCT DATA LOADER ==========
+// Uses: scripts/data_normalizer.js (normalizeProductData, getPrice)
+// Uses: components/size_selector.js (renderSizePills, getSelectedSize)
+
 let menuItems = [];
 let activeFilters = {
   category: "all",
@@ -8,13 +11,18 @@ let activeFilters = {
   search: "",
 };
 
+// Fallback placeholder image
+const PLACEHOLDER_IMAGE = "images/placeholder.svg";
+
 async function loadProducts() {
   try {
     const response = await fetch("product_data.json");
     if (!response.ok) {
       throw new Error("Failed to load products");
     }
-    menuItems = await response.json();
+    const rawProducts = await response.json();
+    // Normalize product data for consistent key handling
+    menuItems = normalizeProductData(rawProducts);
     return menuItems;
   } catch (error) {
     console.error("Error loading products:", error);
@@ -149,12 +157,22 @@ function createProductCardMobile(item) {
   imgWrap.className = "product-image";
   if (item.image) {
     const img = document.createElement("img");
-    img.src = item.image.replace(/\\/g, "/");
+    img.src = item.image.replaceAll("\\", "/");
+    img.alt = item.name || "Product Image";
+    img.loading = "lazy";
+    // Error handling: fallback to placeholder if image fails to load
+    img.onerror = () => {
+      img.onerror = null; // Prevent infinite loop
+      img.src = PLACEHOLDER_IMAGE;
+    };
+    imgWrap.appendChild(img);
+  } else {
+    // No image specified - use placeholder
+    const img = document.createElement("img");
+    img.src = PLACEHOLDER_IMAGE;
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
     imgWrap.appendChild(img);
-  } else {
-    imgWrap.innerHTML = '<div class="image-placeholder">Image Coming Soon</div>';
   }
 
   // Badges overlay
@@ -279,9 +297,9 @@ function createProductCard(item, index) {
 
 function getDefaultPrice(item) {
   if (typeof item.basePrice === "number") return item.basePrice;
-  if (item.sizes && item.sizes.length > 0 && item.sizePrice) {
-    const firstSize = item.sizes[0];
-    return item.sizePrice[firstSize.replaceAll(" ", "_")] || 0;
+  if (item.sizes && item.sizes.length > 0) {
+    // Use the getPrice function from data_normalizer for consistent lookup
+    return getPrice(item, item.sizes[0]);
   }
   return 0;
 }
@@ -409,6 +427,9 @@ function openProductModal(index) {
   const modalContent = document.getElementById("modalContent");
   modalContent.innerHTML = createModalContent(item, index);
 
+  // Inject size pills component (replaces dropdown)
+  injectSizePills(item);
+
   // Initialize option button click handlers
   initializeOptionButtons();
 
@@ -510,15 +531,27 @@ function createDepositMessage(item) {
 }
 
 function createSizeSelector(item) {
+  // Return a placeholder div that will be replaced with size pills
   let html = '<div class="form-group">';
-  html += '<label for="modal-size">Size:</label>';
-  html += '<select id="modal-size" class="size-select" onchange="updatePriceInModal()">';
-  for (const size of item.sizes) {
-    html += `<option value="${size}">${size}</option>`;
-  }
-  html += "</select>";
+  html += "<label>Size:</label>";
+  html += '<div id="size-pills-container"></div>';
   html += "</div>";
   return html;
+}
+
+// Injects the size pills component into the modal after HTML is set
+function injectSizePills(item) {
+  const container = document.getElementById("size-pills-container");
+  if (!container || !item.sizes || item.sizes.length === 0) return;
+
+  const sizePills = renderSizePills(item, {
+    name: "modal-size",
+    onChange: (size, price) => {
+      updatePriceInModal();
+    },
+  });
+
+  container.appendChild(sizePills);
 }
 
 function createFlavorSelector(item) {
@@ -683,14 +716,10 @@ function createModalContent(item, index) {
   // Mobile-first vertical layout
   let html = '<div class="product-customizer">';
 
-  // Product Preview Section
+  // Product Preview Section - with error handling for images
   html += '<div class="product-preview">';
-  if (item.image) {
-    const imagePath = item.image.replace(/\\/g, "/");
-    html += `<img src="${imagePath}" alt="${item.name || "Product Image"}" loading="lazy">`;
-  } else {
-    html += '<div class="image-placeholder">Image Coming Soon</div>';
-  }
+  const imagePath = item.image ? item.image.replaceAll("\\", "/") : PLACEHOLDER_IMAGE;
+  html += `<img src="${imagePath}" alt="${item.name || "Product Image"}" loading="lazy" onerror="this.onerror=null;this.src='${PLACEHOLDER_IMAGE}';">`;
   html += "</div>";
 
   // Product Info Section
@@ -735,18 +764,28 @@ function createModalContent(item, index) {
 }
 
 function updatePriceInModal() {
-  const sizeSelect = document.getElementById("modal-size");
+  const sizePillsContainer = document.getElementById("size-pills-container");
   const giftCheckbox = document.getElementById("modal-gift");
   const basePriceDisplay = document.querySelector(".base-price");
   const customizationDisplay = document.querySelector(".customization-total");
   const totalDisplay = document.querySelector(".total-amount");
   const addToCartBtn = document.querySelector(".add-to-cart-btn-large");
 
-  if (!sizeSelect) return;
-
-  const selectedSize = sizeSelect.value.replaceAll(" ", "_");
   const currentItem = menuItems[globalThis.currentModalIndex];
-  let basePrice = currentItem.sizePrice[selectedSize] || currentItem.basePrice || 0;
+  let basePrice = 0;
+
+  // Get price from size pills if available
+  if (sizePillsContainer) {
+    const selected = getSelectedSize(sizePillsContainer);
+    if (selected) {
+      basePrice = getPrice(currentItem, selected.size);
+    } else {
+      basePrice = getPrice(currentItem, currentItem.sizes?.[0] || "");
+    }
+  } else {
+    // Fallback to first size price
+    basePrice = getPrice(currentItem, currentItem.sizes?.[0] || "");
+  }
 
   // Add deposit amount to base if applicable
   if (currentItem.hasDeposit && currentItem.depositAmount) {
@@ -763,7 +802,7 @@ function updatePriceInModal() {
   // Add customization prices from option buttons
   const activeOptions = document.querySelectorAll(".option-btn.active");
   for (const btn of activeOptions) {
-    const price = parseFloat(btn.dataset.price) || 0;
+    const price = Number.parseFloat(btn.dataset.price) || 0;
     customizationTotal += price;
   }
 

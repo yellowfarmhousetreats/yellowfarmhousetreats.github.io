@@ -25,7 +25,7 @@ const SPECIAL_LABELS = {
  * @param {string} key - Size key like "3_pack" or "bakers_dozen"
  * @returns {string} - Formatted label like "3 Pack" or "Baker's Dozen"
  */
-export function formatSizeLabel(key) {
+function formatSizeLabel(key) {
   if (!key || typeof key !== "string") return "";
 
   // Check special cases first
@@ -95,7 +95,7 @@ function getPriceForSize(product, size) {
  * @param {Function} options.onChange - Callback when selection changes
  * @returns {HTMLElement} - Container element with size pills
  */
-export function renderSizePills(product, options = {}) {
+function renderSizePills(product, options = {}) {
   const { name = "size", onChange = null } = options;
 
   const container = document.createElement("div");
@@ -166,7 +166,7 @@ export function renderSizePills(product, options = {}) {
  * @param {HTMLElement} container - Size pills container element
  * @returns {Object|null} - { size, price } or null if none selected
  */
-export function getSelectedSize(container) {
+function getSelectedSize(container) {
   const checked = container.querySelector('input[type="radio"]:checked');
   if (!checked) return null;
 
@@ -294,9 +294,14 @@ if (typeof document !== "undefined") {
   }
 }
 
-// Default export
-export default {
+// Expose functions globally for non-module usage
+globalThis.SizeSelector = {
   renderSizePills,
   formatSizeLabel,
   getSelectedSize,
 };
+
+// Also expose individual functions for convenience
+globalThis.renderSizePills = renderSizePills;
+globalThis.formatSizeLabel = formatSizeLabel;
+globalThis.getSelectedSize = getSelectedSize;

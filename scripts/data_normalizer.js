@@ -14,7 +14,7 @@
  * normalizeKey("Half Dozen") // "half_dozen"
  * normalizeKey("Gift-Wrapped") // "gift_wrapped"
  */
-export function normalizeKey(str) {
+function normalizeKey(str) {
   if (!str || typeof str !== "string") return "";
 
   return str
@@ -31,7 +31,7 @@ export function normalizeKey(str) {
  * @param {Array} rawProducts - Array of products from product_data.json
  * @returns {Array} - Array of normalized products
  */
-export function normalizeProductData(rawProducts) {
+function normalizeProductData(rawProducts) {
   if (!Array.isArray(rawProducts)) {
     console.warn("normalizeProductData: expected array, got", typeof rawProducts);
     return [];
@@ -120,7 +120,7 @@ function computeComplexity(product) {
  * @param {string} selectedSize - Size string (can be original format)
  * @returns {number} - Price for the size, or fallback to first available price
  */
-export function getPrice(product, selectedSize) {
+function getPrice(product, selectedSize) {
   if (!product || !product.sizePrice) {
     console.warn("getPrice: product missing sizePrice", product?.name);
     return 0;
@@ -174,7 +174,7 @@ export function getPrice(product, selectedSize) {
  * @param {string} sizeKey - Normalized size key
  * @returns {string} - Display-friendly size name
  */
-export function getSizeDisplayName(product, sizeKey) {
+function getSizeDisplayName(product, sizeKey) {
   // If we have original sizes, find the matching one
   if (product._originalSizes && Array.isArray(product._originalSizes)) {
     for (const originalSize of product._originalSizes) {
@@ -188,10 +188,16 @@ export function getSizeDisplayName(product, sizeKey) {
   return sizeKey.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-// Default export for convenience
-export default {
+// Expose functions globally for non-module usage
+globalThis.DataNormalizer = {
   normalizeKey,
   normalizeProductData,
   getPrice,
   getSizeDisplayName,
 };
+
+// Also expose individual functions for convenience
+globalThis.normalizeProductData = normalizeProductData;
+globalThis.getPrice = getPrice;
+globalThis.normalizeKey = normalizeKey;
+globalThis.getSizeDisplayName = getSizeDisplayName;
