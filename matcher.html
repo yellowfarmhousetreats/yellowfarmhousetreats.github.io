@@ -45,6 +45,15 @@ OPUS TASKS:
    - Check if cart.html/cart.js has "Edit" or "Change Size" option
    - If not, add "Change Size" button to each cart item
    - Allow users to update size/quantity in cart before checkout
+   7. DRAG & DROP CUSTOMIZATION ("Have It Your Way"):
+   - Detect if product has customization options (check product_data)
+   - AFTER size selection, if customizable → Show drag-drop builder overlay
+   - Display available options as draggable pills/icons
+   - Target area shows empty slots based on selected size (12 slots for Dozen)
+   - User drags items into slots to build their custom treats
+   - Record customization as cart item metadata: {size: 'Dozen', custom: ['Choc Chip', 'Choc Chip', 'Snickerdoodle', ...]}
+   - Show visual confirmation of custom build
+   - This creates PATENT-WORTHY drag-drop customization for bakery e-commerce
 ══════════════════════════════════════════════════════════════════════════════
 -->
 
@@ -103,6 +112,35 @@ OPUS TASKS:
       </div>
       <p class="size-picker-note">You can change size later in cart</p>
     </div>
+
+      <!-- Drag & Drop Customization Builder ("Have It Your Way") -->
+  <div id="customBuilder" class="custom-builder-overlay hidden">
+    <div class="custom-builder-content">
+      <h2>Build Your <span id="customProductName">Box</span></h2>
+      <p class="custom-subtitle">Drag treats into your box</p>
+      
+      <!-- Available options to drag -->
+      <div class="custom-available">
+        <h4>Available Treats:</h4>
+        <div id="customOptions" class="custom-options-grid">
+          <!-- Draggable treat icons injected here -->
+        </div>
+      </div>
+      
+      <!-- Drop target slots -->
+      <div class="custom-target">
+        <h4>Your Box (<span id="filledSlots">0</span>/<span id="totalSlots">12</span>):</h4>
+        <div id="customSlots" class="custom-slots-grid">
+          <!-- Drop target slots injected here based on size -->
+        </div>
+      </div>
+      
+      <div class="custom-actions">
+        <button id="customCancel" class="custom-cancel-btn">Cancel</button>
+        <button id="customDone" class="custom-done-btn" disabled>Add to Cart →</button>
+      </div>
+    </div>
+  </div>
   </div><!-- "All done!" end screen -->
   <div id="endScreen" class="end-screen hidden">
     <h2>You've seen all our treats!</h2>
