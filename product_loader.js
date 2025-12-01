@@ -342,18 +342,6 @@ function getDefaultPrice(item) {
   return 0;
 }
 
-function updatePrice(index) {
-  const item = menuItems[index];
-  const cards = document.querySelectorAll(".product-card");
-  const card = cards[index];
-  const sizeSelect = card.querySelector(".size-select");
-  const priceDisplay = card.querySelector(".product-price");
-
-  const selectedSize = sizeSelect.value.replaceAll(" ", "_");
-  const price = item.sizePrice[selectedSize] || item.basePrice;
-  priceDisplay.textContent = `from $${price.toFixed(2)}`;
-}
-
 function applyCategoryFilter(items, category) {
   if (category === "all") return items;
   // Handle "Cakes" vs "Cake" inconsistency
