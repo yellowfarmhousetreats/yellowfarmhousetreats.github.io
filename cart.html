@@ -22,7 +22,7 @@
     />
     <!-- SnapWidget for Instagram -->
     <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <link rel="stylesheet" href="styles.min.css?v=1.0.0.924504" />
+    <link rel="stylesheet" href="styles.min.css?v=1.0.0.233040" />
   </head>
   <body>
     <div class="container">
@@ -33,9 +33,17 @@
             📞
             <span class="phone-text">Call</span>
           </a>
-          <a href="#top" class="brand-name" onclick="scrollToTop(event)">
-            Yellow Farmhouse Treats
-          </a>
+          <div class="brand-wrapper">
+            <a href="#top" class="brand-name" onclick="scrollToTop(event)">
+              Yellow Farmhouse Treats
+            </a>
+            <img
+              class="header-illustration"
+              src="animations/johnny_automatic_baking_ingredients.svg"
+              alt=""
+              aria-hidden="true"
+            />
+          </div>
           <a href="index.html" class="cart-icon" aria-label="Back to products">
             🛒
             <span class="cart-badge" id="cartBadge">0</span>
@@ -453,7 +461,7 @@
       </dialog>
     </div>
 
-    <script src="cart.min.js?v=1.0.0.924504"></script>
+    <script src="cart.min.js?v=1.0.0.233040"></script>
 
     <!-- Navigation JavaScript -->
     <script>

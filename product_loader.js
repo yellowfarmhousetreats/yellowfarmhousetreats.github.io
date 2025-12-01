@@ -761,6 +761,38 @@ function initializeOptionButtons() {
   });
 }
 
+// Get all selected customizations from the modal
+function getSelectedCustomizations() {
+  const customizations = [];
+  const optionGroups = document.querySelectorAll(".option-group");
+
+  optionGroups.forEach((group) => {
+    const label =
+      group
+        .querySelector(".option-label")
+        ?.textContent?.replace(" *", "")
+        .replace(" (optional)", "")
+        .trim() || "Option";
+    const activeButtons = group.querySelectorAll(".option-btn.active");
+
+    activeButtons.forEach((btn) => {
+      const optionName = btn.dataset.option;
+      const optionPrice = Number.parseFloat(btn.dataset.price) || 0;
+
+      // Skip "none" selections
+      if (optionName && optionName.toLowerCase() !== "none") {
+        customizations.push({
+          label: label,
+          option: optionName,
+          price: optionPrice,
+        });
+      }
+    });
+  });
+
+  return customizations;
+}
+
 function createModalContent(item, index) {
   const defaultPrice = getDefaultPrice(item);
 

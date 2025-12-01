@@ -6,6 +6,18 @@ if (globalThis.window !== undefined) {
   globalThis.cart = cart;
 }
 
+// Format customizations for display in cart
+function formatCustomizations(customizations) {
+  if (!customizations || customizations.length === 0) return "";
+
+  const items = customizations.map((c) => {
+    const priceStr = c.price > 0 ? ` (+$${c.price.toFixed(2)})` : "";
+    return `${c.option}${priceStr}`;
+  });
+
+  return ` • ${items.join(", ")}`;
+}
+
 function saveCart() {
   localStorage.setItem("cart", JSON.stringify(cart));
   globalThis.cart = cart;
@@ -43,6 +55,8 @@ function addToCart(index) {
   const modal = document.getElementById("productModal");
   const modalOpen = modal?.open;
 
+  let customizations = [];
+
   if (modalOpen) {
     // Get size and price from size pills
     const sizePillsContainer = document.getElementById("size-pills-container");
@@ -60,6 +74,11 @@ function addToCart(index) {
     glutenFree = document.getElementById("modal-gf")?.checked || false;
     sugarFree = document.getElementById("modal-sf")?.checked || false;
     giftWrap = document.getElementById("modal-gift")?.checked || false;
+
+    // Get customizations if function exists
+    if (typeof getSelectedCustomizations === "function") {
+      customizations = getSelectedCustomizations();
+    }
   } else {
     size = document.getElementById(`size-${index}`)?.value || item.sizes?.[0] || "";
     sizePrice = item.sizePrice?.[size] || item.sizePrice?.[size.replaceAll(" ", "_")] || 0;
@@ -77,6 +96,13 @@ function addToCart(index) {
     price += item.giftWrapPrice || 0;
   }
 
+  // Add customization prices
+  let customizationTotal = 0;
+  for (const c of customizations) {
+    customizationTotal += c.price || 0;
+  }
+  price += customizationTotal;
+
   let totalPrice = price * qty;
 
   const cartItem = {
@@ -88,6 +114,7 @@ function addToCart(index) {
     glutenFree: glutenFree,
     sugarFree: sugarFree,
     giftWrap: giftWrap,
+    customizations: customizations,
     canShip: item.canShip || false,
     weight: item.weight || 0,
     hasDeposit: item.hasDeposit || false,
@@ -136,7 +163,7 @@ function updateCart() {
         <div class="order-item-details">
           <div>
             <div class="order-item-name">${item.name || "Unknown Item"}</div>
-            <div class="order-item-specs">${item.size || ""}${item.flavor === "Standard" ? "" : ` - ${item.flavor || ""}`}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}${item.giftWrap ? " 🎁 [Gift Wrap]" : ""}</div>
+            <div class="order-item-specs">${item.size || ""}${item.flavor === "Standard" ? "" : ` - ${item.flavor || ""}`}${item.glutenFree ? " [GF]" : ""}${item.sugarFree ? " [SF]" : ""}${item.giftWrap ? " 🎁 [Gift Wrap]" : ""}${formatCustomizations(item.customizations)}</div>
           </div>
           <div class="order-item-qty">
             <button type="button" class="qty-btn" onclick="changeCartQty(${idx}, -1)" aria-label="Decrease quantity">−</button>

@@ -211,18 +211,43 @@ body {
   }
 }
 
+/* Brand wrapper - contains name and illustration */
+.brand-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
 .brand-name {
   font-size: 1.3em;
   font-weight: 700;
   color: var(--color-gray-darker);
   text-decoration: none;
   text-align: center;
-  flex: 1;
   cursor: pointer;
 }
 
 .brand-name:hover {
   color: var(--color-primary);
+}
+
+/* Header illustration - sits under brand name, matches its width */
+.header-illustration {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 50px;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: sepia(20%) saturate(80%);
+  margin-top: 4px;
+}
+
+@media (min-width: 768px) {
+  .header-illustration {
+    max-height: 60px;
+  }
 }
 
 .cart-icon {
