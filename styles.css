@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Merriweather:wght@300;400;700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -5,6 +7,11 @@
 }
 
 :root {
+  /* === TYPOGRAPHY === */
+  --font-display: "Pacifico", cursive; /* Handwritten headers */
+  --font-body: "Merriweather", serif; /* Warm readable text */
+  --font-ui: -apple-system, sans-serif; /* Keep system for UI elements */
+
   /* === E-COMMERCE COLOR SYSTEM (60-30-10 RULE) === */
 
   /* PRIMARY (60%) - Warm Brown: Brand identity, headers, main elements */
@@ -57,8 +64,28 @@
   --text-warning: #856404;
 }
 
+/* Apply fonts to key elements */
+h1,
+h2,
+h3,
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+body,
+p,
+li {
+  font-family: var(--font-body);
+}
+
+button,
+input,
+select {
+  font-family: var(--font-ui);
+}
+
 body {
-  font-family: "Open Sans", sans-serif;
   background-color: var(--bg-primary);
   background-image:
     repeating-linear-gradient(
