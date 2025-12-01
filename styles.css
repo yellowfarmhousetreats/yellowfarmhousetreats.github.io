@@ -12,6 +12,12 @@
   --font-body: "Merriweather", serif; /* Warm readable text */
   --font-ui: -apple-system, sans-serif; /* Keep system for UI elements */
 
+  /* === NEW PALETTE === */
+  --wheat: #e8c547;
+  --charcoal: #2c2c2c;
+  --cream: #faf7f2;
+  --warm-brown: #8b6f47;
+
   /* === E-COMMERCE COLOR SYSTEM (60-30-10 RULE) === */
 
   /* PRIMARY (60%) - Warm Brown: Brand identity, headers, main elements */
@@ -131,11 +137,11 @@ body {
 }
 
 .header {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
-  color: var(--color-black);
+  background: var(--wheat);
+  color: var(--charcoal);
   padding: 50px 30px;
   text-align: center;
-  border-bottom: 5px solid var(--text-heading);
+  border-bottom: 5px solid var(--warm-brown);
   box-shadow: 0 4px 10px rgba(139, 114, 32, 0.2);
 }
 
@@ -619,9 +625,12 @@ body {
 
 .accordion-header {
   width: 100%;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-white);
-  border: none;
+  background: var(--cream);
+  border-left: 4px solid var(--wheat);
+  color: var(--charcoal);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
   padding: 20px 25px;
   font-family: "Quicksand", sans-serif;
   font-size: 1.5em;
@@ -635,7 +644,7 @@ body {
 }
 
 .accordion-header:hover {
-  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 100%);
+  background: var(--wheat);
 }
 
 .accordion-header:focus {
