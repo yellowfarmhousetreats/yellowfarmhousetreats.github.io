@@ -297,7 +297,7 @@ function createProductCard(item, index) {
   if (item.image) {
     const img = document.createElement("img");
     // Normalize path separators for web
-    img.src = item.image.replace(/\\/g, "/");
+    img.src = item.image.replaceAll("\\", "/");
     img.alt = item.name || "Product Image";
     img.loading = "lazy";
     imgWrap.appendChild(img);
@@ -375,7 +375,7 @@ function applySearchFilter(items, searchQuery) {
     return (
       item.name.toLowerCase().includes(query) ||
       item.category.toLowerCase().includes(query) ||
-      (item.dietaryNotes && item.dietaryNotes.toLowerCase().includes(query))
+      item.dietaryNotes?.toLowerCase().includes(query)
     );
   });
 }
@@ -519,7 +519,7 @@ function createModalImage(item) {
   let html = '<div class="product-image">';
   if (item.image) {
     // Normalize path separators for web
-    const imagePath = item.image.replace(/\\/g, "/");
+    const imagePath = item.image.replaceAll("\\", "/");
     html += `<img src="${imagePath}" alt="${item.name || "Product Image"}" loading="lazy">`;
   } else {
     html += '<div class="image-placeholder">Image Coming Soon</div>';
@@ -654,6 +654,34 @@ function createSpecialOptions(item) {
   return html;
 }
 
+// Helper to create a single option button HTML
+function createOptionButton(option, groupId, isActive) {
+  const priceText = option.price > 0 ? `+$${option.price.toFixed(2)}` : "Included";
+  const activeClass = isActive ? " active" : "";
+  const icon = getOptionIcon(option.name);
+
+  return `<button type="button" class="option-btn${activeClass}" data-option="${option.name}" data-price="${option.price || 0}" data-group="${groupId}">
+    <div class="option-icon">${icon}</div>
+    <div class="option-text">
+      <span class="option-name">${option.name}</span>
+      <span class="option-price">${priceText}</span>
+    </div>
+    <div class="option-check">✓</div>
+  </button>`;
+}
+
+// Helper to create the "None" option for optional single-select groups
+function createNoneOption(groupId) {
+  return `<button type="button" class="option-btn" data-option="none" data-price="0" data-group="${groupId}">
+    <div class="option-icon">⭕</div>
+    <div class="option-text">
+      <span class="option-name">None</span>
+      <span class="option-price">No charge</span>
+    </div>
+    <div class="option-check">✓</div>
+  </button>`;
+}
+
 function createCustomizations(item) {
   if (!item.customizations || item.customizations.length === 0) return "";
 
@@ -663,44 +691,24 @@ function createCustomizations(item) {
     const customization = item.customizations[i];
     const groupId = `customization-${i}`;
     const isRadio = customization.selectionType === "single";
-
-    // Check if any option is marked as default
     const hasDefaultOption = customization.options.some((opt) => opt.default === true);
-    // Default to first option if none specified, not "None"
     const defaultToFirst = !hasDefaultOption && customization.options.length > 0;
+    const requiredLabel = customization.required
+      ? ' <span class="required">*</span>'
+      : ' <span class="optional">(optional)</span>';
 
     html += `<div class="option-group" data-customization-index="${i}" data-selection-type="${customization.selectionType}">`;
-    html += `<label class="option-label">${customization.label}${customization.required ? ' <span class="required">*</span>' : ' <span class="optional">(optional)</span>'}</label>`;
+    html += `<label class="option-label">${customization.label}${requiredLabel}</label>`;
 
     // Add "None" option if not required and single selection
     if (!customization.required && isRadio) {
-      html += `<button type="button" class="option-btn" data-option="none" data-price="0" data-group="${groupId}">
-        <div class="option-icon">⭕</div>
-        <div class="option-text">
-          <span class="option-name">None</span>
-          <span class="option-price">No charge</span>
-        </div>
-        <div class="option-check">✓</div>
-      </button>`;
+      html += createNoneOption(groupId);
     }
 
     for (let j = 0; j < customization.options.length; j++) {
       const option = customization.options[j];
       const isDefault = option.default === true || (defaultToFirst && j === 0);
-      const priceText = option.price > 0 ? `+$${option.price.toFixed(2)}` : "Included";
-      const activeClass = isDefault ? " active" : "";
-
-      // Use emoji based on option name or default
-      const icon = getOptionIcon(option.name);
-
-      html += `<button type="button" class="option-btn${activeClass}" data-option="${option.name}" data-price="${option.price || 0}" data-group="${groupId}">
-        <div class="option-icon">${icon}</div>
-        <div class="option-text">
-          <span class="option-name">${option.name}</span>
-          <span class="option-price">${priceText}</span>
-        </div>
-        <div class="option-check">✓</div>
-      </button>`;
+      html += createOptionButton(option, groupId, isDefault);
     }
 
     html += "</div>";
@@ -732,7 +740,7 @@ function getOptionIcon(optionName) {
 }
 
 function initializeOptionButtons() {
-  document.querySelectorAll(".option-btn").forEach((btn) => {
+  for (const btn of document.querySelectorAll(".option-btn")) {
     btn.addEventListener("click", function (e) {
       e.preventDefault();
 
@@ -742,7 +750,9 @@ function initializeOptionButtons() {
 
       if (isRadio) {
         // Deselect all in group
-        group.querySelectorAll(".option-btn").forEach((b) => b.classList.remove("active"));
+        for (const b of group.querySelectorAll(".option-btn")) {
+          b.classList.remove("active");
+        }
         // Select this one
         this.classList.add("active");
       } else {
@@ -758,7 +768,7 @@ function initializeOptionButtons() {
         navigator.vibrate(10);
       }
     });
-  });
+  }
 }
 
 // Get all selected customizations from the modal
@@ -766,7 +776,7 @@ function getSelectedCustomizations() {
   const customizations = [];
   const optionGroups = document.querySelectorAll(".option-group");
 
-  optionGroups.forEach((group) => {
+  for (const group of optionGroups) {
     const label =
       group
         .querySelector(".option-label")
@@ -775,7 +785,7 @@ function getSelectedCustomizations() {
         .trim() || "Option";
     const activeButtons = group.querySelectorAll(".option-btn.active");
 
-    activeButtons.forEach((btn) => {
+    for (const btn of activeButtons) {
       const optionName = btn.dataset.option;
       const optionPrice = Number.parseFloat(btn.dataset.price) || 0;
 
@@ -787,8 +797,8 @@ function getSelectedCustomizations() {
           price: optionPrice,
         });
       }
-    });
-  });
+    }
+  }
 
   return customizations;
 }

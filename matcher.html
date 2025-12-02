@@ -100,14 +100,12 @@ OPUS TASKS:
 
       <!-- Size picker modal - REQUIRED after heart tap -->
       <div id="sizePicker" class="size-picker-modal hidden">
-        <div
+        <button
+          type="button"
           class="size-picker-overlay"
-          role="button"
-          tabindex="0"
           aria-label="Close size picker"
           onclick="closeSizePicker()"
-          onkeydown="if(event.key==='Enter'||event.key===' ')closeSizePicker()"
-        ></div>
+        ></button>
         <div class="size-picker-content">
           <h3>Select Size</h3>
           <div id="sizeOptions" class="size-options">

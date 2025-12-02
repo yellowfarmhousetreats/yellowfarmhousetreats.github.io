@@ -30,7 +30,7 @@ function loadCart() {
       const parsed = JSON.parse(saved);
       // Filter out invalid items (missing name or price)
       cart = Array.isArray(parsed)
-        ? parsed.filter((item) => item && item.name && typeof item.price === "number")
+        ? parsed.filter((item) => item?.name && typeof item.price === "number")
         : [];
       globalThis.cart = cart;
     } catch (e) {
