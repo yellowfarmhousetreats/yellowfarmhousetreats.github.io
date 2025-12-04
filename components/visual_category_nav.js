@@ -12,6 +12,35 @@ let productData = [];
 // Cookie subcategories for featured section
 const COOKIE_SUBCATEGORIES = ["simple", "fancy", "complex"];
 
+// Images that are known to be missing (will use placeholder or skip)
+const MISSING_IMAGES = ["apple-pie.jpg", "peach-pie.jpg"];
+
+/**
+ * Check if an image path refers to a missing image
+ */
+function isImageMissing(imagePath) {
+  if (!imagePath) return true;
+  const filename = imagePath.replace(/\\/g, "/").split("/").pop();
+  return MISSING_IMAGES.includes(filename);
+}
+
+/**
+ * Get the best product to use for category thumbnail
+ * Prioritizes products with images that actually exist
+ */
+function getBestImageProduct(products) {
+  // First, try to find a product with an image that's not in the missing list
+  const productWithGoodImage = products.find((p) => p.image && !isImageMissing(p.image));
+  if (productWithGoodImage) return productWithGoodImage;
+
+  // Fallback to first product with any image
+  const productWithAnyImage = products.find((p) => p.image);
+  if (productWithAnyImage) return productWithAnyImage;
+
+  // Last resort: first product
+  return products[0];
+}
+
 /**
  * Pluralize a category name for display
  */
@@ -174,7 +203,7 @@ function createCategoryTile(category, subcategory, isFeatured) {
 
   // Get representative products for this category
   const products = getProductsForCategory(category, subcategory);
-  const imageProduct = products.find((p) => p.image) || products[0];
+  const imageProduct = getBestImageProduct(products);
   const imageUrl = imageProduct?.image?.replaceAll("\\", "/") || "images/placeholder.svg";
 
   // Build tile HTML
