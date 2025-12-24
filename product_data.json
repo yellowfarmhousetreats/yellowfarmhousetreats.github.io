@@ -9,7 +9,11 @@
     "canShip": false,
     "weight": 2.0,
     "ingredients": "Flour, honey, Milk, Butter, Sugar, Eggs, Yeast, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs"
+    ],
     "dietaryNotes": "From scratch Soft, fluffy sweet dinner rolls bread. Rich and fluffy.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -20,8 +24,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
+    "customizations": [],
     "test_attr_0e5d76a5": "This is a test value",
-    "sizes": ["12"],
+    "sizes": [
+      "12"
+    ],
     "sizePrice": {
       "12": 18
     }
@@ -36,7 +43,11 @@
     "canShip": true,
     "weight": 1.0,
     "ingredients": "Pumpkin Puree, Bran, Flour, Molasses, Sugar, Brown sugar, Eggs, Vegetable Oil, Cinnamon, Nutmeg, Cloves, all spice, Baking Soda, Baking Powder, Salt",
-    "allergens": ["Wheat", "Eggs", "soy"],
+    "allergens": [
+      "Wheat",
+      "Eggs",
+      "soy"
+    ],
     "dietaryNotes": "Moist seasonal sweet bread with warm autumn spices.  Bread that feels like a cake.  Choice of topping~ Cream cheese frosting, chocolate chips, cream cheese chips or Cinnamon Sugar.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -72,7 +83,9 @@
         ]
       }
     ],
-    "sizes": ["Each"],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 6
     }
@@ -87,7 +100,11 @@
     "canShip": false,
     "weight": 3.0,
     "ingredients": "Flour, Milk, Butter, Sugar, Eggs, Yeast, Cinnamon, Cream Cheese, Vanilla, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs"
+    ],
     "dietaryNotes": "Fresh-baked with cream cheese frosting.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -98,7 +115,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "Half_Dozen": 15,
       "Half Dozen": 15,
@@ -115,7 +136,10 @@
     "canShip": false,
     "weight": 0.0,
     "ingredients": "Apples, Flour, shortening, Butter, Sugar, Cinnamon, Nutmeg, Lemon Juice, Salt",
-    "allergens": ["Wheat", "Dairy"],
+    "allergens": [
+      "Wheat",
+      "Dairy"
+    ],
     "dietaryNotes": "Classic double-crust pie with fresh apples. Requires dish deposit.",
     "hasDeposit": true,
     "depositAmount": 5,
@@ -126,7 +150,10 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Each"],
+    "customizations": [],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 25
     }
@@ -141,7 +168,11 @@
     "canShip": false,
     "weight": 5.0,
     "ingredients": "Pumpkin Puree, molasses, maple Syrup , shortening, Eggs, Sugar, Cinnamon, Ginger, Nutmeg, Flour, Butter, Salt. flour, shortening,",
-    "allergens": ["Wheat", "Dairy", "Eggs"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs"
+    ],
     "dietaryNotes": "Creamy traditional pumpkin pie with Maple Syrup & Molasses. Requires dish deposit.",
     "hasDeposit": true,
     "depositAmount": 11,
@@ -152,7 +183,10 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Each"],
+    "customizations": [],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 25
     }
@@ -167,7 +201,10 @@
     "canShip": false,
     "weight": 0,
     "ingredients": "Peaches, Flour, Butter, Sugar, Cinnamon, Cornstarch, Lemon Juice, Salt",
-    "allergens": ["Wheat", "Dairy"],
+    "allergens": [
+      "Wheat",
+      "Dairy"
+    ],
     "dietaryNotes": "Sweet summer peach pie. Requires dish deposit.",
     "hasDeposit": true,
     "depositAmount": 5,
@@ -179,7 +216,9 @@
     "sfIngredients": "",
     "sfAllergens": [],
     "customizations": [],
-    "sizes": ["Each"],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 25
     }
@@ -194,7 +233,11 @@
     "canShip": false,
     "weight": 5.0,
     "ingredients": "lemon zest, Lemon Juice, Sugar, Eggs, Butter, Cornstarch, Flour, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs"
+    ],
     "dietaryNotes": "Tangy lemon filling with fluffy meringue topping. Requires dish deposit.",
     "hasDeposit": true,
     "depositAmount": 5,
@@ -205,7 +248,10 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Each"],
+    "customizations": [],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 25
     }
@@ -220,7 +266,10 @@
     "canShip": false,
     "weight": 5.0,
     "ingredients": "Apples, Oranges, Flour, Butter, Brown Sugar, Cinnamon, Nutmeg, Salt",
-    "allergens": ["Wheat", "Dairy"],
+    "allergens": [
+      "Wheat",
+      "Dairy"
+    ],
     "dietaryNotes": "Warm spiced apples with brown sugar topping. GF/SF options available. Requires dish deposit.",
     "hasDeposit": true,
     "depositAmount": 5,
@@ -230,8 +279,14 @@
     "gfIngredients": "Apple, brown sugar butter, oranges, Gluten free oats, cinnamon nutmeg salt",
     "gfAllergens": [],
     "sfIngredients": "we also need this field in the json\t\t",
-    "sfAllergens": ["Nuts", "Milk (skim)"],
-    "sizes": ["Each"],
+    "sfAllergens": [
+      "Nuts",
+      "Milk (skim)"
+    ],
+    "customizations": [],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 25
     }
@@ -246,7 +301,10 @@
     "canShip": false,
     "weight": 2.0,
     "ingredients": "Pumpkin Puree, Flour, Sugar, Eggs, Vegetable Oil, Baking Powder, Cinnamon, Nutmeg, Salt",
-    "allergens": ["Wheat", "Eggs"],
+    "allergens": [
+      "Wheat",
+      "Eggs"
+    ],
     "dietaryNotes": "Moist autumn muffins with pumpkin spice.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -257,7 +315,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "Half_Dozen": 15,
       "Half Dozen": 15,
@@ -274,7 +336,13 @@
     "canShip": false,
     "weight": 2.0,
     "ingredients": "Flour, Cocoa Powder, Sugar, Eggs, Butter, Milk, Vanilla, Baking Powder, Chocolate Chips, Salt, Nutella Center Heavy Cream",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy", "Tree Nuts"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy",
+      "Tree Nuts"
+    ],
     "dietaryNotes": "Delicate chocolate cupcakes with rich Nutella Hazelnut molten center. GF options available.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -285,7 +353,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "Half_Dozen": 15,
       "Half Dozen": 15,
@@ -302,7 +374,12 @@
     "canShip": false,
     "weight": 2.0,
     "ingredients": "Flour, Cocoa Powder, Sugar, Eggs, Butter, Milk, Vanilla, Cream Filling, Chocolate Ganache, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy"
+    ],
     "dietaryNotes": "Chocolate cupcakes with creamy filling and chocolate coating.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -313,7 +390,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "Half_Dozen": 15,
       "Half Dozen": 15,
@@ -330,7 +411,13 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Creamy Peanut Butter, shortening, cornstarch, Flour, Sugar, Brown Sugar, Eggs, Butter, Baking Soda, baking powder, milk, Vanilla, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Peanuts", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Peanuts",
+      "corn"
+    ],
     "dietaryNotes": "Classic soft peanut butter cookies with crisp edges.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -341,7 +428,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 9,
       "3 Pack": 9,
@@ -352,16 +444,21 @@
   },
   {
     "uuid": "9f8cd8e7-dcb6-4edb-9e4f-6c8fe52c8395",
-    "name": "Chocolate Cookies",
+    "name": "Chocolate Chip Cookies",
     "category": "Cookie",
-    "image": "images\\chocolate-cookies.jpg",
+    "image": "images\\chocolate-chip-cookies.jpg",
     "canGlutenfree": false,
     "canSugarfree": false,
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, shortening,Cocoa Powder, Sugar, bown sugar, milk Butter, Eggs, Vanilla, Baking Soda, Salt, baking powder cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "corn"],
-    "dietaryNotes": "Rich decadent chocolate cookies for chocolate lovers.",
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "corn"
+    ],
+    "dietaryNotes": "Rich decadent chocolate chip cookies. ",
     "hasDeposit": false,
     "depositAmount": 0,
     "canGiftWrap": false,
@@ -371,7 +468,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 9,
       "3 Pack": 9,
@@ -390,7 +491,13 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, Shortening,Oats,Butter, Sugar, Brown Sugar, Eggs, Molasses, Vanilla, Baking Soda, Milk, Baking Powder, Salt, cinnamon, nutmeg. cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy",
+      "corn"
+    ],
     "dietaryNotes": "Classic soft and chewy cookies. Choice of Raisins, butterscotch or cream cheese chips.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -422,7 +529,11 @@
         ]
       }
     ],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 9,
       "3 Pack": 9,
@@ -441,7 +552,12 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, shortening, Butter, Sugar, Eggs, Cream of Tartar, Baking Powder,Baking Soda, Cinnamon, Nutmeg, Vanilla, Salt cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "corn"
+    ],
     "dietaryNotes": "Cinnamon-sugar coated cookies with soft tender centers.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -452,7 +568,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 9,
       "3 Pack": 9,
@@ -471,7 +592,14 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, shortening, Milk, baking powder, cornstarch, Butter, Sugar, cornstarch Eggs, Nutella Hazel Nut Butter, Vanilla, Baking Soda, Salt, candy drizzle Rolo ",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy", "corn", "tree nuts"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy",
+      "corn",
+      "tree nuts"
+    ],
     "dietaryNotes": "Chocolate Chip cookie with a Rollo and a candy candy drizzled with my homemade salted caramel.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -482,7 +610,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 12,
       "3 Pack": 12,
@@ -501,7 +634,13 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, Butter, Sugar, Eggs, Cocoa Powder, Red Food Coloring, Cream Cheese chips, Vanilla, Salt Shortening, brown sugar, milk, cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Dye", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Dye",
+      "corn"
+    ],
     "dietaryNotes": "Velvety red cookies with cream cheese chips.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -512,7 +651,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 9,
       "3 Pack": 9,
@@ -531,7 +675,14 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, shortening, Butter, Sugar, Eggs, Espresso Powder, Chocolate Chips, Vanilla, Baking Soda, cornstarch, Salt, candy coating. milk.",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy", "coffee", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy",
+      "coffee",
+      "corn"
+    ],
     "dietaryNotes": "Bold coffee-flavored cookies with chocolate and vanilla chips. Contains caffeine.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -542,7 +693,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 12,
       "3 Pack": 12,
@@ -561,7 +717,11 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Coconut, Almonds, Sugar, Vanilla, condensed milk, Salt, dark chocolate.",
-    "allergens": ["Dairy", "Coconut", "Tree Nuts"],
+    "allergens": [
+      "Dairy",
+      "Coconut",
+      "Tree Nuts"
+    ],
     "dietaryNotes": "Rich chewy Coconut cookie with Almonds and dark chocolate.  Gluten & egg free.  ",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -572,7 +732,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 12,
       "3 Pack": 12,
@@ -591,7 +756,11 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Pumpkin Puree, Flour, shortening, Sugar, Butter, Eggs, Cinnamon, Nutmeg, milk, brown sugar, molasses, Vanilla, Salt cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs corn"
+    ],
     "dietaryNotes": "Seasonal pumpkin spice cookies with candy coating.  choice of chip flavors.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -619,7 +788,11 @@
         ]
       }
     ],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 9,
       "3 Pack": 9,
@@ -638,7 +811,12 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, shortening, milk, marshmallows, peppermint candies, Butter, Sugar, Eggs, Vanilla, Baking Soda, baking Powder, milk, Salt cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "corn"
+    ],
     "dietaryNotes": "Festive cookies. Flavors vary by season.  Offered Now- Egg Nog Nutmeg Spice, Grinch, Hot Chocolate Marshmallow ",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -649,7 +827,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 12,
       "3 Pack": 12,
@@ -660,16 +843,22 @@
   },
   {
     "uuid": "642b4e1f-60c5-4553-91d8-36f55d3bd734",
-    "name": "Oatmeal Cream Whoopie Pie",
+    "name": "Monster Cookies",
     "category": "Cookie",
-    "image": "images\\oatmeal-cream-whoopie-pie.jpg",
+    "image": "images\\monster-cookies.jpg",
     "canGlutenfree": false,
     "canSugarfree": false,
     "canShip": true,
     "weight": 1.5,
-    "ingredients": "Flour, shortening, molasses, milk, baking Powder, Butter, Sugar, Eggs, oats, Marshmallows, powdered sugar cornstarch,, Vanilla, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy", "corn"],
-    "dietaryNotes": "Two oatmeal cookies sandwiching a marshmallow creme filling",
+    "ingredients": "Flour, shortening, molasses, milk, baking Powder, Butter, Sugar, Eggs, oats, Marshmallows, powdered sugar cornstarch, Vanilla, Salt",
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy",
+      "corn"
+    ],
+    "dietaryNotes": "Inspired by the Cookie Monster, a fun, blue cookie with eyes, cookie crumbles, and chips",
     "hasDeposit": false,
     "depositAmount": 0,
     "canGiftWrap": false,
@@ -679,7 +868,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 15,
       "3 Pack": 15,
@@ -698,7 +891,14 @@
     "canShip": true,
     "weight": 1.5,
     "ingredients": "Butter, grahm crackers, coconut, butterscotch chips, sweetened condensed milk, marshmallows, pretzels, M&Ms, Chocolate Chips, ",
-    "allergens": ["Eggs", "Wheat", "Soy", "Dairy", "corn", "coconut"],
+    "allergens": [
+      "Eggs",
+      "Wheat",
+      "Soy",
+      "Dairy",
+      "corn",
+      "coconut"
+    ],
     "dietaryNotes": "THICK dreamy chewy bar cookies filled with everything! Coconut, butterscotch, grahm crackers, chocolate chips, marshmellows, pretzels, M&M's",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -709,7 +909,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 15,
       "3 Pack": 15,
@@ -728,7 +933,14 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, Peanut Butter, Shortening, Molasses, Baking Powder, Milk, Chocolate, Butter, Sugar, Eggs, Peanut Butter, Powdered Sugar, Vanilla, Baking Soda, Salt cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Peanuts", "Soy", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Peanuts",
+      "Soy",
+      "corn"
+    ],
     "dietaryNotes": "Peanut butter cookies stuffed with Homemade Peanut Butter cups.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -739,7 +951,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 15,
       "3 Pack": 15,
@@ -758,7 +975,12 @@
     "canShip": true,
     "weight": 1.2,
     "ingredients": "Flour, shortening, milk, apples, heavy cream, Butter, Sugar, brown sugar, Eggs, Apples, Caramel, Cinnamon, Vanilla, Salt, corn syrup, cornstarch",
-    "allergens": ["Wheat", "Dairy", "Eggs", "corn"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "corn"
+    ],
     "dietaryNotes": "Homemade Apple pie filling baked into a cookie with homemade caramel drizzle.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -769,7 +991,12 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["3 Pack", "Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "3 Pack",
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "3_Pack": 15,
       "3 Pack": 15,
@@ -788,7 +1015,9 @@
     "canShip": true,
     "weight": 1.0,
     "ingredients": "Butter, brown sugar, corn syrup, heavy cream, salt",
-    "allergens": ["Dairy"],
+    "allergens": [
+      "Dairy"
+    ],
     "dietaryNotes": "Soft melt in your mouth caramels.  ",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -799,7 +1028,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Half Dozen", "Dozen"],
+    "customizations": [],
+    "sizes": [
+      "Half Dozen",
+      "Dozen"
+    ],
     "sizePrice": {
       "Half_Dozen": 5,
       "Half Dozen": 5,
@@ -816,7 +1049,12 @@
     "canShip": true,
     "weight": 3.0,
     "ingredients": "Flour, Cocoa Powder, Sugar, Butter, Eggs, Chocolate Chips, Vanilla, Salt",
-    "allergens": ["Wheat", "Dairy", "Eggs", "Soy"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Eggs",
+      "Soy"
+    ],
     "dietaryNotes": "Fudgy chocolate brownies with chocolate chips. Large pan serves 12",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -827,7 +1065,11 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["1", "4-Pack"],
+    "customizations": [],
+    "sizes": [
+      "1",
+      "4-Pack"
+    ],
     "sizePrice": {
       "1": 5,
       "4-Pack": 18
@@ -843,7 +1085,11 @@
     "canShip": true,
     "weight": 1.5,
     "ingredients": "Butter, Sugar, Pecans, Chocolate, corn syrup, ",
-    "allergens": ["Dairy", "Tree Nuts (Pecans)", "Soy"],
+    "allergens": [
+      "Dairy",
+      "Tree Nuts (Pecans)",
+      "Soy"
+    ],
     "dietaryNotes": "Buttery toffee with pecans and chocolate on both sides.  Ships nationwide!",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -862,12 +1108,14 @@
         "options": [
           {
             "name": "Mason Jar Gift Wrap",
-            "price": 5
+            "price": 500
           }
         ]
       }
     ],
-    "sizes": ["1 Pound"],
+    "sizes": [
+      "1 Pound"
+    ],
     "sizePrice": {
       "1_Pound": 30,
       "1 Pound": 30
@@ -883,7 +1131,11 @@
     "canShip": true,
     "weight": 2.0,
     "ingredients": "Cocoa Powder, flour, butter, vegetable oil, eggs, chocolate, heavy cream, powdered sugar, marshmellows",
-    "allergens": ["Wheat", "Dairy", "Soy"],
+    "allergens": [
+      "Wheat",
+      "Dairy",
+      "Soy"
+    ],
     "dietaryNotes": "Remember Ding Dongs as a child?  These are a homemade version in a mini cake.  Rich chocolatey fudge cake with a marshmellow cream center topped with a thick ganache frosting and a swirl of decorative candy.",
     "hasDeposit": false,
     "depositAmount": 0,
@@ -894,7 +1146,10 @@
     "gfAllergens": [],
     "sfIngredients": "",
     "sfAllergens": [],
-    "sizes": ["Each"],
+    "customizations": [],
+    "sizes": [
+      "Each"
+    ],
     "sizePrice": {
       "Each": 6
     }
